@@ -9,6 +9,7 @@ var SubCategory = Schema({
     },
     sub_category_name: {
         type: String,
+        unique: true,
         require: 'need a name'
     }
 });

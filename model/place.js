@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var Place = Schema({
-    _id: Schema.Types.ObjectId,
     subcategory: {
         type: Schema.Types.ObjectId,
         ref: 'SubCategory'

@@ -11,8 +11,16 @@ mongoose.connect('mongodb://localhost/TravelSuggestion', {useMongoClient: true})
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
+    req.createObjectId = mongoose.Types.ObjectId;
     //attach function check validate ObjectId
     req.isValidObjectId = mongoose.Types.ObjectId.isValid;
+    res.handle_error = function (error) {
+        res.json({error: error.message});
+    };
+    res.array_dump = function(data) {
+        res.json(data);
+    };
+
     next();
 });
 

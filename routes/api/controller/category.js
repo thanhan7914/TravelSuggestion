@@ -11,8 +11,8 @@ exports.get_list = function(req, res) {
 };
 
 exports.get_sub_list = function(req, res) {
-    if(!_.isString(req.params.category_id))
-        return res.json({error: 'missing params'});
+    if(!_.isString(req.params.category_id) || !req.isValidObjectId(req.params.category_id))
+        return res.json({error: 'missing params or objectId invalid'});
 
     //category_id
     SubCategory.find({category: req.params.category_id})
@@ -38,8 +38,9 @@ exports.add_category = function(req, res) {
 };
 
 exports.add_sub_category = function(req, res) {
-    if(!_.isString(req.body.sub_category_name) || !_.isString(req.body.category_id))
-        return res.json({error: 'missing params'});
+    if(!_.isString(req.body.sub_category_name) || !_.isString(req.body.category_id)
+       || !req.isValidObjectId(req.body.category_id))
+        return res.json({error: 'missing params or ObjectId invalid'});
     
     Category.findOne({_id: req.body.category_id})
     .then((cat) => {

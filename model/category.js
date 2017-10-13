@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 var Category = Schema({
     category_name: {
         type: String,
+        unique: true,
         required: [true, 'name of category']
     }
 });
