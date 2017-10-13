@@ -1,0 +1,26 @@
+{
+  "name": "travelsuggestion",
+  "version": "1.0.0",
+  "description": "none",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app"
+  },
+  "keywords": [
+    "travel",
+    "suggestion",
+    "api",
+    "RESTful",
+    "js",
+    "nodejs",
+    "mongoose"
+  ],
+  "author": "Thanh An",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.12.1"
+  }
+}
