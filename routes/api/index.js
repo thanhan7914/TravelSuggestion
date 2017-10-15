@@ -99,6 +99,7 @@ router.get('/review/:place_id', review.get_review);
  */
 
 router.post('/review/add', review.add_review);
+router.post('/review/remove', review.remove);
 
 //category and sub category
 router.get('/category/list', category.get_list);

@@ -2,15 +2,18 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var Query = Schema({
-    _id: Schema.Types.ObjectId,
-    guid: {
-        type: String,
-        required: [true, 'guid of device']
-    },
     keyword: {
         type: String,
         required: [true, 'key word']
-    } 
+    },
+    n_fetch: {
+        type: Number,
+        default: 0
+    },
+    date: {
+        type: Date,
+        default: Date.now()
+    }
 });
 
 module.exports = mongoose.model('Query', Query);

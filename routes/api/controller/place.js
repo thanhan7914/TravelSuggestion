@@ -3,6 +3,7 @@ const Place = require('../../../model/place');
 const Province = require('../../../model/province');
 const SubCategory = require('../../../model/subcategory');
 const Review = require('../../../model/review');
+const insert_query = require('./query');
 const util = require('../../../util');
 
 exports.get_reviews = function(req, res) {
@@ -98,12 +99,12 @@ exports.filter = function(req, res) {
         params.subcategory = req.params.sub_category_id;
     
     if(util.hasattr(req.params, 'address'))
-        params.address = new RegExp(req.params.address, 'i');
+        params.address = new RegExp(util.cvv2regexp(req.params.address), 'i');
     if(util.hasattr(req.params, 'name'))
-        params.place_name = new RegExp(req.params.name, 'i');
+        params.place_name = new RegExp(util.cvv2regexp(req.params.name), 'i');
     if(util.hasattr(req.params, 'rating'))
         params.rating = _.toNumber(req.params.rating);
-    
+
     if((!_.isUndefined(params.province) && !req.isValidObjectId(params.province))
       || (!_.isUndefined(params.subcategory) && !req.isValidObjectId(params.subcategory)))
        return res.handle_error(new Error('invalid ObjectId'));
@@ -120,6 +121,10 @@ exports.filter = function(req, res) {
         .populate('province');
     })
     .then((places) => {
+        //save a query with name
+        if(util.hasattr(req.params, 'name'))
+             insert_query(req.params.name, places);
+
         res.json({status: 200, count, places});
     })
     .catch(res.handle_error);

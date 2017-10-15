@@ -99,5 +99,27 @@ module.exports = {
             }
         });
         return result;
+    },
+    cvv2e: function(str) {
+        str = String(str);
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+        str = str.replace(/đ/g, 'd');
+        return str.trim();
+    },
+    cvv2regexp: function(str) {
+        str = str.replace('a','(a|à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)');
+        str = str.replace('e', '(e|è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)');
+        str = str.replace('i', '(i|ì|í|ị|ỉ|ĩ)');
+        str = str.replace('o', '(o|ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)');
+        str = str.replace('u', '(u|ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)');
+        str = str.replace('y', '(y|ỳ|ý|ỵ|ỷ|ỹ)');
+        str = str.replace('d', '(d|đ)');
+        return str;
     }
 };
