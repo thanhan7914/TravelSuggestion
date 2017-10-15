@@ -39,6 +39,7 @@ router.get('/place/:place_id', place.get_place_by_id);
 router.get('/places/filter/:province_id/:sub_category_id/:p/:l', place.filter);
 //using get query ?province_id=&sub_category_id&p=&l=&name&address=&rating=
 router.get('/places/filter', place.filter);
+router.get('/place/reviews/:place_id', place.get_reviews);
 
 /**
  * Remove a place - parameter

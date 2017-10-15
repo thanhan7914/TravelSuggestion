@@ -76,6 +76,11 @@ exports.get_place_by_id = function(req, res) {
 exports.filter = function(req, res) {
     //copy url query to params
     util.inherit(req.query, req.params);
+    //add param
+    if(_.isUndefined(req.params.province_id))
+         req.params.province_id = 'all';
+    if(_.isUndefined(req.params.sub_category_id))
+         req.params.sub_category_id = 'all';
     /**
      * p: page
      * l: number record / page
