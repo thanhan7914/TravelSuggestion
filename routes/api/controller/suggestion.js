@@ -9,5 +9,16 @@ const insert_query = require('./query');
 const util = require('../../../util');
 
 module.exports = function(req, res) {
-    res.json({status: 200});
+    FindResult.aggregate([
+        {
+            $group: {
+                _id: '$place',
+                count: {$sum: 1}
+            }
+        }
+    ])
+    .sort({'count': 'desc'})
+    .limit(20)
+    .then(res.array_dump)
+    .catch(res.handle_error);
 };
