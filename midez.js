@@ -8,6 +8,9 @@ module.exports = function(req, res, next) {
     req.createObjectId = mongoose.Types.ObjectId;
     //attach function check validate ObjectId
     req.isValidObjectId = mongoose.Types.ObjectId.isValid;
+    res.done_task = function() {
+        res.json({status: 200, message: 'task completion.'});
+    };
     res.handle_error = function (error) {
         res.json({error: error.message});
     };

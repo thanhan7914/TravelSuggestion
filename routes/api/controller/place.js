@@ -2,7 +2,26 @@ const _ = require('lodash');
 const Place = require('../../../model/place');
 const Province = require('../../../model/province');
 const SubCategory = require('../../../model/subcategory');
+const Review = require('../../../model/review');
 const util = require('../../../util');
+
+exports.get_reviews = function(req, res) {
+    if(!req.isValidObjectId(req.params.place_id))
+         return res.handle_error(new Error('invalid ObjectId'));
+    
+    var count = 0;
+
+    return Review.count({place: place_id})
+    .then((c) => {
+        count = c;
+
+        return Review.find({place: place_id});
+    })
+    .then((reviews) => {
+        res.json({status: 200, count, reviews});
+    })
+    .catch(res.handle_error);
+};
 
 exports.get_places = function(req, res) {
     util.inherit(req.query, req.params);
@@ -43,7 +62,7 @@ exports.get_place_by_id = function(req, res) {
         return res.handle_error(new Error('missing parameter'));
     if(!req.isValidObjectId(req.params.place_id))
         return res.handle_error(new Error('invalid place id'));
-
+    
     Place.findOne({_id: req.params.place_id})
     .populate('subcategory')
     .populate('province')
@@ -107,7 +126,7 @@ exports.filter = function(req, res) {
 };
 
 exports.add_place = function(req, res) {
-    if(!util.hasattr(req.body, ['place_name', 'address', 'detail']))
+    if(!util.hasattr(req.body, ['place_name', 'address', 'detail', 'province_id', 'sub_category_id']))
          return res.handle_error(new Error('missing parameter'));
 
     //check
@@ -149,4 +168,48 @@ exports.add_place = function(req, res) {
         res.json({status: 200, inserted: data});
     })
     .catch(res.handle_error);
+};
+
+exports.remove = function(req, res) {
+    if(!req.isValidObjectId(req.body.place_id))
+        return res.handle_error(new Error('invalid place id'));
+    
+    Place.remove({_id: req.body.place_id})
+    .then(res.done_task)
+    .catch(res.handle_error);
+};
+
+exports.update = function(req, res) {
+    if (!util.hasattr(req.body, ['place_id']))
+        return res.handle_error(new Error('missing parameter place_id'));
+
+    Place.findById(req.body.place_id, function(err, params) {
+        if (err)
+            return res.handle_error(err);
+
+        if (_.isString(req.body.thumbnail))
+            params.thumbnail = req.body.thumbnail;
+        if (_.isString(req.body.phone))
+            params.phone = req.body.phone;
+        if (_.isString(req.body.tag))
+            params.tag = req.body.tag;
+        if (_.isString(req.body.place_name))
+            params.place_name = req.body.place_name;
+        if (_.isString(req.body.address))
+            params.address = req.body.address;
+        if (_.isString(req.body.detail))
+            params.detail = req.body.detail;
+        if (_.isString(req.body.province_id))
+            params.province = req.body.province_id;
+        if (_.isString(req.body.sub_category_id))
+            params.subcategory = req.body.sub_category_id;
+
+        params.save(function(err2, doc) {
+            if (err2) return res.handle_error(errs);
+            res.json({
+                status: 200,
+                updated: doc
+            });
+        });
+    });
 };

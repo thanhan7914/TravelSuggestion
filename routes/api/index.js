@@ -10,6 +10,10 @@ const review = require('./controller/review');
 const category = require('./controller/category');
 const province = require('./controller/province');
 const photo = require('./controller/photo');
+const account = require('./controller/account');
+
+//suggestion
+const suggestion = require('./controller/suggestion');
 
 /**
  * check token match
@@ -36,7 +40,14 @@ router.get('/places/filter/:province_id/:sub_category_id/:p/:l', place.filter);
 //using get query ?province_id=&sub_category_id&p=&l=&name&address=&rating=
 router.get('/places/filter', place.filter);
 
-/** Add a place - parameter
+/**
+ * Remove a place - parameter
+ * place_id: ObjectId
+ */
+
+router.post('/place/remove', place.remove);
+
+/** Add a place - parameter (add, update)
  * sub_category_id: ObjectId
  * province_id: ObjectId
  * thumbnail: String [*]
@@ -48,6 +59,7 @@ router.get('/places/filter', place.filter);
  */
 
 router.post('/place/add', place.add_place);
+router.post('/place/update', place.update);
 
 //news
 router.get('/news/:p/:l', news.get_news);
@@ -55,6 +67,13 @@ router.get('/news/list', news.get_news);
 router.get('/news/filter/:province_id/:category_id/:p/:l', news.filter);
 router.get('/news/filter', news.filter);
 router.get('/news/:news_id', news.get_news_by_id);
+
+/**
+ * Remove a news - parameter
+ * place_id: ObjectId
+ */
+
+router.post('/news/remove', news.remove);
 
 /** Add a News - parameter
  * category_id: ObjectId
@@ -67,6 +86,7 @@ router.get('/news/:news_id', news.get_news_by_id);
  */
 
 router.post('/news/add', news.add_news);
+router.post('/news/update', news.update);
 
 //review
 router.get('/review/:place_id', review.get_review);
@@ -122,5 +142,18 @@ router.post('/photo/add', photo.add_photo);
  */
 
 router.post('/photo/remove', photo.remove_photo);
+
+//account
+router.get('/account/list', account.get_list);
+
+/** Add a account - parameter
+ * username: String
+ * password: String
+ */
+
+router.post('/account/add', account.add_account);
+
+//suggestion
+router.get('/places/suggestion', suggestion);
 
 module.exports = router;

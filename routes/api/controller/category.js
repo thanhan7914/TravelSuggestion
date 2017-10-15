@@ -57,3 +57,21 @@ exports.add_sub_category = function(req, res) {
     })
     .catch(res.handle_error);
 };
+
+exports.remove = function(req, res) {
+    if(!req.isValidObjectId(req.body.category_id))
+        return res.handle_error(new Error('invalid category id'));
+    
+    Category.remove({_id: req.body.category_id})
+    .then(res.done_task)
+    .catch(res.handle_error);
+};
+
+exports.remove_sub_category = function(req, res) {
+    if(!req.isValidObjectId(req.body.sub_category_id))
+        return res.handle_error(new Error('invalid category id'));
+    
+    SubCategory.remove({_id: req.body.sub_category_id})
+    .then(res.done_task)
+    .catch(res.handle_error);
+};

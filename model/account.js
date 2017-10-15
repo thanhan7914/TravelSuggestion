@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var Account = Schema({
-    _id: Schema.Types.ObjectId,
     username: {
         type: String,
+        unique: true,
         required: [true, 'username']
     },
     password: {

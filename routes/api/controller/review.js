@@ -3,13 +3,37 @@ const Account = require('../../../model/account');
 const Place = require('../../../model/place');
 const Review = require('../../../model/review');
 
+/**
+ * 
+ * @param {*} place_id 
+ * @return an object contain rating point and reviews from client
+ */
+
+function calc_rating(place_id) {
+    var point = 0;
+    var n_elements = 0;
+
+    return Review.find({place: place_id})
+    .then((reviews) => {
+        n_elements = reviews.length;
+        if(n_elements == 0)
+           return 0;
+        
+        reviews.forEach((review) => {
+            point += _.toNumber(review.rating);
+        });
+
+        return (point / n_elements);
+    });
+}
+
 exports.get_review = function(req, res) {
     if(!req.isValidObjectId(req.params.place_id))
         return res.json({error: 'objectId invalid'});
 
     Review.find({place: req.params.place_id})
-    .populate('place')
-    .populate('account')
+//    .populate('place')
+    .populate('account', ['username'])
     .then((reviews) => {
         res.json({status: 200, reviews});
     })
@@ -18,7 +42,7 @@ exports.get_review = function(req, res) {
 
 exports.add_review = function(req, res) {
     if(!_.isString(req.body.place_id) || !_.isString(req.body.username)
-       || !_.isNull(req.body.rating) || !_.isString(req.body.comment))
+       || _.isNull(req.body.rating) || !_.isString(req.body.comment))
         return res.json({error: 'missing params'});
     
     if(!req.isValidObjectId(req.body.place_id))
@@ -52,7 +76,22 @@ exports.add_review = function(req, res) {
         return review.save();
     })
     .then((review) => {
-        res.json({status: 200, review_id: review._id});
+        return calc_rating(req.body.place_id);
     })
+    .then((rating) => {
+        return Place.findOneAndUpdate({_id: req.body.place_id}, {rating});
+    })
+    .then((place) => {
+        res.json({status: 200, message: 'comment added.'});
+    })
+    .catch(res.handle_error);
+};
+
+exports.remove = function(req, res) {
+    if(!_.isValidObjectId(req.body.review_id))
+        return res.handle_error(new Error('invalid ObjectId'));
+    
+    Review.remove({_id: req.body.review_id})
+    .then(res.done_task)
     .catch(res.handle_error);
 };
