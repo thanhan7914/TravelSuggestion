@@ -12,11 +12,11 @@ exports.get_reviews = function(req, res) {
     
     var count = 0;
 
-    return Review.count({place: place_id})
+    return Review.count({place: req.params.place_id})
     .then((c) => {
         count = c;
 
-        return Review.find({place: place_id});
+        return Review.find({place: req.params.place_id});
     })
     .then((reviews) => {
         res.json({status: 200, count, reviews});
