@@ -3,14 +3,15 @@ const Photo = require('../../../model/photo');
 const Place = require('../../../model/place');
 
 exports.get_list = function(req, res) {
-    console.log(req.params);
-    res.json({status: 200});
+    Photo.find({place: req.params.place_id})
+    .then(res.array_dump)
+    .catch(res.handle_error);
 };
 
 exports.add_photo = function(req, res) {
     if(!_.isString(req.body.file_name) || !_.isString(req.body.rel_path))
         return res.handle_error(new Error('missing parameter'));
-    if(req.isValidObjectId(req.body.place_id))
+    if(!req.isValidObjectId(req.body.place_id))
         return res.handle_error(new Error('ObjectId invalid'));
     
     Place.findOne({_id: req.body.place_id})
@@ -18,13 +19,13 @@ exports.add_photo = function(req, res) {
         if(_.isNull(place) || _.isEmpty(place))
            throw new Error('Place not found');
         
-        var photo = new Photo({
+        var photo = {
             place: place._id,
             file_name: req.body.file_name,
             rel_path: req.body.rel_path
-        });
+        };
 
-        return photo.save();
+        return Photo.create(photo);
     })
     .then(res.array_dump)
     .catch(res.handle_error);

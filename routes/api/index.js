@@ -10,7 +10,6 @@ const review = require('./controller/review');
 const category = require('./controller/category');
 const province = require('./controller/province');
 const photo = require('./controller/photo');
-const thumbnail = require('./controller/thumbnail');
 
 /**
  * check token match
@@ -30,13 +29,17 @@ router.get('/', function(req , res) {
 
 //place
 router.get('/places/:p/:l', place.get_places);
+//url get query
+router.get('/places/list', place.get_places);
 router.get('/place/:place_id', place.get_place_by_id);
 router.get('/places/filter/:province_id/:sub_category_id/:p/:l', place.filter);
+//using get query ?province_id=&sub_category_id&p=&l=&name&address=&rating=
+router.get('/places/filter', place.filter);
 
 /** Add a place - parameter
  * sub_category_id: ObjectId
  * province_id: ObjectId
- * thumbnail_id: ObectId
+ * thumbnail: String [*]
  * place_name: String
  * phone: String [*]
  * address: String
@@ -48,7 +51,22 @@ router.post('/place/add', place.add_place);
 
 //news
 router.get('/news/:p/:l', news.get_news);
-router.get('/news/:id', news.get_news_by_id);
+router.get('/news/list', news.get_news);
+router.get('/news/filter/:province_id/:category_id/:p/:l', news.filter);
+router.get('/news/filter', news.filter);
+router.get('/news/:news_id', news.get_news_by_id);
+
+/** Add a News - parameter
+ * category_id: ObjectId
+ * province_id: ObjectId
+ * title: String
+ * content: String
+ * tag: String [*]
+ * thumbnail: String [*]
+ * date: Date.now() [*]
+ */
+
+router.post('/news/add', news.add_news);
 
 //review
 router.get('/review/:place_id', review.get_review);
@@ -104,23 +122,5 @@ router.post('/photo/add', photo.add_photo);
  */
 
 router.post('/photo/remove', photo.remove_photo);
-
-//thumbnail
-router.get('/thumbnail/:thumbnail_id', thumbnail.get_thumbnail);
-
-/** add thumbnail - parameter
- * file_name
- * rel_path
- */
-
-router.post('/thumbnail/add', thumbnail.add_thumbnail);
-
-/** update thumbnail - parameter
- * thumbnail_id
- * file_name
- * rel_path
- */
-
-router.post('/thumbnail/update', thumbnail.update_thumbnail);
 
 module.exports = router;

@@ -19,9 +19,7 @@ exports.get_sub_list = function(req, res) {
     .then((cats) => {
         res.json(cats);
     })
-    .catch((error) => {
-        res.json(error);
-    })
+    .catch(res.handle_error);
 };
 
 exports.add_category = function(req, res) {
@@ -32,9 +30,7 @@ exports.add_category = function(req, res) {
     .then((doc) => {
         res.json({status: 200, _id: doc._id, category_name: doc.name});
     })
-    .catch((error) => {
-        res.json({error});
-    });
+    .catch(res.handle_error);
 };
 
 exports.add_sub_category = function(req, res) {
@@ -59,7 +55,5 @@ exports.add_sub_category = function(req, res) {
             res.json({status: 200, sub_category_id: sub_cat._id});
         });
     })
-    .catch((error) => {
-        res.json({error: error.message});
-    });
+    .catch(res.handle_error);
 };

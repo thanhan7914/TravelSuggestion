@@ -8,12 +8,12 @@ exports.get_review = function(req, res) {
         return res.json({error: 'objectId invalid'});
 
     Review.find({place: req.params.place_id})
+    .populate('place')
+    .populate('account')
     .then((reviews) => {
-        res.json(reviews);
+        res.json({status: 200, reviews});
     })
-    .catch((error) => {
-        res.json({error: error.message});
-    });
+    .catch(res.handle_error);
 };
 
 exports.add_review = function(req, res) {
@@ -45,7 +45,8 @@ exports.add_review = function(req, res) {
             place: params.place._id,
             account: account._id,
             rating: params.rating,
-            comment: req.body.comment
+            comment: req.body.comment,
+            create_date: Date.now()
         });
 
         return review.save();
@@ -53,7 +54,5 @@ exports.add_review = function(req, res) {
     .then((review) => {
         res.json({status: 200, review_id: review._id});
     })
-    .catch((error) => {
-        res.json({error: error.message});
-    });
+    .catch(res.handle_error);
 };

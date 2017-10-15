@@ -1,10 +1,11 @@
 const _ = require('lodash');
 const Place = require('../../../model/place');
-const Thumbnail = require('../../../model/thumbnail');
 const Province = require('../../../model/province');
 const SubCategory = require('../../../model/subcategory');
+const util = require('../../../util');
 
 exports.get_places = function(req, res) {
+    util.inherit(req.query, req.params);
     /**
      * p: page
      * l: number record / page
@@ -15,17 +16,25 @@ exports.get_places = function(req, res) {
     s = Math.max(0, s);
     s *= l;
 
-    if(_.isNaN(l) || _.isNaN(s))
-       return res.handle_error(new Error('invalid parameter'));
+    if(_.isNaN(l)) l = 10;
+    if(_.isNaN(s)) s = 0;
+    
+    var count = 0;
 
-    Place.find({})
-    .limit(l)
-    .skip(s)
-    .sort({place_name: 'asc'})
-    .populate('subcategory')
-    .populate('thumbnail')
-    .populate('province')
-    .then(res.array_dump)
+    Place.count({})
+    .then((c) => {
+        count = c;
+
+        return Place.find({})
+        .limit(l)
+        .skip(s)
+        .sort({place_name: 'asc'})
+        .populate('subcategory')
+        .populate('province');
+    })
+    .then((places) => {
+        res.json({status: 200, count, places});
+    })
     .catch(res.handle_error);
 };
 
@@ -37,7 +46,6 @@ exports.get_place_by_id = function(req, res) {
 
     Place.findOne({_id: req.params.place_id})
     .populate('subcategory')
-    .populate('thumbnail')
     .populate('province')
     .then((place) => {
         res.json({status: 200, place});
@@ -46,6 +54,8 @@ exports.get_place_by_id = function(req, res) {
 };
 
 exports.filter = function(req, res) {
+    //copy url query to params
+    util.inherit(req.query, req.params);
     /**
      * p: page
      * l: number record / page
@@ -56,10 +66,11 @@ exports.filter = function(req, res) {
     s = Math.max(0, s);
     s *= l;
 
-    if(_.isNaN(l) || _.isNaN(s))
-        return res.handle_error(new Error('invalid parameter'));
+    if(_.isNaN(l)) l = 10;
+    if(_.isNaN(s)) s = 0;
 
     var params = {};
+    var count = 0;
 
     if(!_.isEqual(req.params.province_id, 'all'))
         params.province = req.params.province_id;
@@ -67,28 +78,57 @@ exports.filter = function(req, res) {
     if(!_.isEqual(req.params.sub_category_id, 'all'))
         params.subcategory = req.params.sub_category_id;
     
+    if(util.hasattr(req.params, 'address'))
+        params.address = new RegExp(req.params.address, 'i');
+    if(util.hasattr(req.params, 'name'))
+        params.place_name = new RegExp(req.params.name, 'i');
+    if(util.hasattr(req.params, 'rating'))
+        params.rating = _.toNumber(req.params.rating);
+    
     if((!_.isUndefined(params.province) && !req.isValidObjectId(params.province))
       || (!_.isUndefined(params.subcategory) && !req.isValidObjectId(params.subcategory)))
        return res.handle_error(new Error('invalid ObjectId'));
 
-    Place.find(params)
-    .limit(l)
-    .skip(s)
-    .sort({place_name: 'asc'})
-    .populate('subcategory')
-    .populate('thumbnail')
-    .populate('province')
-    .then(res.array_dump)
+    Place.count(params)
+    .then((c) => {
+        count = c;
+
+        return Place.find(params)
+        .limit(l)
+        .skip(s)
+        .sort({place_name: 'asc'})
+        .populate('subcategory')
+        .populate('province');
+    })
+    .then((places) => {
+        res.json({status: 200, count, places});
+    })
     .catch(res.handle_error);
 };
 
 exports.add_place = function(req, res) {
+    if(!util.hasattr(req.body, ['place_name', 'address', 'detail']))
+         return res.handle_error(new Error('missing parameter'));
+
     //check
     var params = {
         place_name: req.body.place_name,
         address: req.body.address,
-        detail: req.body.detail
+        detail: req.body.detail,
+        thumbnail: 'place_no_image.jsg',
+        rating: 0,
+        phone: '',
+        tag: ''
     };
+
+    if(_.isString(req.body.thumbnail))
+        params.thumbnail = req.body.thumbnail;
+    if(_.isString(req.body.phone))
+        params.phone = req.body.phone;
+    if(_.isString(req.body.rating))
+        params.rating = req.body.rating;
+    if(_.isString(req.body.tag))
+        params.tag = req.body.tag;
 
     SubCategory.findOne({_id: req.body.sub_category_id})
     .then((sub_category) => {
@@ -103,14 +143,7 @@ exports.add_place = function(req, res) {
             throw new Error('Province not found');
         
         params.province = province._id;
-        return Thumbnail.findOne({_id: req.body.thumbnail_id});
-    })
-    .then((thumb) => {
-        if(_.isNull(thumb))
-            throw new Error('Thumbnail not found');
-        
-        params.thumbnail = thumb._id;
-        return (new Place(params)).save();
+        return Place.create(params);
     })
     .then((data) => {
         res.json({status: 200, inserted: data});
