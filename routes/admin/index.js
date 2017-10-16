@@ -1,8 +1,83 @@
 const express = require('express');
 const router = express.Router();
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session		=	require('express-session');
 
-router.get('/', function(req , res) {
-    res.end('Admin Dashboard');
+
+router.all('/',function(req,res){
+  if(req.session.email){
+    res.render('index.ejs');
+  }else{
+    res.redirect('/admin/login');
+  }
 });
+
+router.get('/login',function(req,res){
+  res.render('login.ejs');
+});
+
+//check login
+router.post('/login',function(req,res){
+  var email = req.body.email;
+  var password = req.body.password;
+  if(email =='giapnguyen889@gmail.com' && password =='123'){
+    req.session.email = req.body.email;
+    res.redirect('/admin')
+  }else{
+    res.redirect('/admin/login');
+  }
+});
+//logout
+router.get('/logout',function(req,res){
+
+	req.session.destroy(function(err){
+		if(err){
+			console.log(err);
+		}
+		else
+		{
+			res.redirect('/admin/login');
+		}
+	});
+
+});
+
+router.get('/post-news',function(req,res){
+  if(req.session.email){
+    res.render('post-news.ejs');
+  }else{
+    res.redirect('/admin/login');
+  }
+});
+
+router.post('/post-news',function(req,res){
+
+});
+
+router.get('/add-place',function(req,res){
+  if(req.session.email){
+    res.render('add-place.ejs');
+  }else{
+    res.redirect('/admin/login');
+  }
+});
+
+router.get('/list-news',function(req,res){
+  if(req.session.email){
+    res.render('list-news.ejs');
+  }else{
+    res.redirect('/admin/login');
+  }
+});
+
+router.get('/list-place',function(req,res){
+  if(req.session.email){
+    res.render('list-place.ejs');
+  }else{
+    res.redirect('/admin/login');
+  }
+});
+
 
 module.exports = router;
