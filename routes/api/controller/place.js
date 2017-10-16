@@ -16,7 +16,8 @@ exports.get_reviews = function(req, res) {
     .then((c) => {
         count = c;
 
-        return Review.find({place: req.params.place_id});
+        return Review.find({place: req.params.place_id})
+        .populate('account', ['username']);
     })
     .then((reviews) => {
         res.json({status: 200, count, reviews});

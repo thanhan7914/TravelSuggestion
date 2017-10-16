@@ -38,5 +38,5 @@ app.use(function(req, res, next) {
 });
 
 app.listen(port, function() {
-    console.log('todo list RESTful API server started on: ' + port);
+    console.log('TravelSuggestion RESTful API server started on: ' + port);
 });
