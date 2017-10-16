@@ -4,7 +4,7 @@ const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session		=	require('express-session');
+const session	=	require('express-session');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -22,6 +22,7 @@ app.use(session({
 
 //set views engine
 app.use('/public',express.static( __dirname + '/public'));
+app.set('views', './views')
 app.set('view engine','ejs');
 
 app.use(require('./midez'));
