@@ -15,15 +15,15 @@ module.exports = function(req, res) {
                 _id: '$place',
                 query: {$sum: 1}
             }
-        },
-        {
-            $lookup:
-            {
-              from: 'places',
-              localField: '_id',
-              foreignField: '_id',
-              as: 'place'
-            }
+        // },
+        // {
+        //     $lookup:
+        //     {
+        //       from: 'places',
+        //       localField: '_id',
+        //       foreignField: '_id',
+        //       as: 'place'
+        //     }
         }
     ])
     .sort({'query': 'desc'})
