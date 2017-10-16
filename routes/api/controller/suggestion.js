@@ -13,11 +13,20 @@ module.exports = function(req, res) {
         {
             $group: {
                 _id: '$place',
-                count: {$sum: 1}
+                query: {$sum: 1}
+            }
+        },
+        {
+            $lookup:
+            {
+              from: 'places',
+              localField: '_id',
+              foreignField: '_id',
+              as: 'place'
             }
         }
     ])
-    .sort({'count': 'desc'})
+    .sort({'query': 'desc'})
     .limit(20)
     .then(res.array_dump)
     .catch(res.handle_error);

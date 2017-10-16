@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session		=	require('express-session');
 
-
 router.all('/',function(req,res){
   if(req.session.email){
     res.render('index.ejs');
@@ -21,9 +20,9 @@ router.get('/login',function(req,res){
 router.post('/login',function(req,res){
   var email = req.body.email;
   var password = req.body.password;
-  if(email =='giapnguyen889@gmail.com' && password =='123'){
+  if(email ==='giapnguyen889@gmail.com' && password ==='123'){
     req.session.email = req.body.email;
-    res.redirect('/admin')
+    res.redirect('/admin');
   }else{
     res.redirect('/admin/login');
   }
