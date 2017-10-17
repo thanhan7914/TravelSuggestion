@@ -28,17 +28,8 @@ router.post('/login',function(req,res){
 });
 //logout
 router.get('/logout',function(req,res){
-
-	req.session.destroy(function(err){
-		if(err){
-			console.log(err);
-		}
-		else
-		{
-			res.redirect('/admin/login');
-		}
-	});
-
+  delete req.session.email;
+  res.redirect('/admin/login');
 });
 
 router.get('/post-news',function(req,res){
