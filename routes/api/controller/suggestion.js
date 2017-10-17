@@ -41,7 +41,8 @@ module.exports = function(req, res) {
             filter.$or.push({_id: row._id});
         });
 
-        return Place.find(filter);
+        return Place.find(filter)
+        .sort({'rating': 'desc'});
     })
     .then((places) => {
         res.json({status: 200, places});
