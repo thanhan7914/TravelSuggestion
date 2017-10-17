@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session		=	require('express-session');
 
-router.all('/',function(req,res){
+router.get('/',function(req,res){
   if(req.session.email){
     res.render('index.ejs');
   }else{
