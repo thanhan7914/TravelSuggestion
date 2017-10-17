@@ -2,9 +2,12 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session	=	require('express-session');
+const session = require('cookie-session')({//express-session
+  secret: 'nodejs',
+  resave: true,
+  saveUninitialized: true
+});
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -12,14 +15,9 @@ mongoose.connect('mongodb://localhost/TravelSuggestion', {useMongoClient: true})
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
 
 //use session
-app.use(session({
-  secret: 'a secret key',
-  resave: true,
-  saveUninitialized: true
-}));
+app.use(session);
 
 //set views engine
 app.use('/public', express.static( __dirname + '/public'));
