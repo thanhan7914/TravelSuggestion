@@ -2,18 +2,17 @@ const express = require('express');
 const router = express.Router();
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const session		=	require('express-session');
 
 router.get('/',function(req,res){
   if(req.session.email){
-    res.render('index.ejs');
+    res.render('index');
   }else{
     res.redirect('/admin/login');
   }
 });
 
 router.get('/login',function(req,res){
-  res.render('login.ejs');
+  res.render('login');
 });
 
 //check login
@@ -44,7 +43,7 @@ router.get('/logout',function(req,res){
 
 router.get('/post-news',function(req,res){
   if(req.session.email){
-    res.render('post-news.ejs');
+    res.render('post-news');
   }else{
     res.redirect('/admin/login');
   }
@@ -56,7 +55,7 @@ router.post('/post-news',function(req,res){
 
 router.get('/add-place',function(req,res){
   if(req.session.email){
-    res.render('add-place.ejs');
+    res.render('add-place.');
   }else{
     res.redirect('/admin/login');
   }
@@ -64,7 +63,7 @@ router.get('/add-place',function(req,res){
 
 router.get('/list-news',function(req,res){
   if(req.session.email){
-    res.render('list-news.ejs');
+    res.render('list-news');
   }else{
     res.redirect('/admin/login');
   }
@@ -72,7 +71,7 @@ router.get('/list-news',function(req,res){
 
 router.get('/list-place',function(req,res){
   if(req.session.email){
-    res.render('list-place.ejs');
+    res.render('list-place');
   }else{
     res.redirect('/admin/login');
   }
