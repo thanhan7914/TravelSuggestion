@@ -59,6 +59,47 @@ exports.get_places = function(req, res) {
     .catch(res.handle_error);
 };
 
+
+exports.get_places_with_category = function(req, res) {
+    util.inherit(req.query, req.params);
+    /**
+     * p: page
+     * l: number record / page
+     * category_id
+     */
+
+    var l = _.toNumber(req.params.l);
+    var s = _.toNumber(req.params.p);
+    s = Math.max(0, s);
+    s *= l;
+
+    if(_.isNaN(l)) l = 10;
+    if(_.isNaN(s)) s = 0;
+
+    var filter = {$or: []};
+
+    SubCategory.find({category: req.params.category_id})
+    .then((subcats) => {
+        if(subcats.length == 0)
+            return new Error('Category empty');
+
+        subcats.forEach((sub) => {
+            filter.$or.push({subcategory: sub._id});
+        });
+
+        return Place.find(filter)
+        .limit(l)
+        .skip(s)
+        .sort({place_name: 'asc'})
+        .populate('subcategory')
+        .populate('province')
+    })
+    .then((places) => {
+        res.json({status: 200, places});
+    })
+    .catch(res.handle_error);
+};
+
 exports.get_place_by_id = function(req, res) {
     if(!_.isString(req.params.place_id))
         return res.handle_error(new Error('missing parameter'));

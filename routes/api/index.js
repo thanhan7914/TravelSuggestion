@@ -35,6 +35,7 @@ router.get('/', function(req , res) {
 router.get('/places/:p/:l', place.get_places);
 //url get query
 router.get('/places/list', place.get_places);
+router.get('/places/category', place.get_places_with_category);
 router.get('/place/:place_id', place.get_place_by_id);
 router.get('/places/filter/:province_id/:sub_category_id/:p/:l', place.filter);
 //using get query ?province_id=&sub_category_id&p=&l=&name&address=&rating=

@@ -15,9 +15,10 @@ app.use(bodyParser.json());
 
 //use session
 app.use(session({
-  secret: 'de lam gi deo biet',
+  secret: 'a secret key',
+  resave: false,
   saveUninitialized: true,
-  resave: true
+  cookie: { secure: true }
 }));
 
 //set views engine
