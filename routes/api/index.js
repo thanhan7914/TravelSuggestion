@@ -127,6 +127,7 @@ router.get('/province/list', province.get_list);
  */
 
 router.post('/province/add', province.add_province);
+router.post('/province/remove', province.remove);
 
 //photo
 router.get('/photo/:place_id', photo.get_list);

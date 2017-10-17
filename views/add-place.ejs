@@ -21,6 +21,8 @@
     <!-- Custom Fonts -->
     <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="http://www.expertphp.in/js/jquery.form.js"></script>
+    <script src="../public/vendor/jquery/jquery.min.js"></script>
+
 
 </head>
 
@@ -42,13 +44,13 @@
                 <!-- /.row -->
 
                 <div class="row">
-                  <form class="form-group" action="index.html" enctype="multipart/form-data" method="post">
+                  <form class="form-group" action="#" enctype="multipart/form-data" method="post">
                       <div class="row">
                         <div class="col-md-8">
                           <label for="">Place Names</label>
-                          <input class="form-control" type="text" name="place_name" value="" placeholder="Place Names here...">
+                          <input class="form-control" type="text" id="place_name" value="" placeholder="Place Names here...">
                           <label>Thumbnail </label>
-                          <input class="btn btn-default btn-file" type="file" name="upload_file" value="Select file">
+                          <input class="btn btn-default btn-file" type="file" name="thumbnail" id="thumbnail" value="Select file">
                           <label>Slide images</label>
                           <input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>
                           <div class="row" id="image_preview"></div>
@@ -59,24 +61,23 @@
                         <div class="col-md-4">
                           <label for="">Category</label>
                           <select class="form-control" id="sub_category">
-                            <option value="1_1">Thiên nhiên</option>
-                            <option value="1_2">Tâm linh</option>
-                            <option value="1_3">Di sản văn hóa thế giới</option>
-                            <option value="1_4">Bảo tàng</option>
-                            <option value="1_5">Làng quê</option>
+
                           </select>
 
                           <label>Province </label>
                           <select class="input-small form-control" id="province">
-                            <option value="1">Hà Nội</option>
-                            <option value="2">Huế</option>
-                            <option value="3">Đà Nẵng</option>
+
                           </select>
                           <label for="">Address</label>
                           <div id="locationField">
                             <input class="form-control" id="autocomplete" placeholder="Enter address ..." onFocus="geolocate()" type="text"></input>
                           </div>
-
+                          <label for="">Phone</label>
+                          <input class="form-control" type="text" id="phone" name="" placeholder="Number phone..." value="">
+                          <label for="">Tag</label>
+                          <input class="form-control" type="text" id="tag" name="" placeholder="Tag..." value="">
+                          <label for="">Details</label>
+                          <input class="form-control" type="text" id="details" name="" placeholder="Details..." value="">
                           <script>
                             // This example displays an address form, using the autocomplete feature
                             // of the Google Places API to help users fill in the information.
@@ -228,7 +229,7 @@
                                }
                              });
                           </script>
-                          <input class="btn btn-primary" style="margin-top:20px;" type="submit" name="" value="Thêm địa điểm">
+                          <input class="btn btn-primary" style="margin-top:20px;" type="button" id="bt_submit" value="Thêm địa điểm">
                         </div>
                     </div>
                     <!-- /.row -->
@@ -244,10 +245,95 @@
     </div>
     <!-- /#wrapper -->
 
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        //select province
+        $.get('http://tlsg.tk/api/province/list',function(data,status){
+          var i=0;
+          $.each(data, function(key, value) {
+             $('#province')
+                 .append($("<option></option>")
+                            .attr("value",data[i]._id)
+                            .text(data[i].province_name));
+             i++;
+          });
+
+        });
+
+        //select category
+        $.get('http://tlsg.tk/api/category/sub-list/59e321f42a36f02f45b3fdcc',function(data,status){
+          data.forEach((i) => {
+            $('#sub_category')
+                .append($("<option></option>")
+                           .attr("value",i._id)
+                           .text(i.sub_category_name));
+          });
+
+
+        });
+
+        $('#bt_submit').click(function(){
+
+          var p_n = $('#place_name').val();
+          var thumb = $('#thumbnail').val();
+          var img = $('#images').val();
+          var p_id = $('#province').val();
+          var sc_id = $('#sub_category').val();
+          var addr = $('#autocomplete').val();
+          var dt = $('#phone').val();
+          var tg = $('#tag').val().toString();
+          var details = $('#details').val();
+          //
+          // var place = {
+          //   token:'6ba2b9df31680dcda5a4a083',
+          //   sub_category_id: sc_id,
+          //   province_id: p_id,
+          //   thumbnail: thumb,
+          //   place_name: p_n,
+          //   phone: dt,
+          //   address: addr,
+          //   tag: tg,
+          //   detail: details
+          // }
+          //
+          // console.log(place);
+
+
+          $.post('http://tlsg.tk/api//place/add',{
+            'token':'6ba2b9df31680dcda5a4a083',
+            'sub_category_id': sc_id,
+            'province_id': p_id,
+            'thumbnail': thumb,
+            'place_name': p_n,
+            'phone': dt,
+            'address': addr,
+            'tag': tg,
+            'detail': details
+          },function(data,status){
+            //console.log(data+status);
+            console.log(status);
+          });
+
+        });
+
+        /** Add a place - parameter (add, update)
+         * sub_category_id: ObjectId
+         * province_id: ObjectId
+         * thumbnail: String [*]
+         * place_name: String
+         * phone: String [*]
+         * address: String
+         * tag: String [*]
+         * detail: String
+         */
+      });
+    </script>
+
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initAutocomplete"
        async defer></script>
     <!-- jQuery -->
-    <script src="../public/vendor/jquery/jquery.min.js"></script>
+    <!-- <script src="../public/vendor/jquery/jquery.min.js"></script> -->
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../public/vendor/bootstrap/js/bootstrap.min.js"></script>

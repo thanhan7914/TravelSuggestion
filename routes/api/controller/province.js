@@ -17,3 +17,12 @@ exports.add_province = function(req, res) {
     })
     .catch(res.handle_error);
 };
+
+exports.remove = function(req, res) {
+    if(!req.isValidObjectId(req.body.province_id))
+        return res.handle_error(new Error('invalid province id'));
+    
+    Province.remove({_id: req.body.province_id})
+    .then(res.done_task)
+    .catch(res.handle_error);
+};
