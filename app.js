@@ -12,13 +12,13 @@ mongoose.connect('mongodb://localhost/TravelSuggestion', {useMongoClient: true})
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 //use session
 app.use(session({
   secret: 'a secret key',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+  resave: true,
+  saveUninitialized: true
 }));
 
 //set views engine
