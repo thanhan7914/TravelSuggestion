@@ -19,7 +19,7 @@ router.get('/login',function(req,res){
 router.post('/login',function(req,res){
   var email = req.body.email;
   var password = req.body.password;
-  if(email ==='giapnguyen889@gmail.com' && password ==='123'){
+  if(email ==='admin' && password ==='duataunhapcho'){
     req.session.email = req.body.email;
     res.redirect('/admin');
   }else{
