@@ -5,21 +5,22 @@ const bodyParser = require('body-parser');
 
 router.get('/',function(req,res){
   if(req.session.email){
-    res.render('index');
+    res.render('index',{title:'Travel suggestion | Admin'});
   }else{
     res.redirect('/admin/login');
   }
 });
 
+
 router.get('/login',function(req,res){
-  res.render('login');
+  res.render('login',{title:'Login'});
 });
 
 //check login
 router.post('/login',function(req,res){
   var email = req.body.email;
   var password = req.body.password;
-  if(email ==='admin' && password ==='duataunhapcho'){
+  if(email ==='admin' && password ==='admin'){
     req.session.email = req.body.email;
     res.redirect('/admin');
   }else{
@@ -34,19 +35,19 @@ router.get('/logout',function(req,res){
 
 router.get('/post-news',function(req,res){
   if(req.session.email){
-    res.render('post-news');
+    res.render('post-news',{title:'Post news | Admin'});
   }else{
     res.redirect('/admin/login');
   }
 });
 
-router.post('/post-news',function(req,res){
+// router.post('/post-news',function(req,res){
 
-});
+// });
 
 router.get('/add-place',function(req,res){
   if(req.session.email){
-    res.render('add-place');
+    res.render('add-place',{title:'Add place | Admin'});
   }else{
     res.redirect('/admin/login');
   }
@@ -54,7 +55,7 @@ router.get('/add-place',function(req,res){
 
 router.get('/list-news',function(req,res){
   if(req.session.email){
-    res.render('list-news');
+    res.render('list-news',{title:'List news | Admin'});
   }else{
     res.redirect('/admin/login');
   }
@@ -62,7 +63,7 @@ router.get('/list-news',function(req,res){
 
 router.get('/list-place',function(req,res){
   if(req.session.email){
-    res.render('list-place');
+    res.render('list-place',{title: 'Add place | Admin'});
   }else{
     res.redirect('/admin/login');
   }

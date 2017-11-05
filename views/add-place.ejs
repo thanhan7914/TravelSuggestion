@@ -2,349 +2,220 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title><%=title%></title>
+  <!-- Bootstrap Core CSS -->
+  <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- MetisMenu CSS -->
+  <link href="../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+  <!-- Custom CSS -->
+  <link href="../public/dist/css/sb-admin-2.css" rel="stylesheet">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom Fonts -->
+  <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <script src="../public/vendor/jquery/jquery.min.js"></script>
 
-    <!-- MetisMenu CSS -->
-    <link href="../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
 
-    <!-- Custom CSS -->
-    <link href="../public/dist/css/sb-admin-2.css" rel="stylesheet">
+    #map {
+      height: 500px;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
 
-    <!-- Custom Fonts -->
-    <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="http://www.expertphp.in/js/jquery.form.js"></script>
-    <script src="../public/vendor/jquery/jquery.min.js"></script>
+    /* Optional: Makes the sample page fill the window. */
 
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
+    #description {
+      font-family: Roboto;
+      font-size: 15px;
+      font-weight: 300;
+    }
+
+    #infowindow-content .title {
+      font-weight: bold;
+    }
+
+    #infowindow-content {
+      display: none;
+    }
+
+    #map #infowindow-content {
+      display: inline;
+    }
+
+    .pac-controls label {
+      font-family: Roboto;
+      font-size: 13px;
+      font-weight: 300;
+    }
+
+    #pac-input:focus {
+      border-color: #4d90fe;
+    }
+
+    #bt-submit{
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
 
-    <div id="wrapper">
+  <div id="wrapper">
 
-      <!-- Navigation -->
-      <% include ./layout/nav%>
-        <!-- Page Content -->
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Thêm địa điểm du lịch</h1>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <!-- /.row -->
+    <!-- Navigation -->
+    <% include ./layout/nav%>
+      <div id="page-wrapper">
+        <div class="container-fluid">
 
-                <div class="row">
-                  <form class="form-group" action="#" enctype="multipart/form-data" method="post">
-                      <div class="row">
-                        <div class="col-md-8">
-                          <label for="">Place Names</label>
-                          <input class="form-control" type="text" id="place_name" value="" placeholder="Place Names here...">
-                          <label>Thumbnail </label>
-                          <input class="form-control" type="text" id="thumbnail" placeholder="Link images...">
-                          <!-- <input class="btn btn-default" type="text" name="thumbnail" id="thumbnail" value="Select file"> -->
-                          <label>Slide images</label>
-                          <input type="file" class="form-control" id="images" name="images[]" onchange="preview_images();" multiple/>
-                          <div class="row" id="image_preview"></div>
-                        </div>
-                      </div>
-                      <!-- /.row -->
-                      <div class="row">
-                        <div class="col-md-4">
-                          <label for="">Category</label>
-                          <select class="form-control" id="sub_category">
-
-                          </select>
-
-                          <label>Province </label>
-                          <select class="input-small form-control" id="province">
-
-                          </select>
-                          <label for="">Address</label>
-                          <div id="locationField">
-                            <input class="form-control" id="autocomplete" placeholder="Enter address ..." onFocus="geolocate()" type="text"></input>
-                          </div>
-                          <label for="">Phone</label>
-                          <input class="form-control" type="text" id="phone" name="" placeholder="Number phone..." value="">
-                          <label for="">Tag</label>
-                          <input class="form-control" type="text" id="tag" name="" placeholder="Tag..." value="">
-                          <label for="">Details</label>
-                          <input class="form-control" type="text" id="details" name="" placeholder="Details..." value="">
-                          <script>
-                            // This example displays an address form, using the autocomplete feature
-                            // of the Google Places API to help users fill in the information.
-
-                            // This example requires the Places library. Include the libraries=places
-                            // parameter when you first load the API. For example:
-                            // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-                            var placeSearch, autocomplete;
-                            var componentForm = {
-                              street_number: 'short_name',
-                              route: 'long_name',
-                              locality: 'long_name',
-                              administrative_area_level_1: 'short_name',
-                              country: 'long_name',
-                              postal_code: 'short_name'
-                            };
-
-                            function initAutocomplete() {
-                              // Create the autocomplete object, restricting the search to geographical
-                              // location types.
-                              autocomplete = new google.maps.places.Autocomplete(
-                                  /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
-                                  {types: ['geocode']});
-
-                              // When the user selects an address from the dropdown, populate the address
-                              // fields in the form.
-                              autocomplete.addListener('place_changed', fillInAddress);
-                            }
-
-                            function fillInAddress() {
-                              // Get the place details from the autocomplete object.
-                              var place = autocomplete.getPlace();
-
-                              for (var component in componentForm) {
-                                document.getElementById(component).value = '';
-                                document.getElementById(component).disabled = false;
-                              }
-
-                              // Get each component of the address from the place details
-                              // and fill the corresponding field on the form.
-                              for (var i = 0; i < place.address_components.length; i++) {
-                                var addressType = place.address_components[i].types[0];
-                                if (componentForm[addressType]) {
-                                  var val = place.address_components[i][componentForm[addressType]];
-                                  document.getElementById(addressType).value = val;
-                                }
-                              }
-                            }
-
-                            // Bias the autocomplete object to the user's geographical location,
-                            // as supplied by the browser's 'navigator.geolocation' object.
-                            function geolocate() {
-                              if (navigator.geolocation) {
-                                navigator.geolocation.getCurrentPosition(function(position) {
-                                  var geolocation = {
-                                    lat: position.coords.latitude,
-                                    lng: position.coords.longitude
-                                  };
-                                  var circle = new google.maps.Circle({
-                                    center: geolocation,
-                                    radius: position.coords.accuracy
-                                  });
-                                  autocomplete.setBounds(circle.getBounds());
-                                });
-                              }
-                            }
-
-                            function preview_images()
-                            {
-                             var total_file=document.getElementById("images").files.length;
-                             for(var i=0;i<total_file;i++)
-                             {
-                              $('#image_preview').append("<div class='col-md-3'><img class='img-responsive' src='"+URL.createObjectURL(event.target.files[i])+"'></div>");
-                             }
-                            }
-
-                            $('#add_more').click(function() {
-                               "use strict";
-                               $(this).before($("<div/>", {
-                                 id: 'filediv'
-                               }).fadeIn('slow').append(
-                                 $("<input/>", {
-                                   name: 'file[]',
-                                   type: 'file',
-                                   id: 'file',
-                                   multiple: 'multiple',
-                                   accept: 'image/*'
-                                 })
-                               ));
-                             });
-
-                             $('#upload').click(function(e) {
-                               "use strict";
-                               e.preventDefault();
-
-                               if (window.filesToUpload.length === 0 || typeof window.filesToUpload === "undefined") {
-                                 alert("No files are selected.");
-                                 return false;
-                               }
-
-                               // Now, upload the files below...
-                               // https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Handling_the_upload_process_for_a_file.2C_asynchronously
-                             });
-
-                             deletePreview = function (ele, i) {
-                               "use strict";
-                               try {
-                                 $(ele).parent().remove();
-                                 window.filesToUpload.splice(i, 1);
-                               } catch (e) {
-                                 console.log(e.message);
-                               }
-                             }
-
-                             $("#file").on('change', function() {
-                               "use strict";
-
-                               // create an empty array for the files to reside.
-                               window.filesToUpload = [];
-
-                               if (this.files.length >= 1) {
-                                 $("[id^=previewImg]").remove();
-                                 $.each(this.files, function(i, img) {
-                                   var reader = new FileReader(),
-                                     newElement = $("<div id='previewImg" + i + "' class='previewBox'><img /></div>"),
-                                     deleteBtn = $("<span class='delete' onClick='deletePreview(this, " + i + ")'>X</span>").prependTo(newElement),
-                                     preview = newElement.find("img");
-
-                                   reader.onloadend = function() {
-                                     preview.attr("src", reader.result);
-                                     preview.attr("alt", img.name);
-                                   };
-
-                                   try {
-                                     window.filesToUpload.push(document.getElementById("file").files[i]);
-                                   } catch (e) {
-                                     console.log(e.message);
-                                   }
-
-                                   if (img) {
-                                     reader.readAsDataURL(img);
-                                   } else {
-                                     preview.src = "";
-                                   }
-
-                                   newElement.appendTo("#filediv");
-                                 });
-                               }
-                             });
-                          </script>
-                          <input class="btn btn-primary" style="margin-top:20px;" type="button" id="bt_submit" value="Thêm địa điểm">
-                        </div>
-                    </div>
-                    <!-- /.row -->
-                  </form>
-                  <!-- /form -->
-                </div>
-                <!-- .row -->
+          <div class="row">
+            <div class="col-lg-12">
+              <h4 class="page-header">Thêm địa điểm du lịch</h4>
             </div>
-            <!-- /.container-fluid -->
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <label for="">Place Name</label>
+              <input class="form-control form-control-sm" type="text" id="name-place" placeholder="Place Name...">
+              <label for="pac-input">Address </label>
+              <input class="form-control form-control-sm" id="pac-input" type="text" placeholder="Enter a location...">
+              <label for="">Category</label>
+              <select class="form-control form-control-sm" name="category" id="category"></select>
+              <label for="">Province</label>
+              <select class="form-control form-control-sm" name="province" id="province"></select>
+              <label for="">Phone</label>
+              <input class="form-control form-control-sm" id="phone" type="text" placeholder="Number phone...">
+              <label for="">Tag</label>
+              <input class="form-control form-control-sm" type="text" name="tag" id="tag" placeholder="Tag...">
+              <label for="">Thumbnail</label>
+              <input class="form-control form-control-sm" type="text" placeholder="thumbnail">
+              <input class="btn btn-primary"  id="bt-submit" type="button" value="Add Place">
+              <div class="pac-card" id="pac-card">
+                <div id="pac-container">
+
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="" id="map"></div>
+              <div id="infowindow-content">
+                <img src="" width="16" height="16" id="place-icon">
+                <span id="place-name" class="title"></span>
+                <br>
+                <span id="place-address"></span>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- /#page-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-    <script type="text/javascript">
-      $(document).ready(function(){
-
-        //select province
-        $.get('http://tlsg.tk/api/province/list',function(data,status){
-          var i=0;
-          $.each(data, function(key, value) {
-             $('#province')
-                 .append($("<option></option>")
-                            .attr("value",data[i]._id)
-                            .text(data[i].province_name));
-             i++;
-          });
-
-        });
-
-        //select category
-        $.get('http://tlsg.tk/api/category/sub-list/59e321f42a36f02f45b3fdcc',function(data,status){
-          data.forEach((i) => {
-            $('#sub_category')
-                .append($("<option></option>")
-                           .attr("value",i._id)
-                           .text(i.sub_category_name));
-          });
+      </div>
+  </div>
 
 
-        });
-
-        $('#bt_submit').click(function(){
-
-          var p_n = $('#place_name').val();
-          var thumb = $('#thumbnail').val();
-          var img = $('#images').val();
-          var p_id = $('#province').val();
-          var sc_id = $('#sub_category').val();
-          var addr = $('#autocomplete').val();
-          var dt = $('#phone').val();
-          var tg = $('#tag').val().toString();
-          var details = $('#details').val();
-          //
-          // var place = {
-          //   token:'6ba2b9df31680dcda5a4a083',
-          //   sub_category_id: sc_id,
-          //   province_id: p_id,
-          //   thumbnail: thumb,
-          //   place_name: p_n,
-          //   phone: dt,
-          //   address: addr,
-          //   tag: tg,
-          //   detail: details
-          // }
-          //
-          // console.log(place);
-
-
-          $.post('http://tlsg.tk/api//place/add',{
-            'token':'6ba2b9df31680dcda5a4a083',
-            'sub_category_id': sc_id,
-            'province_id': p_id,
-            'thumbnail': thumb,
-            'place_name': p_n,
-            'phone': dt,
-            'address': addr,
-            'tag': tg,
-            'detail': details
-          },function(data,status){
-            //console.log(data+status);
-            console.log(status);
-          });
-
-        });
-
-        /** Add a place - parameter (add, update)
-         * sub_category_id: ObjectId
-         * province_id: ObjectId
-         * thumbnail: String [*]
-         * place_name: String
-         * phone: String [*]
-         * address: String
-         * tag: String [*]
-         * detail: String
-         */
+  <script>
+ 
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: 15.913888,
+          lng: 107.730302
+        },
+        zoom: 6,
+        mapTypeId: google.maps.MapTypeId.HYBRID
       });
-    </script>
+      var card = document.getElementById('pac-card');
+      var input = document.getElementById('pac-input');
+      var types = document.getElementById('type-selector');
+      var strictBounds = document.getElementById('strict-bounds-selector');
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initAutocomplete"
-       async defer></script>
-    <!-- jQuery -->
-    <!-- <script src="../public/vendor/jquery/jquery.min.js"></script> -->
+      map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../public/vendor/bootstrap/js/bootstrap.min.js"></script>
+      var autocomplete = new google.maps.places.Autocomplete(input);
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../public/vendor/metisMenu/metisMenu.min.js"></script>
+      // Bind the map's bounds (viewport) property to the autocomplete object,
+      // so that the autocomplete requests use the current map bounds for the
+      // bounds option in the request.
+      autocomplete.bindTo('bounds', map);
 
-    <!-- Custom Theme JavaScript -->
-    <script src="../public/dist/js/sb-admin-2.js"></script>
+      var infowindow = new google.maps.InfoWindow();
+      var infowindowContent = document.getElementById('infowindow-content');
+      infowindow.setContent(infowindowContent);
+      var marker = new google.maps.Marker({
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29)
+      });
 
+      autocomplete.addListener('place_changed', function () {
+        infowindow.close();
+        marker.setVisible(false);
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+          // User entered the name of a Place that was not suggested and
+          // pressed the Enter key, or the Place Details request failed.
+          window.alert("No details available for input: '" + place.name + "'");
+          return;
+        }
+
+        // If the place has a geometry, then present it on a map.
+        if (place.geometry.viewport) {
+          map.fitBounds(place.geometry.viewport);
+        } else {
+          map.setCenter(place.geometry.location);
+          map.setZoom(14); // Why 17? Because it looks good.
+        }
+        marker.setPosition(place.geometry.location);
+        marker.setVisible(true);
+
+        var address = '';
+        if (place.address_components) {
+          address = [
+            (place.address_components[0] && place.address_components[0].short_name || ''),
+            (place.address_components[1] && place.address_components[1].short_name || ''),
+            (place.address_components[2] && place.address_components[2].short_name || '')
+          ].join(' ');
+        }
+
+        infowindowContent.children['place-icon'].src = place.icon;
+        infowindowContent.children['place-name'].textContent = place.name;
+        infowindowContent.children['place-address'].textContent = address;
+        infowindow.open(map, marker);
+      });
+    }
+    // post data form to server throught 
+    $(document).ready(function(){
+      $.post('')
+    });
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
+    async defer></script>
+
+
+
+
+  <!-- jQuery -->
+  <script src="../public/vendor/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../public/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="../public/vendor/metisMenu/metisMenu.min.js"></script>
+
+  <!-- Custom Theme JavaScript -->
+  <script src="../public/dist/js/sb-admin-2.js"></script>
 </body>
 
 </html>
