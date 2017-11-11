@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title><%=title%></title>
+  <title>
+    <%=title%>
+  </title>
   <!-- Bootstrap Core CSS -->
   <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -66,7 +68,7 @@
       border-color: #4d90fe;
     }
 
-    #bt-submit{
+    #bt-submit {
       margin-top: 10px;
     }
   </style>
@@ -94,7 +96,7 @@
               <label for="pac-input">Address </label>
               <input class="form-control form-control-sm" id="pac-input" type="text" placeholder="Enter a location...">
               <label for="">Category</label>
-              <select class="form-control form-control-sm" name="category" id="category"></select>
+              <select class="form-control form-control-sm" name="category" id="sub_category"></select>
               <label for="">Province</label>
               <select class="form-control form-control-sm" name="province" id="province"></select>
               <label for="">Phone</label>
@@ -103,7 +105,7 @@
               <input class="form-control form-control-sm" type="text" name="tag" id="tag" placeholder="Tag...">
               <label for="">Thumbnail</label>
               <input class="form-control form-control-sm" type="text" placeholder="thumbnail">
-              <input class="btn btn-primary"  id="bt-submit" type="button" value="Add Place">
+              <input class="btn btn-primary" id="bt-submit" type="submit" value="Add Place">
               <div class="pac-card" id="pac-card">
                 <div id="pac-container">
 
@@ -125,80 +127,8 @@
   </div>
 
 
-  <script>
- 
-    function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-          lat: 15.913888,
-          lng: 107.730302
-        },
-        zoom: 6,
-        mapTypeId: google.maps.MapTypeId.HYBRID
-      });
-      var card = document.getElementById('pac-card');
-      var input = document.getElementById('pac-input');
-      var types = document.getElementById('type-selector');
-      var strictBounds = document.getElementById('strict-bounds-selector');
 
-      map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-
-      var autocomplete = new google.maps.places.Autocomplete(input);
-
-      // Bind the map's bounds (viewport) property to the autocomplete object,
-      // so that the autocomplete requests use the current map bounds for the
-      // bounds option in the request.
-      autocomplete.bindTo('bounds', map);
-
-      var infowindow = new google.maps.InfoWindow();
-      var infowindowContent = document.getElementById('infowindow-content');
-      infowindow.setContent(infowindowContent);
-      var marker = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
-      });
-
-      autocomplete.addListener('place_changed', function () {
-        infowindow.close();
-        marker.setVisible(false);
-        var place = autocomplete.getPlace();
-        if (!place.geometry) {
-          // User entered the name of a Place that was not suggested and
-          // pressed the Enter key, or the Place Details request failed.
-          window.alert("No details available for input: '" + place.name + "'");
-          return;
-        }
-
-        // If the place has a geometry, then present it on a map.
-        if (place.geometry.viewport) {
-          map.fitBounds(place.geometry.viewport);
-        } else {
-          map.setCenter(place.geometry.location);
-          map.setZoom(14); // Why 17? Because it looks good.
-        }
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
-
-        var address = '';
-        if (place.address_components) {
-          address = [
-            (place.address_components[0] && place.address_components[0].short_name || ''),
-            (place.address_components[1] && place.address_components[1].short_name || ''),
-            (place.address_components[2] && place.address_components[2].short_name || '')
-          ].join(' ');
-        }
-
-        infowindowContent.children['place-icon'].src = place.icon;
-        infowindowContent.children['place-name'].textContent = place.name;
-        infowindowContent.children['place-address'].textContent = address;
-        infowindow.open(map, marker);
-      });
-    }
-    // post data form to server throught 
-    $(document).ready(function(){
-      $.post('')
-    });
-  </script>
+  <script src="../public/js/add-place.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
     async defer></script>
 
