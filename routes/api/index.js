@@ -71,7 +71,7 @@ router.get('/news/:news_id', news.get_news_by_id);
 
 /**
  * Remove a news - parameter
- * place_id: ObjectId
+ * news_id: ObjectId
  */
 
 router.post('/news/remove', news.remove);

@@ -69,7 +69,7 @@ function initMap() {
 $(document).ready(function () {
 
     //select province
-    $.get('http://45.76.136.12/api/province/list', function (data, status) {
+    $.get('http://tlsg.tk/api/province/list', function (data, status) {
         var i = 0;
         $.each(data, function (key, value) {
             $('#province')
@@ -82,7 +82,7 @@ $(document).ready(function () {
     });
 
     //select category
-    $.get('http://45.76.136.12/api/category/sub-list/59e321f42a36f02f45b3fdcc', function (data, status) {
+    $.get('http://tlsg.tk/api/category/sub-list/59e321f42a36f02f45b3fdcc', function (data, status) {
         data.forEach((i) => {
             $('#sub_category')
                 .append($("<option></option>")
