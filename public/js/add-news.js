@@ -62,13 +62,13 @@ $(document).ready(function () {
             if (data.status == 200) {
                 $('#modalConfirm').modal('show');
                 $('#modalConfirm').on('click', '#btnOk', function () {
-                    window.location.replace('http://tlsg.tk/admin/add-news');
+                    window.location.replace('http://tlsg.tk/admin/post-news');
                 });
 
             } else {
                 $('#modalError').modal('show');
                 $('#modalError').on('click', '#btOk', function () {
-                    window.location.replace('http://tlsg.tk/admin/add-news');
+                    // window.location.replace('http://tlsg.tk/admin/add-news');
                 });
             }
 

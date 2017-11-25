@@ -33,10 +33,14 @@ $(document).ready(function () {
             token: '6ba2b9df31680dcda5a4a083',
             news_id: id
         }, function (data, status) {
-            $('#modalDeleteSuccess').modal('show');
-            $('#modalDeleteSuccess').on('click', '#btnOk', function () {
-                window.location.href = 'http://tlsg.tk/admin/list-news';
-            });
+            if (data.status == 200) {
+                $('#modalDeleteSuccess').modal('show');
+                $('#modalDeleteSuccess').on('click', '#btnOk', function () {
+                    window.location.href = 'http://tlsg.tk/admin/list-news';
+                });
+            } else {
+                $('#modalFail').modal('show');
+            }
         });
     });
 
