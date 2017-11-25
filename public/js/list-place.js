@@ -48,7 +48,7 @@ $(document).ready(function () {
                         .text(el.phone)
                     )
                     .append($('<td>')
-                        .html('<a href="" id="' + el._id + '"><span class="glyphicon glyphicon-pencil "></span></a><a style="margin-left:10px;color:red;" href="" id="' + el._id + '"><span class="glyphicon glyphicon-trash "></span></a>')
+                        .html('<a href="" id="' + el._id + '"><span class="glyphicon glyphicon-pencil "></span></a><a style="margin-left:10px;color:red;" class="btnDelete" data-toggle="modal" href="" id="' + el._id + '"><span class="glyphicon glyphicon-trash "></span></a>')
                     )
 
                 )
