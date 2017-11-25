@@ -68,7 +68,7 @@ $(document).ready(function () {
             } else {
                 $('#modalError').modal('show');
                 $('#modalError').on('click', '#btOk', function () {
-                    window.location.replace('http://tlsg.tk/admin/add-');
+                    window.location.replace('http://tlsg.tk/admin/add-news');
                 });
             }
 
