@@ -92,5 +92,46 @@ $(document).ready(function () {
 
 
     });
-    
+
+
+    $('#bt-submit').click(function () {
+        // add new place use method post with ajax
+        let a = $('#sub_category').val();
+        let b = $('#province').val();
+        let c = $('#thumbnail').val();
+        let d = $('#place_name').val();
+        let e = $('#phone').val();
+        let f = $('#pac-input').val();
+        let g = $('#tag').val();
+        let h = $('#detail').val();
+
+        $.post('http://tlsg.tk/api/place/add', {
+            'token': '6ba2b9df31680dcda5a4a083',
+            'sub_category_id': a,
+            'province_id': b,
+            'thumbnail': c,
+            'place_name': d,
+            'phone': e,
+            'address': f,
+            'tag': g,
+            'detail': h
+        }, function (data, message) {
+            if (data.status == 200) {
+                $('#modalConfirm').modal('show');
+                console.log('A:' + a + 'B:' + b + 'C:' + c + 'D:' + d + 'E:' + e + 'F:' + f + 'G:' + g + 'H:' + h);
+                $('#modalConfirm').on('click', '#btnOk', function () {
+                    window.location.replace('http://tlsg.tk/admin/list-place');
+                });
+
+            } else {
+                $('#modalError').modal('show');
+                $('#modalError').on('click', '#btOk', function () {
+                    window.location.replace('http://tlsg.tk/admin/add-place');
+                });
+            }
+        });
+
+    });
+
+
 });
