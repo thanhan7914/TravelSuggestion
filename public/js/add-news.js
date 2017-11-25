@@ -2,7 +2,6 @@ $(document).ready(function () {
     $('#summernote').summernote({
         height: 500,
         toolbar: [
-            // [groupName, [list of button]]
             ['style', ['hr', 'bold', 'italic', 'underline', 'clear']],
             ['fontsize', ['fontname', 'fontsize']],
             ['color', ['color']],
@@ -30,7 +29,6 @@ $(document).ready(function () {
 
     });
 
-    //select category
     $.get('http://tlsg.tk/api/category/list', function (data, status) {
         data.forEach(element => {
             $('#category')
@@ -41,15 +39,6 @@ $(document).ready(function () {
         });
     });
 
-    /** Add a News - parameter
-     * category_id: ObjectId
-     * province_id: ObjectId
-     * title: String
-     * content: String
-     * tag: String [*]
-     * thumbnail: String [*]
-     * date: Date.now() [*]
-     */
 
     $('#bt_submit').click(function () {
         let a = $('#title').val();
@@ -69,8 +58,20 @@ $(document).ready(function () {
             thumbnail: f,
             date: g,
             token: '6ba2b9df31680dcda5a4a083'
-        }, function (data, status) {
-            console.log(data);
+        }, function (data, message) {
+            if (data.status == 200) {
+                $('#modalConfirm').modal('show');
+                $('#modalConfirm').on('click', '#btnOk', function () {
+                    window.location.replace('http://tlsg.tk/admin/list-news');
+                });
+
+            } else {
+                $('#modalError').modal('show');
+                $('#modalError').on('click', '#btOk', function () {
+                    window.location.replace('http://tlsg.tk/admin/add-');
+                });
+            }
+
         });
     });
 

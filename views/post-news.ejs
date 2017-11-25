@@ -25,10 +25,6 @@
   <!-- Custom Fonts -->
   <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
 </head>
 
@@ -84,83 +80,55 @@
   </div>
   <!-- /#wrapper -->
 
-  <script>
-    $(document).ready(function () {
-      $('#summernote').summernote({
-        height: 500,
-        toolbar: [
-          ['style', ['hr', 'bold', 'italic', 'underline', 'clear']],
-          ['fontsize', ['fontname', 'fontsize']],
-          ['color', ['color']],
-          ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
-          ['height', ['height']],
-          ['insert', ['picture', 'link', 'video', 'table']],
-          ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-        ]
-      });
+  <div id="modalConfirm" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-      var postForm = function () {
-        var content = $('#summernote').summernote('code');
-        return content;
-      }
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Notification</h4>
+        </div>
+        <div class="modal-body">
+          <p>ADD news success!</p>
+          <input type="hidden" id="hiddenVal">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+        </div>
+      </div>
 
-      $.get('http://tlsg.tk/api/province/list', function (data, status) {
-        var i = 0;
-        $.each(data, function (key, value) {
-          $('#province')
-            .append($("<option></option>")
-              .attr("value", data[i]._id)
-              .text(data[i].province_name));
-          i++;
-        });
+    </div>
+  </div>
 
-      });
+  <!-- modal add fail -->
+  <div id="modalError" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-      $.get('http://tlsg.tk/api/category/list', function (data, status) {
-        data.forEach(element => {
-          $('#category')
-            .append($('<option></option>')
-              .attr('value', element._id)
-              .text(element.category_name));
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Notification</h4>
+        </div>
+        <div class="modal-body">
+          <p>ADD news fail!</p>
+          <input type="hidden" id="hiddenVal">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+        </div>
+      </div>
 
-        });
-      });
+    </div>
+  </div>
 
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
-      $('#bt_submit').click(function () {
-        let a = $('#title').val();
-        let b = $('#category').val();
-        let c = $('#province').val();
-        let d = postForm();
-        let e = $('#tag').val();
-        let f = $('#thumbnail').val();
-        let g = new Date();
-        console.log('A: ' + a + ' B: ' + b + ' C: ' + c + ' D: ' + d +' E:'+e+' F:'+f+' G:'+g);
-        $.post('http://tlsg.tk/api/news/add',{
-          title: a,
-          category_id: b,
-          province_id: c,
-          content: d,
-          tag: e,
-          thumbnail: f,
-          date: g,
-          token: '6ba2b9df31680dcda5a4a083'
-        },function(data,message){
-          if(data.status==200){
-            
-          }
-        });
-      });
-
-    });
-  </script>
-  
-  <!-- jQuery -->
-  <!-- <script src="../vendor/jquery/jquery.min.js"></script> -->
-
-  <!-- Bootstrap Core JavaScript -->
-  <!-- <script src="../vendor/bootstrap/js/bootstrap.min.js"></script> -->
-
+  <script src="../public/js/add-news.js"></script>
   <!-- Metis Menu Plugin JavaScript -->
   <script src="../public/vendor/metisMenu/metisMenu.min.js"></script>
 
