@@ -120,7 +120,7 @@ $(document).ready(function () {
                 $('#modalConfirm').modal('show');
                 console.log('A:' + a + 'B:' + b + 'C:' + c + 'D:' + d + 'E:' + e + 'F:' + f + 'G:' + g + 'H:' + h);
                 $('#modalConfirm').on('click', '#btnOk', function () {
-                    window.location.replace('http://tlsg.tk/admin/list-place');
+                    window.location.replace('http://tlsg.tk/admin/add-place');
                 });
 
             } else {
