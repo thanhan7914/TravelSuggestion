@@ -3,118 +3,124 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" type="image/x-icon" href="../public/images/travel.png" />
 
-    <title><%=title%></title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <title>
+    <%=title%>
+  </title>
 
-    <!-- MetisMenu CSS -->
-    <link href="../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+  <!-- Bootstrap Core CSS -->
+  <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="../public/dist/css/sb-admin-2.css" rel="stylesheet">
+  <!-- MetisMenu CSS -->
+  <link href="../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom CSS -->
+  <link href="../public/dist/css/sb-admin-2.css" rel="stylesheet">
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+  <!-- Custom Fonts -->
+  <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
 
 </head>
 
 <body>
 
-    <div id="wrapper">
+  <div id="wrapper">
 
-        <!-- Navigation -->
-        <% include ./layout/nav%>
-        
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Chỉnh sửa bài review</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            <form class="form-group" action="index.html" method="post" id="postForm" enctype="multipart/form-data" onsubmit="return postForm()">
-              <div class="row">
-                <div class="form-group">
-                  <label>Title</label><input class="form-control" placeholder="Write News title here..." type="text" name="title" id="title" value="">
-                  <label>Category </label>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <select class="input-small form-control" id="category">
-                        <option value="1">Điểm đến</option>
-                        <option value="2">Ăn uống</option>
-                        <option value="3">Khách Sạn</option>
-                      </select>
-                      <label>Province </label>
-                      <select class="input-small form-control" id="province">
-                        <option value="1">Hà Nội</option>
-                        <option value="2">Huế</option>
-                        <option value="3">Đà Nẵng</option>
-                      </select>
-                    </div>
-                  </div>
-                  <label>Thumbnail </label>
-                  <input class="btn btn-primary btn-file" type="file" name="upload_file" id="upload_file" value="Select file">
-                </div>
-              </div>
-              <!-- /.row -->
-              <div class="row">
-                <textarea class="input-block-level" id="summernote" name="content" rows="18">
-      					</textarea>
-                <input class="btn btn-primary"  style="margin-bottom:20px;" type="submit" name="submit" id="submit" value="Đăng bài">
-                <script>
-                  $(document).ready(function() {
-                      $('#summernote').summernote({
-                        height:500,
-                        toolbar: [
-                          // [groupName, [list of button]]
-                          ['style', ['hr','bold', 'italic', 'underline', 'clear']],
-                          ['fontsize', ['fontname','fontsize']],
-                          ['color', ['color']],
-                          ['para', ['style','ul', 'ol', 'paragraph','height']],
-                          ['height', ['height']],
-                          ['insert',['picture','link','video','table']],
-                          ['misc',['fullscreen','codeview','undo','redo','help']]
-                        ]
-                      });
+    <!-- Navigation -->
+    <% include ./layout/nav%>
 
-                      var postForm = function() {
-                      	var content = $('textarea[name="content"]').html($('#summernote').code());
-                      }
-                  });
-                </script>
-              </div>
-
-            </form>
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <h1 class="page-header">Chỉnh sửa bài review</h1>
+          </div>
+          <!-- /.col-lg-12 -->
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /.row -->
+        <form class="form-group" action="index.html" method="post" id="postForm" enctype="multipart/form-data" onsubmit="return postForm()">
+          <div class="row">
+            <div class="form-group">
+              <label>Title</label>
+              <input class="form-control" placeholder="Write News title here..." type="text" name="title" id="title"
+                value="">
+              <label>Category </label>
+              <div class="row">
+                <div class="col-md-4">
+                  <select class="input-small form-control" id="category">
+                    <option value="1">Điểm đến</option>
+                    <option value="2">Ăn uống</option>
+                    <option value="3">Khách Sạn</option>
+                  </select>
+                  <label>Province </label>
+                  <select class="input-small form-control" id="province">
+                    <option value="1">Hà Nội</option>
+                    <option value="2">Huế</option>
+                    <option value="3">Đà Nẵng</option>
+                  </select>
+                </div>
+              </div>
+              <label>Thumbnail </label>
+              <input class="btn btn-primary btn-file" type="file" name="upload_file" id="upload_file" value="Select file">
+            </div>
+          </div>
+          <!-- /.row -->
+          <div class="row">
+            <textarea class="input-block-level" id="summernote" name="content" rows="18">
+      					</textarea>
+            <input class="btn btn-primary" style="margin-bottom:20px;" type="submit" name="submit" id="submit" value="Đăng bài">
+            <script>
+              $(document).ready(function () {
+                $('#summernote').summernote({
+                  height: 500,
+                  toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['hr', 'bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontname', 'fontsize']],
+                    ['color', ['color']],
+                    ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
+                    ['height', ['height']],
+                    ['insert', ['picture', 'link', 'video', 'table']],
+                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+                  ]
+                });
 
-    </div>
-    <!-- /#wrapper -->
+                var postForm = function () {
+                  var content = $('textarea[name="content"]').html($('#summernote').code());
+                }
+              });
+            </script>
+          </div>
 
-    <!-- jQuery -->
-    <!-- <script src="../vendor/jquery/jquery.min.js"></script> -->
+        </form>
+      </div>
+      <!-- /#page-wrapper -->
 
-    <!-- Bootstrap Core JavaScript -->
-    <!-- <script src="../vendor/bootstrap/js/bootstrap.min.js"></script> -->
+  </div>
+  <!-- /#wrapper -->
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../public/vendor/metisMenu/metisMenu.min.js"></script>
+  <!-- jQuery -->
+  <!-- <script src="../vendor/jquery/jquery.min.js"></script> -->
 
-    <!-- Custom Theme JavaScript -->
-    <script src="../public/dist/js/sb-admin-2.js"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <!-- <script src="../vendor/bootstrap/js/bootstrap.min.js"></script> -->
+
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="../public/vendor/metisMenu/metisMenu.min.js"></script>
+
+  <!-- Custom Theme JavaScript -->
+  <script src="../public/dist/js/sb-admin-2.js"></script>
 
 </body>
 

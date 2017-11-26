@@ -5,73 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/x-icon" href="../public/images/travel.png" />
+
   <title>
     <%=title%>
   </title>
+  <link rel="stylesheet" href="../public/css/style.css">
   <!-- Bootstrap Core CSS -->
   <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
   <!-- MetisMenu CSS -->
   <link href="../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-
   <!-- Custom CSS -->
   <link href="../public/dist/css/sb-admin-2.css" rel="stylesheet">
-
   <!-- Custom Fonts -->
   <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <script src="../public/vendor/jquery/jquery.min.js"></script>
-
-  <style>
-    /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-
-    #map {
-      height: 500px;
-      margin-bottom: 20px;
-      margin-top: 10px;
-    }
-
-    /* Optional: Makes the sample page fill the window. */
-
-    html,
-    body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
-    #description {
-      font-family: Roboto;
-      font-size: 15px;
-      font-weight: 300;
-    }
-
-    #infowindow-content .title {
-      font-weight: bold;
-    }
-
-    #infowindow-content {
-      display: none;
-    }
-
-    #map #infowindow-content {
-      display: inline;
-    }
-
-    .pac-controls label {
-      font-family: Roboto;
-      font-size: 13px;
-      font-weight: 300;
-    }
-
-    #pac-input:focus {
-      border-color: #4d90fe;
-    }
-
-    #bt-submit {
-      margin-top: 10px;
-    }
-  </style>
 </head>
 
 <body>
@@ -153,7 +100,7 @@
   <!-- modal add success -->
   <div id="modalError" class="modal fade" role="dialog">
     <div class="modal-dialog">
-  
+
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -168,12 +115,14 @@
           <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
         </div>
       </div>
-  
+
     </div>
   </div>
 
+  <script src="../public/vendor/jquery/jquery.min.js"></script>
   <script src="../public/js/add-place.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
+    async defer></script>
   <!-- Bootstrap Core JavaScript -->
   <script src="../public/vendor/bootstrap/js/bootstrap.min.js"></script>
 
