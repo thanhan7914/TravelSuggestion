@@ -103,6 +103,8 @@ exports.get_news_by_id = function(req, res) {
 exports.add_news = function(req, res) {
     if(!util.hasattr(req.body, ['title', 'content', 'category_id', 'province_id']))
          return res.handle_error(new Error('missing parameter'));
+    if(!util.hasattr(req.body, ['title', 'content', 'category_id', 'province_id']))
+         return res.handle_error(new Error('title, content, province or category not empty'));
 
     //check
     var params = {
