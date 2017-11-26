@@ -1,5 +1,3 @@
-import { Error } from 'mongoose';
-
 const _ = require('lodash');
 const Place = require('../../../model/place');
 const Province = require('../../../model/province');
