@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $.get('http://tlsg.tk/api/news/list', function (data, status) {
+    $.get('http://tlsg.tk/api/news/list?l=40', function (data, status) {
         let i = 0;
         data.news.forEach(function (el) {
             $('#tableLN').find('tbody')

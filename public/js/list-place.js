@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $.get('http://tlsg.tk/api/places/list', function (data, status) {
+    $.get('http://tlsg.tk/api/places/list?l=40', function (data, status) {
         let i = 0;
         data.places.forEach(function (el) {
             $('#tableLP').find('tbody')
