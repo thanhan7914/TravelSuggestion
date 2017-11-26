@@ -148,6 +148,7 @@ router.post('/photo/remove', photo.remove_photo);
 
 //account
 router.get('/account/list', account.get_list);
+router.get('/account/get-account', account.get_account);
 
 /** Add a account - parameter
  * username: String

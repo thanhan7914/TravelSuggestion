@@ -24,7 +24,7 @@ module.exports = function(req, res, next) {
         res.json({status: 200, message: 'task completion.'});
     };
     res.handle_error = function (error) {
-        res.json({error: error.message});
+        res.json({status: 404, error: error.message});
     };
     res.array_dump = function(data) {
         res.json(data);
