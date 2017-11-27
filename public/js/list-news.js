@@ -15,7 +15,7 @@ $(document).ready(function () {
                         .text(el.date)
                     )
                     .append($('<td>')
-                        .html('<a style="margin-left:10px;" data-toggle="modal" href="" class="btnEdit" id="' + el._id +
+                        .html('<a style="margin-left:10px;" href="http://localhost:3000/admin/edit-news/news-id/'+el._id +'"'+' class="btnEdit" id="' + el._id +
                         '"><span class="glyphicon glyphicon-pencil "></span></a><a class="btnDelete" data-toggle="modal" style="margin-left:20px;color:red;" href="" id="' + el._id + '"><span class="glyphicon glyphicon-trash "></span></a>')
                     )
                 );

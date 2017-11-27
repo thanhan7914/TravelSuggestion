@@ -39,8 +39,22 @@ $(document).ready(function () {
         });
     });
 
+    let news_id = $('#news_id').val();
+    // console.log(news_id);
+    $.get('http://tlsg.tk/api/news/' + news_id, function (data, status) {
+        // console.log(data.news);
+        $('#title').val(data.news[0].title);
+        $("div #category option[value=" + data.news[0]._id + "]")
+            .prop("selected", true);
+        $("div #province option[value=" + data.news[0].province._id + "]")
+            .prop("selected", true);
+        $('#summernote').summernote('code', data.news[0].content);
+        $('#tag').val(data.news[0].tag);
+        $('#thumbnail').val(data.news[0].thumbnail);
+    });
 
     $('#bt_submit').click(function () {
+       
         let a = $('#title').val();
         let b = $('#category').val();
         let c = $('#province').val();
@@ -48,8 +62,9 @@ $(document).ready(function () {
         let e = $('#tag').val();
         let f = $('#thumbnail').val();
         let g = new Date();
-        console.log('A: ' + a + ' B: ' + b + ' C: ' + c + ' D: ' + d + ' E:' + e + ' F:' + f + ' G:' + g);
-        $.post('http://tlsg.tk/api/news/add', {
+        let k = $('#news_id').val();
+
+        $.post('http://tlsg.tk/api/news/update', {
             title: a,
             category_id: b,
             province_id: c,
@@ -57,12 +72,13 @@ $(document).ready(function () {
             tag: e,
             thumbnail: f,
             date: g,
-            token: '6ba2b9df31680dcda5a4a083'
+            token: '6ba2b9df31680dcda5a4a083',
+            news_id: k
         }, function (data, message) {
             if (data.status == 200) {
                 $('#modalConfirm').modal('show');
                 $('#modalConfirm').on('click', '#btnOk', function () {
-                    window.location.replace('http://tlsg.tk/admin/post-news');
+                    window.location.replace('http://tlsg.tk/admin/list-news');
                 });
 
             } else {
@@ -70,8 +86,7 @@ $(document).ready(function () {
                 $('#modalError').on('click', '#btOk', function () {
                 });
             }
-
         });
     });
-
+     
 });
