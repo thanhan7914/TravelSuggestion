@@ -68,6 +68,12 @@ router.get('/list-place',function(req,res){
     res.redirect('/admin/login');
   }
 });
-
+router.get('/edit-place/place-id/:id', function (req,res) {
+  if (req.session.email) {
+    res.render('edit-place', { title: 'Admin | Edit-place', place_id: req.params.id });
+  } else {
+    res.redirect('/admin/login');
+  }
+});
 
 module.exports = router;

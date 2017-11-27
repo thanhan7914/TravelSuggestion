@@ -48,4 +48,8 @@ body { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAA
 
     #bt-submit {
       margin-top: 10px;
+      margin-bottom: 20px;
     }
+.form-control{
+  border-radius: 0px !important;
+}

@@ -1,3 +1,4 @@
+
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -65,6 +66,8 @@ function initMap() {
         infowindow.open(map, marker);
     });
 }
+
+
 // post data form to server throught 
 $(document).ready(function () {
 
@@ -94,8 +97,21 @@ $(document).ready(function () {
     });
 
 
+    let id = $('#place_id').val();
+    $.get('http://tlsg.tk/api/place/' + id, function (data, status) {
+        // console.log(data.place);
+        $('#place_name').val(data.place.place_name);
+        $('#pac-input').val(data.place.address);
+        $('#sub_category').val(data.place.subcategory.sub_category_name);
+        $('#province').val(data.place.province.province_name);
+        $('#phone').val(data.place.phone);
+        $('#tag').val(data.place.tag);
+        $('#thumbnail').val(data.place.thumbnail);
+        $('#detail').val(data.place.detail);
+
+    });
+
     $('#bt-submit').click(function () {
-        // add new place use method post with ajax
         let a = $('#sub_category').val();
         let b = $('#province').val();
         let c = $('#thumbnail').val();
@@ -104,8 +120,13 @@ $(document).ready(function () {
         let f = $('#pac-input').val();
         let g = $('#tag').val();
         let h = $('#detail').val();
+        let k = $('#place_id').val();
 
-        $.post('http://tlsg.tk/api/place/add', {
+        console.log('A:' + a + ' B:' + b + ' C:' + c + ' D:' + d + ' E:' + e + ' F:' + f + ' G:' + g + ' H:' + h);
+
+
+        $.post('http://tlsg.tk/api/place/update', {
+            'place_id': k,
             'token': '6ba2b9df31680dcda5a4a083',
             'sub_category_id': a,
             'province_id': b,
@@ -115,23 +136,19 @@ $(document).ready(function () {
             'address': f,
             'tag': g,
             'detail': h
-        }, function (data, message) {
+        }, function (data, status) {
+            // console.log(data);
             if (data.status == 200) {
                 $('#modalConfirm').modal('show');
-                // console.log('A:' + a + 'B:' + b + 'C:' + c + 'D:' + d + 'E:' + e + 'F:' + f + 'G:' + g + 'H:' + h);
                 $('#modalConfirm').on('click', '#btnOk', function () {
-                    window.location.replace('http://tlsg.tk/admin/add-place');
+                    window.location.replace('http://tlsg.tk/admin/list-place');
                 });
-
             } else {
                 $('#modalError').modal('show');
                 $('#modalError').on('click', '#btOk', function () {
-                    window.location.replace('http://tlsg.tk/admin/add-place');
                 });
             }
-        });
-
+        })
     });
-
 
 });

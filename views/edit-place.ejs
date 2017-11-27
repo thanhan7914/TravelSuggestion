@@ -2,38 +2,23 @@
 <html lang="en">
 
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="shortcut icon" type="image/x-icon" href="../public/images/travel.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/x-icon" href="../../../public/images/travel.png" />
 
   <title>
     <%=title%>
   </title>
-
+  <link rel="stylesheet" href="../../../public/css/style.css">
   <!-- Bootstrap Core CSS -->
-  <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+  <link href="../../../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- MetisMenu CSS -->
-  <link href="../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-
+  <link href="../../../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
   <!-- Custom CSS -->
-  <link href="../public/dist/css/sb-admin-2.css" rel="stylesheet">
-
+  <link href="../../../public/dist/css/sb-admin-2.css" rel="stylesheet">
   <!-- Custom Fonts -->
-  <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
+  <link href="../../../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -42,151 +27,115 @@
 
     <!-- Navigation -->
     <% include ./layout/nav%>
-
-      <!-- Page Content -->
       <div id="page-wrapper">
         <div class="container-fluid">
+
           <div class="row">
             <div class="col-lg-12">
-              <h1 class="page-header">Chỉnh sửa địa điểm du lịch</h1>
+              <h4 class="page-header">Thêm địa điểm du lịch</h4>
             </div>
-            <!-- /.col-lg-12 -->
           </div>
-          <!-- /.row -->
 
           <div class="row">
-            <form class="form-group" action="index.html" method="post">
-              <div class="row">
-                <div class="col-md-8">
-                  <label for="">Place Names</label>
-                  <input class="form-control" type="text" name="place_name" value="" placeholder="Place Names here...">
-                  <label>Thumbnail </label>
-                  <input class="btn btn-default btn-file" type="file" name="upload_file" value="Select file">
+            <div class="col-lg-6">
+              <label for="">Place ID</label>
+              <input class="form-control" type="text" name="" id="place_id" value="<%=place_id%>" disabled>
+              <label for="">Place Name</label>
+              <input class="form-control form-control-sm" type="text" id="place_name" placeholder="Place Name...">
+              <label for="pac-input">Address </label>
+              <input class="form-control form-control-sm" id="pac-input" type="text" placeholder="Enter a location...">
+              <label for="">Category</label>
+              <select class="form-control form-control-sm" name="category" id="sub_category"></select>
+              <label for="">Province</label>
+              <select class="form-control form-control-sm" name="province" id="province"></select>
+              <label for="">Phone</label>
+              <input class="form-control form-control-sm" id="phone" type="text" placeholder="Number phone...">
+              <label for="">Tag</label>
+              <input class="form-control form-control-sm" type="text" name="tag" id="tag" placeholder="Tag...">
+              <label for="">Thumbnail</label>
+              <input class="form-control form-control-sm" id="thumbnail" type="text" placeholder="Thumbnail...">
+              <label for="">Detail</label>
+              <textarea class="form-control" id="detail" rows="5" placeholder="Detail..."></textarea>
+              <!-- <input type="text" class="form-control form-control-sm" id="detail" placeholder="Detail..."> -->
+              <input class="btn btn-primary" id="bt-submit" type="submit" value="SAVE">
+              <div class="pac-card" id="pac-card">
+                <div id="pac-container">
+
                 </div>
               </div>
-              <!-- /.row -->
-              <div class="row">
-                <div class="col-md-4">
-                  <label for="">Category</label>
-                  <select class="form-control" id="sub_category">
-                    <option value="1_1">Thiên nhiên</option>
-                    <option value="1_2">Tâm linh</option>
-                    <option value="1_3">Di sản văn hóa thế giới</option>
-                    <option value="1_4">Bảo tàng</option>
-                    <option value="1_5">Làng quê</option>
-                  </select>
-
-                  <label>Province </label>
-                  <select class="input-small form-control" id="province">
-                    <option value="1">Hà Nội</option>
-                    <option value="2">Huế</option>
-                    <option value="3">Đà Nẵng</option>
-                  </select>
-                  <label for="">Address</label>
-                  <div id="locationField">
-                    <input class="form-control" id="autocomplete" placeholder="Enter address ..." onFocus="geolocate()" type="text"></input>
-                  </div>
-
-                  <script>
-                    // This example displays an address form, using the autocomplete feature
-                    // of the Google Places API to help users fill in the information.
-
-                    // This example requires the Places library. Include the libraries=places
-                    // parameter when you first load the API. For example:
-                    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-                    var placeSearch, autocomplete;
-                    var componentForm = {
-                      street_number: 'short_name',
-                      route: 'long_name',
-                      locality: 'long_name',
-                      administrative_area_level_1: 'short_name',
-                      country: 'long_name',
-                      postal_code: 'short_name'
-                    };
-
-                    function initAutocomplete() {
-                      // Create the autocomplete object, restricting the search to geographical
-                      // location types.
-                      autocomplete = new google.maps.places.Autocomplete(
-                        /** @type {!HTMLInputElement} */
-                        (document.getElementById('autocomplete')), {
-                          types: ['geocode']
-                        });
-
-                      // When the user selects an address from the dropdown, populate the address
-                      // fields in the form.
-                      autocomplete.addListener('place_changed', fillInAddress);
-                    }
-
-                    function fillInAddress() {
-                      // Get the place details from the autocomplete object.
-                      var place = autocomplete.getPlace();
-
-                      for (var component in componentForm) {
-                        document.getElementById(component).value = '';
-                        document.getElementById(component).disabled = false;
-                      }
-
-                      // Get each component of the address from the place details
-                      // and fill the corresponding field on the form.
-                      for (var i = 0; i < place.address_components.length; i++) {
-                        var addressType = place.address_components[i].types[0];
-                        if (componentForm[addressType]) {
-                          var val = place.address_components[i][componentForm[addressType]];
-                          document.getElementById(addressType).value = val;
-                        }
-                      }
-                    }
-
-                    // Bias the autocomplete object to the user's geographical location,
-                    // as supplied by the browser's 'navigator.geolocation' object.
-                    function geolocate() {
-                      if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function (position) {
-                          var geolocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                          };
-                          var circle = new google.maps.Circle({
-                            center: geolocation,
-                            radius: position.coords.accuracy
-                          });
-                          autocomplete.setBounds(circle.getBounds());
-                        });
-                      }
-                    }
-                  </script>
-                  <input class="btn btn-primary" style="margin-top:20px;" type="submit" name="" value="Thêm địa điểm">
-                </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="" id="map"></div>
+              <div id="infowindow-content">
+                <img src="" width="16" height="16" id="place-icon">
+                <span id="place-name" class="title"></span>
+                <br>
+                <span id="place-address"></span>
               </div>
-              <!-- /.row -->
-            </form>
-            <!-- /form -->
+            </div>
           </div>
-          <!-- .row -->
         </div>
-        <!-- /.container-fluid -->
       </div>
-      <!-- /#page-wrapper -->
-
   </div>
-  <!-- /#wrapper -->
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initAutocomplete"
+
+  <!-- confirm box update success -->
+  <div id="modalConfirm" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Notification</h4>
+        </div>
+        <div class="modal-body">
+          <p>Update place success!</p>
+          <input type="hidden" id="hiddenVal">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- modal add fail -->
+  <div id="modalError" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Notification</h4>
+        </div>
+        <div class="modal-body">
+          <p>Update fail!</p>
+          <input type="hidden" id="hiddenVal">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script src="../../../public/vendor/jquery/jquery.min.js"></script>
+  <script src="../../../public/js/edit-place.js"></script>
+
+  <!-- <script src="../../../public/js/add-place.js"></script> -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
     async defer></script>
-  <!-- jQuery -->
-  <script src="../public/vendor/jquery/jquery.min.js"></script>
-
   <!-- Bootstrap Core JavaScript -->
-  <script src="../public/vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../../public/vendor/bootstrap/js/bootstrap.min.js"></script>
 
   <!-- Metis Menu Plugin JavaScript -->
-  <script src="../public/vendor/metisMenu/metisMenu.min.js"></script>
+  <script src="../../../public/vendor/metisMenu/metisMenu.min.js"></script>
 
   <!-- Custom Theme JavaScript -->
-  <script src="../public/dist/js/sb-admin-2.js"></script>
-
+  <script src="../../../public/dist/js/sb-admin-2.js"></script>
 </body>
 
 </html>
