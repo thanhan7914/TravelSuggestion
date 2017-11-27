@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const util = require('./util');
 
 module.exports = function(req, res, next) {
-    // attach header
+    // Attach header
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');    
     // Request methods you wish to allow

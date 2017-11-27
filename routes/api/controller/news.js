@@ -90,12 +90,11 @@ exports.get_news_by_id = function(req, res) {
     if(!req.isValidObjectId(req.params.news_id))
         return res.handle_error(new Error('invalid ObjectId'));
 
-    res.json({status: 200});
     News.find({_id: req.params.news_id})
     .populate('province')
     .populate('category')
     .then((news) => {
-        res.json(news);
+        res.json({status: 200, news});
     })
     .catch(res.handle_error);
 };

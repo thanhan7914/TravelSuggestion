@@ -34,3 +34,4 @@ exports.add_photo = function(req, res) {
 exports.remove_photo = function(req, res) {
     res.json({status: 200});
 };
+
