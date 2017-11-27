@@ -12,9 +12,6 @@ const province = require('./controller/province');
 const photo = require('./controller/photo');
 const account = require('./controller/account');
 
-//suggestion
-const suggestion = require('./controller/suggestion');
-
 /**
  * check token match
  */
@@ -158,6 +155,11 @@ router.get('/account/get-account', account.get_account);
 router.post('/account/add', account.add_account);
 
 //suggestion
+const suggestion = require('./controller/suggestion');
 router.get('/places/suggestion', suggestion);
+
+//suggestion
+const mtrx = require('./matrix_factorization');
+router.get('/places/matrix-factorization', mtrx.render);
 
 module.exports = router;

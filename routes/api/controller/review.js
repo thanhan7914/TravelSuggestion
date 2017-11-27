@@ -20,7 +20,9 @@ function calc_rating(place_id) {
            return 0;
         
         reviews.forEach((review) => {
-            point += _.toNumber(review.rating);
+            let rating = _.toNumber(review.rating);
+            if(rating !== -1)
+                point += rating;
         });
 
         return (point / n_elements);
@@ -41,18 +43,28 @@ exports.get_review = function(req, res) {
 };
 
 exports.add_review = function(req, res) {
-    if(!_.isString(req.body.place_id) || !_.isString(req.body.username)
-       || _.isNull(req.body.rating) || !_.isString(req.body.comment))
+    if(!_.isString(req.body.place_id) || !_.isString(req.body.username))
+    //    || _.isNull(req.body.rating) || !_.isString(req.body.comment))
         return res.json({error: 'missing params'});
     
     if(!req.isValidObjectId(req.body.place_id))
         return res.json({error: 'objectId invalid'});
 
     var params = {};
-    params.rating = _.toNumber(req.body.rating);
-    if(_.isNaN(params.rating) || !_.isNumber(params.rating))
-        return res.json({error: 'missing params rating'});
+    if(!_.isNull(req.body.rating))
+        params.rating = _.toNumber(req.body.rating);
+    else
+        params.rating = -1;
+    // if(_.isNaN(params.rating) || !_.isNumber(params.rating))
+    //     return res.json({error: 'missing params rating'});
     
+    if(!_.isNull(req.body.comment))
+        params.comment = req.body.comment;
+
+    if(typeof params.comment === 'undefined' &&
+        params.rating === -1)
+        return res.json({status: 400, error: 'comment or rating must contain data'});
+
     Place.findOne({_id: req.body.place_id})
     .then((place) => {
         if(_.isNull(place) || _.isEmpty(place))
@@ -69,7 +81,7 @@ exports.add_review = function(req, res) {
             place: params.place._id,
             account: account._id,
             rating: params.rating,
-            comment: req.body.comment,
+            comment: params.comment,
             create_date: Date.now()
         });
 
