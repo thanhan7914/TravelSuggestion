@@ -24,7 +24,7 @@ router.post(/[a-z0-9_\.\/]/i, function(req, res, next) {
     if(_.isString(req.body.token) && _.isEqual(req.body.token, util.token))
       return next();
     //token mismatch
-    res.json({error: 'error token mismatch'});
+    res.json({error: 'error token mismatch', status: 404});
 });
 
 router.get('/', function(req , res) {
@@ -148,6 +148,7 @@ router.post('/photo/remove', photo.remove_photo);
 
 //account
 router.get('/account/list', account.get_list);
+router.get('/account/get-account', account.get_account);
 
 /** Add a account - parameter
  * username: String

@@ -10,7 +10,7 @@ var Account = Schema({
     password: {
         type: String,
         required: [true, 'password']
-    } 
+    }
 });
 
 module.exports = mongoose.model('Account', Account);

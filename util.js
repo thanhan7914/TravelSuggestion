@@ -45,6 +45,22 @@ module.exports = {
 
         throw 'variable ##attr invalid';
     },
+    empty: function(obj, attr) {
+        if(typeof attr === 'string')
+            return obj.hasOwnProperty(attr) && obj[attr] !== '';
+        
+        if(attr instanceof Array)
+        {
+            let un = true;
+            for(let i of attr)
+                if(!(un = (obj.hasOwnProperty(i) && obj[i] !== '')))
+                    break;
+            
+            return un;
+        }
+
+        throw 'variable ##attr invalid';
+    },
     _typeof: function(variable) {
         if (variable instanceof Array) return 'array';
         if (variable instanceof Promise) return 'promise';

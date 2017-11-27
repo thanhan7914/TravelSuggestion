@@ -180,6 +180,8 @@ exports.filter = function(req, res) {
 exports.add_place = function(req, res) {
     if(!util.hasattr(req.body, ['place_name', 'address', 'detail', 'province_id', 'sub_category_id']))
          return res.handle_error(new Error('missing parameter'));
+    if(!util.hasattr(req.body, ['place_name', 'address', 'detail', 'province_id', 'sub_category_id']))
+         return res.handle_error(new Error('place_name, address, detail, province or category not empty'));
 
     //check
     var params = {
