@@ -229,6 +229,9 @@ exports.remove = function(req, res) {
         return res.handle_error(new Error('invalid place id'));
     
     Place.remove({_id: req.body.place_id})
+    .then(() => {
+        return Review.remove({place: req.body.place_id});
+    })
     .then(res.done_task)
     .catch(res.handle_error);
 };
