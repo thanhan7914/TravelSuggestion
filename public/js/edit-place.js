@@ -102,8 +102,8 @@ $(document).ready(function () {
         // console.log(data.place);
         $('#place_name').val(data.place.place_name);
         $('#pac-input').val(data.place.address);
-        $('#sub_category').val(data.place.subcategory.sub_category_name);
-        $('#province').val(data.place.province.province_name);
+        $('#sub_category').val(data.place.subcategory.category);
+        $('#province').val(data.place.province._id);
         $('#phone').val(data.place.phone);
         $('#tag').val(data.place.tag);
         $('#thumbnail').val(data.place.thumbnail);
