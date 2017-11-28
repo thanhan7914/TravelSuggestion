@@ -145,5 +145,9 @@ let build_matrix_predection = function()
 exports.render = function(req, res)
 {
     build_matrix_predection()
-    .then(res.array_dump);
+    //.then(res.array_dump);
+    .then((places) => {
+        res.json({status: 200, places});
+    })
+    .catch(res.handle_error);
 };
