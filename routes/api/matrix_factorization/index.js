@@ -130,7 +130,15 @@ let build_matrix_predection = function()
         let limit = 10;
         limit = limit > n ? n: limit;
 
-        return {status: 200, suggestion: _collumns.slice(0, limit)};
+        _collumns = _collumns.slice(0, limit);
+        var filter = {$or: []};
+        _collumns.forEach((col) => {
+            filter.$or.push({_id: col.place});
+        });
+
+        return Place.find(filter)
+        .sort({'rating': 'desc'});
+        //return {status: 200, suggestion: _collumns.slice(0, limit)};
     });
 };
 
