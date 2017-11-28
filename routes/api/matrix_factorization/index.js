@@ -92,11 +92,9 @@ let build_matrix = function()
     .then((data) => {
         reviews = data;
 
-        return combine(accounts, places, reviews);
-      //  return {accounts, places, reviews};
-    })
-    .then((Xboard) => {
+        let Xboard = combine(accounts, places, reviews);
         return {accounts, places, reviews, Xboard};
+      //  return {accounts, places, reviews};
     });
 };
 
