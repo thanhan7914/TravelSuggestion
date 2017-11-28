@@ -19,7 +19,7 @@ $(document).ready(function () {
                         .text(el.phone)
                     )
                     .append($('<td>')
-                        .html('<a href="http://localhost:3000/admin/edit-place/place-id/'+ el._id+ '"'+ 'id="' + el._id + '" style="margin-left:10px;"><span class="glyphicon glyphicon-pencil "></span></a><a style="margin-left:15px;color:red;" href=""  data-toggle="modal" class="btnDelete" id="' + el._id + '"><span class="glyphicon glyphicon-trash"></a>')
+                        .html('<a href="http://tlsg.tk/admin/edit-place/place-id/'+ el._id+ '"'+ 'id="' + el._id + '" style="margin-left:10px;"><span class="glyphicon glyphicon-pencil "></span></a><a style="margin-left:15px;color:red;" href=""  data-toggle="modal" class="btnDelete" id="' + el._id + '"><span class="glyphicon glyphicon-trash"></a>')
                     )
                 );
 

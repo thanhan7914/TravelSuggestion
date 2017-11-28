@@ -101,7 +101,7 @@ $(document).ready(function () {
     $.get('http://tlsg.tk/api/place/' + id, function (data, status) {
         // console.log(data.place);
         $('#place_name').val(data.place.place_name);
-        $('#pac-input').val(data.place.address);
+        $('#pac-input').val(data.place.address);    
         $('#sub_category').val(data.place.subcategory.category);
         $('#province').val(data.place.province._id);
         $('#phone').val(data.place.phone);
