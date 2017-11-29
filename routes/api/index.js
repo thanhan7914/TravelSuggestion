@@ -162,4 +162,27 @@ router.get('/places/suggestion', suggestion);
 const mtrx = require('./matrix_factorization');
 router.get('/places/matrix-factorization', mtrx.render);
 
+const event_controller = require('./controller/event');
+router.get('/event/filter', event_controller.filter);
+//using get query ?province_id=&sub_category_id&p=&l=&name&address=&rating=
+/** Add a place - parameter (add, update)
+ * sub_category_id: ObjectId
+ * province_id: ObjectId
+ * thumbnail: String [*]
+ * place_name: String
+ * phone: String [*]
+ * address: String
+ * tag: String [*]
+ * detail: String
+ */
+
+router.post('/event/add', event_controller.add_event);
+router.get('/event/:event_id', event_controller.get_event_by_id);
+/**
+ * Remove a place - parameter
+ * place_id: ObjectId
+ */
+router.post('/event/remove', event_controller.remove);
+
+
 module.exports = router;

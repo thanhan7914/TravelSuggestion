@@ -59,7 +59,6 @@ exports.get_places = function(req, res) {
     .catch(res.handle_error);
 };
 
-
 exports.get_places_with_category = function(req, res) {
     util.inherit(req.query, req.params);
     /**
