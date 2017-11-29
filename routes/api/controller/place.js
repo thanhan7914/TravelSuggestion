@@ -14,7 +14,8 @@ const publicConfig = {
     encode_polylines:   false,
     secure:             true
   };
-  var gmAPI = new GoogleMapsAPI(publicConfig);
+
+const  gmAPI = new GoogleMapsAPI(publicConfig);
 
 exports.get_reviews = function(req, res) {
     if(!req.isValidObjectId(req.params.place_id))
@@ -115,7 +116,7 @@ exports.get_place_by_id = function(req, res) {
     if(!req.isValidObjectId(req.params.place_id))
         return res.handle_error(new Error('invalid place id'));
 
-    let place, photos, relative;
+    let place, photos, relative, reviews;
     Place.findOne({_id: req.params.place_id})
     .populate('subcategory')
     .populate('province')
@@ -146,6 +147,13 @@ exports.get_place_by_id = function(req, res) {
     .then((_relative) => {
         relative = _relative;
 
+        return Review.find({place: req.params.place_id})
+        //    .populate('place')
+            .populate('account', ['username']);
+    })
+    .then((_reviews) => {
+        reviews = _reviews;
+
         return new Promise((r, rj) => {
             // geocode API
             const geocodeParams = {
@@ -162,7 +170,7 @@ exports.get_place_by_id = function(req, res) {
         });
     })
     .then((geo) => {
-        res.json({status: 200, place, photos, relative, geo});
+        res.json({status: 200, place, reviews, photos, relative, geo});
     })
     .catch(res.handle_error);
 };
