@@ -167,6 +167,8 @@ exports.update = function(req, res) {
             params.province = req.body.province_id;
         if (_.isString(req.body.category_id))
             params.category = req.body.category_id;
+        if (_.isString(req.body.content))
+            params.content = req.body.content;
         
         params.date = Date.now();
 
