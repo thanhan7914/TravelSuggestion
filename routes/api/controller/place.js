@@ -170,6 +170,10 @@ exports.get_place_by_id = function(req, res) {
         });
     })
     .then((geo) => {
+        if(_.isNull(photos)) photos = [];
+        if(_.isNull(reviews)) reviews = [];
+        if(_.isNull(relative)) relative = [];
+        
         res.json({status: 200, place, reviews, photos, relative, geo});
     })
     .catch(res.handle_error);
