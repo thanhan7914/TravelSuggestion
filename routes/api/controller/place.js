@@ -123,7 +123,7 @@ exports.get_place_by_id = function(req, res) {
     .then((_place) => {
         place = _place;
 
-        Photo.find({place: req.params.place_id});
+        return Photo.find({place: req.params.place_id});
     })
     .then((_photos) => {
         photos = _photos;
@@ -173,7 +173,7 @@ exports.get_place_by_id = function(req, res) {
         if(_.isNull(photos)) photos = [];
         if(_.isNull(reviews)) reviews = [];
         if(_.isNull(relative)) relative = [];
-        
+
         res.json({status: 200, place, reviews, photos, relative, geo});
     })
     .catch(res.handle_error);
