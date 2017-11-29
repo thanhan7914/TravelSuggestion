@@ -5,7 +5,7 @@ const SubCategory = require('../../../model/subcategory');
 const Review = require('../../../model/review');
 const insert_query = require('./query');
 const util = require('../../../util');
-const Photo = require('../../model/photo');
+const Photo = require('../../../model/photo');
 
 exports.get_reviews = function(req, res) {
     if(!req.isValidObjectId(req.params.place_id))
