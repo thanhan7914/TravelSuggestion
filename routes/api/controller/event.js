@@ -111,3 +111,40 @@ exports.remove = function(req, res) {
     .then(res.done_task)
     .catch(res.handle_error);
 };
+
+exports.update = function(req, res) {
+    if (!util.hasattr(req.body, ['event_id']))
+        return res.handle_error(new Error('missing parameter event id'));
+
+    Event.findById(req.body.event_id, function(err, params) {
+        if (err)
+            return res.handle_error(err);
+
+        if (_.isString(req.body.thumbnail))
+            params.thumbnail = req.body.thumbnail;
+        if (_.isString(req.body.phone))
+            params.phone = req.body.phone;
+        if (_.isString(req.body.tag))
+            params.tag = req.body.tag;
+        if (_.isString(req.body.event_name))
+            params.event_name = req.body.event_name;
+        if (_.isString(req.body.address))
+            params.address = req.body.address;
+        if (_.isString(req.body.detail))
+            params.detail = req.body.detail;
+        if (_.isString(req.body.province_id))
+            params.province = req.body.province_id;
+        if (_.isString(req.body.organization_day))
+            params.organization_day = req.body.organization_day;
+        if (_.isString(req.body.organization))
+            params.organization = req.body.organization;
+
+        params.save(function(err2, doc) {
+            if (err2) return res.handle_error(errs);
+            res.json({
+                status: 200,
+                updated: doc
+            });
+        });
+    });
+};

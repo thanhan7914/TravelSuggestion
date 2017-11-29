@@ -177,6 +177,7 @@ router.get('/event/filter', event_controller.filter);
  */
 
 router.post('/event/add', event_controller.add_event);
+router.post('/event/update', event_controller.update);
 router.get('/event/:event_id', event_controller.get_event_by_id);
 /**
  * Remove a place - parameter
