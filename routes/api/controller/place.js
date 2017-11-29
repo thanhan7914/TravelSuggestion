@@ -5,6 +5,7 @@ const SubCategory = require('../../../model/subcategory');
 const Review = require('../../../model/review');
 const insert_query = require('./query');
 const util = require('../../../util');
+const Photo = require('../../model/photo');
 
 exports.get_reviews = function(req, res) {
     if(!req.isValidObjectId(req.params.place_id))
@@ -104,12 +105,29 @@ exports.get_place_by_id = function(req, res) {
         return res.handle_error(new Error('missing parameter'));
     if(!req.isValidObjectId(req.params.place_id))
         return res.handle_error(new Error('invalid place id'));
-    
+
+    let place, photos;
     Place.findOne({_id: req.params.place_id})
     .populate('subcategory')
     .populate('province')
-    .then((place) => {
-        res.json({status: 200, place});
+    .then((_place) => {
+        place = _place;
+
+        Photo.find({place: req.params.place_id});
+    })
+    .then((_photos) => {
+        photos = _photos;
+
+        if(place.tag.trim() === '')
+        {
+            let tag = new RegExp('(' + place.tag.split(',').map((v) => v.trim()).join(')|(') + ')', 'gi');
+            return Place.find({tag});
+        }
+        else
+           return Place.find({province: place.province});
+    })
+    .then((relative) => {
+        res.json({status: 200, place, photos, relative});
     })
     .catch(res.handle_error);
 };
