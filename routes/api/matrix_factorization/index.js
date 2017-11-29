@@ -5,6 +5,8 @@ const SubCategory = require('../../../model/subcategory');
 const Review = require('../../../model/review');
 const Account = require('../../../model/account');
 const util = require('../../../util');
+const matrix = require('./matrix');
+const mf = require('./mf');
 
 let ObjectIdEquals = function(id1, id2)
 {
@@ -26,7 +28,16 @@ let get_position = function(id, Lin)
             return L.idx;
     
     return -1;
-}
+};
+
+let get_place_id = function(idx, places)
+{
+    for(let L of places)
+        if(L.idx === idx)
+            return L._id;
+    
+    return "";
+};
 
 let combine = function(accounts, places, reviews)
 {
@@ -93,13 +104,50 @@ let build_matrix = function()
         reviews = data;
 
         let Xboard = combine(accounts, places, reviews);
-        return {accounts, places, reviews, Xboard};
+        return {accounts, places, Xboard};
       //  return {accounts, places, reviews};
+    });
+};
+
+let build_matrix_predection = function() 
+{
+    return build_matrix()
+    .then((data) => {
+        let {m, n} = matrix.size(data.Xboard);
+        let min = m < n ? m : n;
+        let K =  Math.floor(Math.random() * (min - 1)) + 1;
+        let beta = 0.2;//Math.abs(Math.random());
+        let lambda = 0.6;
+        //loop
+        let loop = 10000;
+
+        let {W, H} = mf.mf_train(data.Xboard, loop, K, beta, lambda);
+        let Xbuild = mf.mf_rebuild(data.Xboard, W, H);
+
+        let _collumns = matrix.sum_collumns(Xbuild);
+        _collumns = _collumns.map((v, idx) => {return {rating: v/n, idx, place: get_place_id(idx, data.places)}; });
+        _collumns.sort((a, b) => a.rating < b.rating);
+        let limit = 10;
+        limit = limit > n ? n: limit;
+
+        _collumns = _collumns.slice(0, limit);
+        var filter = {$or: []};
+        _collumns.forEach((col) => {
+            filter.$or.push({_id: col.place});
+        });
+
+        return Place.find(filter)
+        .sort({'rating': 'desc'});
+        //return {status: 200, suggestion: _collumns.slice(0, limit)};
     });
 };
 
 exports.render = function(req, res)
 {
-    build_matrix()
-    .then(res.array_dump);
+    build_matrix_predection()
+    //.then(res.array_dump);
+    .then((places) => {
+        res.json({status: 200, places});
+    })
+    .catch(res.handle_error);
 };
