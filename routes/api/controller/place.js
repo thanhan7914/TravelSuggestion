@@ -118,13 +118,21 @@ exports.get_place_by_id = function(req, res) {
     .then((_photos) => {
         photos = _photos;
 
-        if(place.tag.trim() === '')
+        if(typeof place.tag !== 'undefined' && place.tag.trim() !== '')
         {
             let tag = new RegExp('(' + place.tag.split(',').map((v) => v.trim()).join(')|(') + ')', 'gi');
-            return Place.find({tag});
+            return Place.find({
+                tag,
+                _id: {$ne: place._id}
+            })
+            .limit(6);
         }
         else
-           return Place.find({province: place.province});
+           return Place.find({
+               province: place.province,
+               _id: {$ne: place._id}
+            })
+           .limit(6);
     })
     .then((relative) => {
         res.json({status: 200, place, photos, relative});
