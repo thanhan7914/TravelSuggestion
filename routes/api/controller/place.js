@@ -7,6 +7,15 @@ const insert_query = require('./query');
 const util = require('../../../util');
 const Photo = require('../../../model/photo');
 
+const GoogleMapsAPI = require('googlemaps');
+const publicConfig = {
+    key: 'AIzaSyD2tKEYkzH_23dAcPnXnbkBzcc_U26Gxxw',
+    stagger_time:       1000,
+    encode_polylines:   false,
+    secure:             true
+  };
+  var gmAPI = new GoogleMapsAPI(publicConfig);
+
 exports.get_reviews = function(req, res) {
     if(!req.isValidObjectId(req.params.place_id))
          return res.handle_error(new Error('invalid ObjectId'));
@@ -106,7 +115,7 @@ exports.get_place_by_id = function(req, res) {
     if(!req.isValidObjectId(req.params.place_id))
         return res.handle_error(new Error('invalid place id'));
 
-    let place, photos;
+    let place, photos, relative;
     Place.findOne({_id: req.params.place_id})
     .populate('subcategory')
     .populate('province')
@@ -134,8 +143,26 @@ exports.get_place_by_id = function(req, res) {
             })
            .limit(6);
     })
-    .then((relative) => {
-        res.json({status: 200, place, photos, relative});
+    .then((_relative) => {
+        relative = _relative;
+
+        return new Promise((r, rj) => {
+            // geocode API
+            const geocodeParams = {
+                "address":    place.address,
+                "components": "components=country:VN",
+                "language":   "en",
+                "region":     "vn"
+            };
+              
+            gmAPI.geocode(geocodeParams, function(err, result){
+                 if(err) rj(err);
+                 r(result.results[0]);
+            });
+        });
+    })
+    .then((geo) => {
+        res.json({status: 200, place, photos, relative, geo});
     })
     .catch(res.handle_error);
 };
