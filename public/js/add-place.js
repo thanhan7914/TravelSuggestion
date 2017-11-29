@@ -92,6 +92,16 @@ $(document).ready(function () {
         });
     });
 
+    $.get('http://tlsg.tk/api/category/sub-list/59e321f42a36f02f45b3fdcc', function (data, status) {
+        data.forEach(element => {
+            $('#sub_category')
+                .append($('<option></option>')
+                    .attr('value', element._id)
+                    .text(element.sub_category_name));
+
+        });
+    });
+
     $('#category').change(function () {
         let a = $('#category').val();
         $('#sub_category option').remove();
