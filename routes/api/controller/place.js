@@ -51,7 +51,7 @@ exports.get_places = function(req, res) {
     if(_.isNaN(l)) l = 10;
     if(_.isNaN(s)) s = 0;
     
-    var count = 0;
+    var count = 0, places;
 
     Place.count({})
     .then((c) => {
@@ -60,11 +60,13 @@ exports.get_places = function(req, res) {
         return Place.find({})
         .limit(l)
         .skip(s)
-        .sort({place_name: 'asc'})
-        .populate('subcategory')
-        .populate('province');
+        .select(['place_name', 'rating', 'tag', 'thumbnail'])
+        .sort({place_name: 'asc'});
+        // .populate('subcategory')
+        // .populate('province');
     })
-    .then((places) => {
+    .then((_places) => {
+        places = _places.map((place) => {place.c_reviews = 2; return place;});
         res.json({status: 200, count, places});
     })
     .catch(res.handle_error);
@@ -87,6 +89,7 @@ exports.get_places_with_category = function(req, res) {
     if(_.isNaN(s)) s = 0;
 
     var filter = {$or: []};
+    var places;
 
     SubCategory.find({category: req.params.category_id})
     .then((subcats) => {
@@ -100,11 +103,14 @@ exports.get_places_with_category = function(req, res) {
         return Place.find(filter)
         .limit(l)
         .skip(s)
-        .sort({place_name: 'asc'})
-        .populate('subcategory')
-        .populate('province')
+        .select(['place_name', 'rating', 'tag', 'thumbnail'])
+        .sort({place_name: 'asc'});
+//        .populate('subcategory')
+  //      .populate('province');
     })
-    .then((places) => {
+    .then((_places) => {
+        places = _places.map((place) => {place.c_reviews = 2; return place;});
+
         res.json({status: 200, places});
     })
     .catch(res.handle_error);
@@ -227,15 +233,17 @@ exports.filter = function(req, res) {
         return Place.find(params)
         .limit(l)
         .skip(s)
-        .sort({place_name: 'asc'})
-        .populate('subcategory')
-        .populate('province');
+        .select(['place_name', 'rating', 'tag', 'thumbnail'])
+        .sort({place_name: 'asc'});
+        // .populate('subcategory')
+        // .populate('province');
     })
     .then((places) => {
         //save a query with name
         if(util.hasattr(req.params, 'name'))
              insert_query(req.params.name, places);
 
+        places = places.map((place) => {place.c_reviews = 2; return place;});
         res.json({status: 200, count, places});
     })
     .catch(res.handle_error);
