@@ -42,8 +42,22 @@
               <input class="form-control form-control-sm" type="text" id="place_name" placeholder="Place Name...">
               <label for="pac-input">Address </label>
               <input class="form-control form-control-sm" id="pac-input" type="text" placeholder="Enter a location...">
-              <label for="">Category</label>
-              <select class="form-control form-control-sm" name="category" id="sub_category"></select>
+              <!-- <label for="">Category</label>
+              <select class="form-control form-control-sm" name="category" id="sub_category"></select> -->
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="">Category</label>
+                  <select class="form-control" name="" id="category">
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="">Sub Category</label>
+                  <select name="" class="form-control" id="sub_category">
+
+                  </select>
+                </div>
+
+              </div>
               <label for="">Province</label>
               <select class="form-control form-control-sm" name="province" id="province"></select>
               <label for="">Phone</label>
@@ -131,6 +145,36 @@
 
   <!-- Custom Theme JavaScript -->
   <script src="../public/dist/js/sb-admin-2.js"></script>
+
+  <script>
+
+    $(document).ready(function () {
+
+      $.get('http://tlsg.tk/api/category/list', function (data, status) {
+        data.forEach(element => {
+          $('#category')
+            .append($('<option></option>')
+              .attr('value', element._id)
+              .text(element.category_name));
+
+        });
+      });
+
+      $('#category').change(function(){
+        let a =  $('#category').val();
+        $('#sub_category option').remove();
+        $.get('http://tlsg.tk/api/category/sub-list/'+a,function(data,status){
+          data.forEach(element => {
+            $('#sub_category')
+              .append($('<option></option>')
+                .attr('value', element._id)
+                .text(element.sub_category_name));
+
+          });
+        });
+      });
+    });
+  </script>
 </body>
 
 </html>
