@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var Photo = Schema({
+var File = Schema({
     _id: Schema.Types.ObjectId,
-    place: {
-        type: Schema.Types.ObjectId,
-        ref: 'Place'
-    },
     file_name: {
         type: String,
         required: true
@@ -21,4 +17,4 @@ var Photo = Schema({
     }
 });
 
-module.exports = mongoose.model('Photo', Photo);
+module.exports = mongoose.model('File', File);
