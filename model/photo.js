@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var Photo = Schema({
-    _id: Schema.Types.ObjectId,
     place: {
         type: Schema.Types.ObjectId,
         ref: 'Place'

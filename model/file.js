@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var File = Schema({
-    _id: Schema.Types.ObjectId,
     file_name: {
         type: String,
         required: true
