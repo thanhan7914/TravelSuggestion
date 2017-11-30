@@ -66,9 +66,7 @@ exports.filter = function(req, res) {
     if(_.isNaN(l)) l = 10;
     if(_.isNaN(s)) s = 0;
 
-    var params = {
-        province: req.params.province_id
-    };
+    var params = {};
 
     var count = 0;
 
@@ -79,8 +77,8 @@ exports.filter = function(req, res) {
     if(util.hasattr(req.params, 'rating'))
         params.rating = _.toNumber(req.params.rating);
 
-    if((!_.isUndefined(params.province) && !req.isValidObjectId(params.province)))
-       return res.handle_error(new Error('invalid ObjectId'));
+    if(!_.isUndefined(params.province) && req.isValidObjectId(params.province))
+       params.province = req.params.province_id;
 
     Event.count(params)
     .then((c) => {
