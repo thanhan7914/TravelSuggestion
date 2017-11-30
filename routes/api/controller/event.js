@@ -3,16 +3,46 @@ const Event = require('../../../model/event');
 const Province = require('../../../model/province');
 const util = require('../../../util');
 
+const GoogleMapsAPI = require('googlemaps');
+const publicConfig = {
+    key: 'AIzaSyD2tKEYkzH_23dAcPnXnbkBzcc_U26Gxxw',
+    stagger_time:       1000,
+    encode_polylines:   false,
+    secure:             true
+  };
+
+const  gmAPI = new GoogleMapsAPI(publicConfig);
+
 exports.get_event_by_id = function(req, res) {
     if(!_.isString(req.params.event_id))
         return res.handle_error(new Error('missing parameter'));
     if(!req.isValidObjectId(req.params.event_id))
         return res.handle_error(new Error('invalid event id'));
     
+    let event;
+
     Event.findOne({_id: req.params.event_id})
     .populate('province')
-    .then((event) => {
-        res.json({status: 200, event});
+    .then((_event) => {
+        event = _event;
+
+        return new Promise((r, rj) => {
+            // geocode API
+            const geocodeParams = {
+                "address":    event.address,
+                "components": "components=country:VN",
+                "language":   "en",
+                "region":     "vn"
+            };
+              
+            gmAPI.geocode(geocodeParams, function(err, result){
+                 if(err) rj(err);
+                 r(result.results[0]);
+            });
+        });
+    })
+    .then((geo) => {
+        res.json({status: 200, event, geo});
     })
     .catch(res.handle_error);
 };
