@@ -334,7 +334,7 @@ exports.update = function(req, res) {
             params.subcategory = req.body.sub_category_id;
 
         params.save(function(err2, doc) {
-            if (err2) return res.handle_error(errs);
+            if (err2) return res.handle_error(err2);
             res.json({
                 status: 200,
                 updated: doc
