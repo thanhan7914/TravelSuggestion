@@ -111,9 +111,24 @@ exports.get_places_with_category = function(req, res) {
             filter.$or.push({subcategory: sub._id});
         });
 
-        return Place.find(filter)
-        .limit(l)
-        .skip(s)
+        return Place.count(filter)
+        .then((c) => {
+            if(!_.isUndefined(req.params.random))
+                s = Math.floor(Math.random() * c);
+
+            let field_res = ['place_name', 'rating', 'tag', 'thumbnail', 'address'];
+            if(!_.isUndefined(req.params.field))
+            {
+                try
+                {
+                    field_res = JSON.parse(req.params.field);
+                }catch(err){}
+            }
+
+            return Place.find(filter)
+            .limit(l)
+            .skip(s);
+        })
         .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
         .sort({place_name: 'asc'})
         .populate('subcategory') 
