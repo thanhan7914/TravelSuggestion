@@ -186,4 +186,8 @@ router.get('/event/:event_id', event_controller.get_event_by_id);
 router.post('/event/remove', event_controller.remove);
 
 
+//
+const gmaps_near = require('./controller/gmaps');
+router.get('/around', gmaps_near.around);
+
 module.exports = router;
