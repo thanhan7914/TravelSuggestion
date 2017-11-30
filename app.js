@@ -33,8 +33,10 @@ app.use('/admin', require('./routes/admin'));
 
 const up_controller = require('./routes/upload');
 
-app.post('/upload', up_controller.upload);
-app.get('/list-file', up_controller.get_list);
+app.post('/upload/file', up_controller.upload);
+app.get('/upload/file-list', up_controller.get_list);
+app.get('/upload/filter', up_controller.filter);
+app.post('/upload/remove', up_controller.remove_file);
 
 app.use(function(req, res, next) {
   res.status(404);

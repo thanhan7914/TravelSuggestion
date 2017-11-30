@@ -8,7 +8,7 @@ var Event = Schema({
     },
     thumbnail: {
         type: String,
-        default: 'event_no_image.jpg'
+        default: 'http://tlsg.tk/assets/uploads/event_no_image.jpg'
     },
     event_name: {
         type: String,

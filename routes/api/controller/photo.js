@@ -32,6 +32,13 @@ exports.add_photo = function(req, res) {
 };
 
 exports.remove_photo = function(req, res) {
-    res.json({status: 200});
+    if(_.isUndefined(req.body.photo_id))
+        return res.handle_error(new Error("missing parameter photo_id"));
+    if(!req.isValidObjectId(req.body.photo_id))
+        return res.handle_error(new Error('invalid photo id'));
+        
+    Photo.remove({_id: req.body.photo_id})
+    .then(res.array_dump)
+    .catch(res.handle_error);
 };
 
