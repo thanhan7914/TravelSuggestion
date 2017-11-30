@@ -61,9 +61,9 @@ exports.get_places = function(req, res) {
         .limit(l)
         .skip(s)
         .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
-        .sort({place_name: 'asc'});
-        // .populate('subcategory')
-        // .populate('province');
+        .sort({place_name: 'asc'})
+        .populate('subcategory')
+        .populate('province');
     })
     .then((_places) => {
         places = _places.map((place) => {place.c_reviews = 2; return place;});
@@ -104,9 +104,9 @@ exports.get_places_with_category = function(req, res) {
         .limit(l)
         .skip(s)
         .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
-        .sort({place_name: 'asc'});
-//        .populate('subcategory')
-  //      .populate('province');
+        .sort({place_name: 'asc'})
+        .populate('subcategory') 
+        .populate('province');
     })
     .then((_places) => {
         places = _places.map((place) => {place.c_reviews = 2; return place;});
@@ -234,9 +234,9 @@ exports.filter = function(req, res) {
         .limit(l)
         .skip(s)
         .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
-        .sort({place_name: 'asc'});
-        // .populate('subcategory')
-        // .populate('province');
+        .sort({place_name: 'asc'})
+        .populate('subcategory')
+        .populate('province');
     })
     .then((places) => {
         //save a query with name
