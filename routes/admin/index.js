@@ -92,4 +92,21 @@ router.get('/add-event', function (req,res) {
     res.redirect('/admin/login');
   }
 });
+
+router.get('/all-event', function (req, res) {
+  if (req.session.email) {
+    res.render('all-event', { title: 'All event' });
+  } else {
+    res.redirect('/admin/login');
+  }
+});
+
+router.get('/edit-event/event-id/:id', function (req, res) {
+  if (req.session.email) {
+    res.render('edit-event', { title: 'Admin | Edit-event', event_id: req.params.id });
+  } else {
+    res.redirect('/admin/login');
+  }
+});
+
 module.exports = router;
