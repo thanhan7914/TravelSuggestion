@@ -422,6 +422,7 @@ a.article, a.article:hover {
 /* index */
 .page-content{
     margin-top: 100px;
+    margin-bottom: 30px;
 }
 
 .huge{
@@ -523,9 +524,9 @@ div#right-sidebar-title h4{
 .form-control{
   border-radius: 0px !important;
 }
-.page-content span{
+/* .page-content span{
     color: #e70e0e;
-}
+} */
 .glyphicon{
     top: 0px !important;
 }

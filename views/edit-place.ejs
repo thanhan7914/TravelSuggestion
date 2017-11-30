@@ -293,6 +293,19 @@
 
           });
         });
+
+        $.get('http://tlsg.tk/api/category/sub-list/59e321f42a36f02f45b3fdcc', function (data, status) {
+          data.forEach((i) => {
+            $('#sub_category')
+              .append($("<option></option>")
+                .attr("value", i._id)
+                .text(i.sub_category_name));
+          });
+
+
+        });
+
+
         $('#category').change(function () {
           let a = $('#category').val();
           $('#sub_category option').remove();

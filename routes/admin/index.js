@@ -85,4 +85,11 @@ router.get('/edit-news/news-id/:id', function (req,res) {
   }
 });
 
+router.get('/add-event', function (req,res) {
+  if (req.session.email) {
+    res.render('add-event', { title: 'Add event' });
+  } else {
+    res.redirect('/admin/login');
+  }
+});
 module.exports = router;
