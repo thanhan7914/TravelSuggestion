@@ -33,7 +33,7 @@ app.use('/admin', require('./routes/admin'));
 
 const up_controller = require('./routes/upload');
 
-app.post('/upload', up_controller.upload);
+app.post('/fileupload', up_controller.upload);
 app.get('/list-file', up_controller.get_list);
 
 app.use(function(req, res, next) {
