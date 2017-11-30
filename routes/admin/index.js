@@ -33,9 +33,9 @@ router.get('/logout',function(req,res){
   res.redirect('/admin/login');
 });
 
-router.get('/post-news',function(req,res){
+router.get('/add-news',function(req,res){
   if(req.session.email){
-    res.render('post-news',{title:'Post news | Admin'});
+    res.render('add-news',{title:'Add news | Admin'});
   }else{
     res.redirect('/admin/login');
   }
@@ -53,17 +53,17 @@ router.get('/add-place',function(req,res){
   }
 });
 
-router.get('/list-news',function(req,res){
+router.get('/all-news',function(req,res){
   if(req.session.email){
-    res.render('list-news',{title:'List news | Admin'});
+    res.render('all-news',{title:'All news | Admin'});
   }else{
     res.redirect('/admin/login');
   }
 });
 
-router.get('/list-place',function(req,res){
+router.get('/all-places',function(req,res){
   if(req.session.email){
-    res.render('list-place',{title: 'Add place | Admin'});
+    res.render('all-places',{title: 'Add place | Admin'});
   }else{
     res.redirect('/admin/login');
   }

@@ -24,7 +24,11 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+<<<<<<< HEAD
     "formidable": "^1.1.1",
+=======
+    "googlemaps": "^1.12.0",
+>>>>>>> 9de8d8e61e58f33909314c44b400a4b4108becae
     "lodash": "^4.17.4",
     "mongoose": "^4.12.4"
   }

@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(session);
 
 //set views engine
-app.use('/public', express.static( __dirname + '/public'));
+app.use('/assets', express.static( __dirname + '/assets'));
 app.set('views', __dirname + '/views');
 app.set('view engine','ejs');
 
@@ -30,6 +30,11 @@ app.use(require('./midez'));
 app.use('/', require('./routes'));
 app.use('/api', require('./routes/api'));
 app.use('/admin', require('./routes/admin'));
+
+const up_controller = require('./routes/upload');
+
+app.post('/upload', up_controller.upload);
+app.get('/list-file', up_controller.get_list);
 
 app.use(function(req, res, next) {
   res.status(404);

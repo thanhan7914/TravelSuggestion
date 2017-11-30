@@ -9,8 +9,8 @@
   <title>Travel Suggestion | Add news</title>
 
   <!-- Bootstrap CSS CDN -->
-  <link rel="stylesheet" href="../../../assets/css/style.css">
-  <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
   <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
   <!-- Scrollbar Custom CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
@@ -18,6 +18,8 @@
 </head>
 
 <body>
+
+
   <% include ./layout/nav%>
     <!-- start page content -->
     <div class="page-content">
@@ -26,7 +28,6 @@
         <div class="row">
           <!-- start col -->
           <div class="col-md-9">
-            <input class="form-control" type="hidden" name="" id="news_id" value="<%=news_id%>">
             <div id="post-title">
               <p>Post title
                 <span>*</span>
@@ -100,8 +101,7 @@
       </div>
     </div>
     <!-- end page content -->
-
-    <!--  -->
+    <!-- modal -->
     <div id="modalConfirm" class="modal fade" role="dialog">
       <div class="modal-dialog">
 
@@ -112,7 +112,7 @@
             <h4 class="modal-title">Notification</h4>
           </div>
           <div class="modal-body">
-            <p>Update news success!</p>
+            <p>ADD news success!</p>
             <input type="hidden" id="hiddenVal">
           </div>
           <div class="modal-footer">
@@ -134,7 +134,7 @@
             <h4 class="modal-title">Notification</h4>
           </div>
           <div class="modal-body">
-            <p>Update news fail!</p>
+            <p>ADD news fail!</p>
             <input type="hidden" id="hiddenVal">
           </div>
           <div class="modal-footer">
@@ -144,15 +144,18 @@
 
       </div>
     </div>
+    <!-- end modal -->
 
-    <script src="../../../assets/js/jquery-3.2.1.min.js"></script>
-    <script src="../../../assets/js/bootstrap.min.js"></script>
+
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/a6499bd878.js"></script>
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
     <script type="text/javascript">
       $(document).ready(function () {
+        // $('#summernote').summernote();
 
         $('#summernote').summernote({
           height: 357,
@@ -212,22 +215,8 @@
           });
         });
 
-        let news_id = $('#news_id').val();
-        // console.log(news_id);
-        $.get('http://tlsg.tk/api/news/' + news_id, function (data, status) {
-          // console.log(data.news);
-          $('#title').val(data.news[0].title);
-          $("div #category option[value=" + data.news[0]._id + "]")
-            .prop("selected", true);
-          $("div #province option[value=" + data.news[0].province._id + "]")
-            .prop("selected", true);
-          $('#summernote').summernote('code', data.news[0].content);
-          $('#tag').val(data.news[0].tag);
-          $('#thumbnail').val(data.news[0].thumbnail);
-        });
 
         $('#bt-submit').click(function () {
-
           let a = $('#title').val();
           let b = $('#category').val();
           let c = $('#province').val();
@@ -235,11 +224,8 @@
           let e = $('#tag').val();
           let f = $('#thumbnail').val();
           let g = new Date();
-          let k = $('#news_id').val();
-
-          console.log(a+' '+b+' '+c+' '+d+' '+e+' '+f+' '+g+' '+k+' ')
-
-          $.post('http://tlsg.tk/api/news/update', {
+          console.log('A: ' + a + ' B: ' + b + ' C: ' + c + ' D: ' + d + ' E:' + e + ' F:' + f + ' G:' + g);
+          $.post('http://tlsg.tk/api/news/add', {
             title: a,
             category_id: b,
             province_id: c,
@@ -247,13 +233,12 @@
             tag: e,
             thumbnail: f,
             date: g,
-            token: '6ba2b9df31680dcda5a4a083',
-            news_id: k
+            token: '6ba2b9df31680dcda5a4a083'
           }, function (data, message) {
             if (data.status == 200) {
               $('#modalConfirm').modal('show');
               $('#modalConfirm').on('click', '#btnOk', function () {
-                window.location.replace('http://tlsg.tk/admin/all-news');
+                window.location.replace('http://tlsg.tk/admin/add-news');
               });
 
             } else {
@@ -261,6 +246,7 @@
               $('#modalError').on('click', '#btOk', function () {
               });
             }
+
           });
         });
       });
