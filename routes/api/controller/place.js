@@ -60,7 +60,7 @@ exports.get_places = function(req, res) {
         return Place.find({})
         .limit(l)
         .skip(s)
-        .select(['place_name', 'rating', 'tag', 'thumbnail'])
+        .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
         .sort({place_name: 'asc'});
         // .populate('subcategory')
         // .populate('province');
@@ -103,7 +103,7 @@ exports.get_places_with_category = function(req, res) {
         return Place.find(filter)
         .limit(l)
         .skip(s)
-        .select(['place_name', 'rating', 'tag', 'thumbnail'])
+        .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
         .sort({place_name: 'asc'});
 //        .populate('subcategory')
   //      .populate('province');
@@ -233,7 +233,7 @@ exports.filter = function(req, res) {
         return Place.find(params)
         .limit(l)
         .skip(s)
-        .select(['place_name', 'rating', 'tag', 'thumbnail'])
+        .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
         .sort({place_name: 'asc'});
         // .populate('subcategory')
         // .populate('province');
