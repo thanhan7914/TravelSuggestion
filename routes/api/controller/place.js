@@ -57,10 +57,21 @@ exports.get_places = function(req, res) {
     .then((c) => {
         count = c;
 
+        if(!_.isUndefined(req.params.random))
+            s = Math.floor(Math.random() * count);
+        let field_res = ['place_name', 'rating', 'tag', 'thumbnail', 'address'];
+        if(!_.isUndefined(req.params.field))
+        {
+            try
+            {
+                field_res = JSON.parse(req.params.field);
+            }catch(err){}
+        }
+
         return Place.find({})
         .limit(l)
         .skip(s)
-        .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
+        .select(field_res)
         .sort({place_name: 'asc'})
         .populate('subcategory')
         .populate('province');
@@ -230,10 +241,22 @@ exports.filter = function(req, res) {
     .then((c) => {
         count = c;
 
+        if(!_.isUndefined(req.params.random))
+            s = Math.floor(Math.random() * count);
+        
+        let field_res = ['place_name', 'rating', 'tag', 'thumbnail', 'address'];
+        if(!_.isUndefined(req.params.field))
+        {
+            try
+            {
+                field_res = JSON.parse(req.params.field);
+            }catch(err){}
+        }
+
         return Place.find(params)
         .limit(l)
         .skip(s)
-        .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
+        .select(field_res)
         .sort({place_name: 'asc'})
         .populate('subcategory')
         .populate('province');
