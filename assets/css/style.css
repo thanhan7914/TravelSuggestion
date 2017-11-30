@@ -445,10 +445,6 @@ a.article, a.article:hover {
     text-align: center!important;
 }
 
-/* .no-gutter [class*="-3"] {
-    padding-left:0;
-    padding-right: 0;
-} */
 
 .right-sidebar .row{
     margin-bottom: 30px;
@@ -596,4 +592,21 @@ div#right-sidebar-title h4{
 #api nav{
     opacity: 0.7;
     color: #222222 !important;
+}
+
+#tableLP tbody tr:hover{
+    color: #ffffff;
+}
+
+#tableLE tbody tr:hover> td{
+    background-color: #5bc0de;
+}
+
+#tableLE tbody tr:hover> td > .action{
+    visibility: visible;
+    margin-top: 0px !important;
+}
+
+#tableLE tbody tr:hover> td > .action > #edit{
+    color: #ffffff;
 }

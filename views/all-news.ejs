@@ -198,9 +198,9 @@
 
         $('#modalConfirm').on('click', '#btnDeleteYes', function () {
           let id = $('#hiddenVal').val();
-          $.post('http://tlsg.tk/api/news/remove', {
+          $.post('http://tlsg.tk/api/event/remove', {
             token: '6ba2b9df31680dcda5a4a083',
-            news_id: id
+            event_id: id
           }, function (data, status) {
             if (data.status == 200) {
               $('#modalDeleteSuccess').modal('show');
