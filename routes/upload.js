@@ -64,8 +64,9 @@ exports.upload = function(req, res){
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
         var oldpath = files.filetoupload.path;
-        rel_path = path.join('assets/uploads', Date.now() + '_' + files.filetoupload.name);
-        rel_path = path.join('//tlsg.tk/', rel_path).replace(/\\/gi, '/');
+        rel_path = path.join('../assets/uploads', Date.now() + '_' + files.filetoupload.name);
+        rel_path = path.join('tlsg.tk/uploads/', rel_path).replace(/\\/gi, '/');
+        rel_path = "//" + rel_path;
         var newpath = path.join(__dirname, rel_path);
         file_name = files.filetoupload.name;
 
