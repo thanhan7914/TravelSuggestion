@@ -137,7 +137,8 @@ let build_matrix_predection = function()
         });
 
         return Place.find(filter)
-        .sort({'rating': 'desc'});
+        .sort({'rating': 'desc'})
+        .select(['place_name', 'rating', 'tag', 'thumbnail', 'address']);
         //return {status: 200, suggestion: _collumns.slice(0, limit)};
     });
 };
