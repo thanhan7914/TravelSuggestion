@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(session);
 
 //set views engine
-app.use('/public', express.static( __dirname + '/public'));
+app.use('/assets', express.static( __dirname + '/assets'));
 app.set('views', __dirname + '/views');
 app.set('view engine','ejs');
 

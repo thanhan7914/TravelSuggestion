@@ -5,147 +5,359 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="shortcut icon" type="image/x-icon" href="../public/images/travel.png" />
-
-  <title>
-    <%=title%>
-  </title>
-  <link rel="stylesheet" href="../public/css/style.css">
-  <!-- Bootstrap Core CSS -->
-  <link href="../public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!-- MetisMenu CSS -->
-  <link href="../public/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
-  <link href="../public/dist/css/sb-admin-2.css" rel="stylesheet">
-  <!-- Custom Fonts -->
-  <link href="../public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <title>Travel suggestion | Add Place</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+  <!-- Scrollbar Custom CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 </head>
 
 <body>
 
-  <div id="wrapper">
+  <% include ./layout/nav%>
 
-    <!-- Navigation -->
-    <% include ./layout/nav%>
-      <div id="page-wrapper">
-        <div class="container-fluid">
-
-          <div class="row">
-            <div class="col-lg-12">
-              <h4 class="page-header">Thêm địa điểm du lịch</h4>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6">
-              <label for="">Place Name</label>
-              <input class="form-control form-control-sm" type="text" id="place_name" placeholder="Place Name...">
-              <label for="pac-input">Address </label>
-              <input class="form-control form-control-sm" id="pac-input" type="text" placeholder="Enter a location...">
-              <!-- <label for="">Category</label>
-              <select class="form-control form-control-sm" name="category" id="sub_category"></select> -->
+    <!-- start body page -->
+    <div class="page-content">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="col-md-12">
               <div class="row">
-                <div class="col-md-6">
-                  <label for="">Category</label>
-                  <select class="form-control" name="" id="category">
-                  </select>
-                </div>
-                <div class="col-md-6">
-                  <label for="">Sub Category</label>
-                  <select name="" class="form-control" id="sub_category">
-
-                  </select>
-                </div>
-
-              </div>
-              <label for="">Province</label>
-              <select class="form-control form-control-sm" name="province" id="province"></select>
-              <label for="">Phone</label>
-              <input class="form-control form-control-sm" id="phone" type="text" placeholder="Number phone...">
-              <label for="">Tag</label>
-              <input class="form-control form-control-sm" type="text" name="tag" id="tag" placeholder="Tag...">
-              <label for="">Thumbnail</label>
-              <input class="form-control form-control-sm" id="thumbnail" type="text" placeholder="Thumbnail...">
-              <label for="">Detail</label>
-              <textarea class="form-control" id="detail" rows="5" placeholder="Detail..."></textarea>
-              <!-- <input type="text" class="form-control form-control-sm" id="detail" placeholder="Detail..."> -->
-              <input class="btn btn-primary" id="bt-submit" type="submit" value="Add Place">
-              <div class="pac-card" id="pac-card">
-                <div id="pac-container">
-
+                <p>Place Name
+                  <span>*</span>
+                </p>
+                <div id="place-name">
+                  <input class="form-control" id="place_name" type="text" placeholder="Place name..." required>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="row">
+                    <p>Province
+                      <span>*</span>
+                    </p>
+                    <select class="form-control input-sm" name="" id="province" required>
+
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <p>Category
+                    <span>*</span>
+                  </p>
+                  <select class="form-control input-sm" name="" id="category" required>
+
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="row">
+                    <p>Sub Category
+                      <span>*</span>
+                    </p>
+                    <select class="form-control input-sm" name="" id="sub_category" required>
+
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <p>Detail
+                  <span>*</span>
+                </p>
+                <div>
+                  <textarea class="form-control" name="" id="detail" rows="21" placeholder="Write something about this place..." required></textarea>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3 pull-right">
+                  <div class="row">
+                    <div id="add-place">
+                      <input class="btn btn-primary btn-block" type="button" name="" id="bt-submit" value="SAVE">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
             </div>
-            <div class="col-lg-6">
-              <div class="" id="map"></div>
-              <div id="infowindow-content">
-                <img src="" width="16" height="16" id="place-icon">
-                <span id="place-name" class="title"></span>
-                <br>
-                <span id="place-address"></span>
+
+          </div>
+
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <p>Address
+                    <span>*</span>
+                  </p>
+                  <input class="form-control input-sm" id="pac-input" type="text" placeholder="Address...">
+                  <div id="google-maps">
+                    <div class="" id="map"></div>
+                    <div id="infowindow-content">
+                      <img src="" width="16" height="16" id="place-icon">
+                      <span id="place-name" class="title"></span>
+                      <br>
+                      <span id="place-address"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <p>Thumbail
+                    <span>*</span>
+                  </p>
+                  <input class="form-control input-sm" type="text" name="" id="thumbnail" placeholder="Insert link images...">
+                </div>
+
+                <div class="row">
+                  <p>Number phone</p>
+                  <input class="form-control input-sm" type="text" name="" id="phone" placeholder="Number phone to contact...">
+                </div>
+                <div class="row">
+                  <p>Tag</p>
+                  <input class="form-control input-sm" type="text" name="" id="tag" placeholder="Tag for search...">
+                </div>
+
+
               </div>
             </div>
           </div>
         </div>
       </div>
-  </div>
-
-  <div id="modalConfirm" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Notification</h4>
-        </div>
-        <div class="modal-body">
-          <p>ADD place success!</p>
-          <input type="hidden" id="hiddenVal">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
-        </div>
-      </div>
-
     </div>
-  </div>
+    <!-- end body page -->
 
-  <!-- modal add success -->
-  <div id="modalError" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <!-- modal -->
+    <!-- modal add place success -->
+    <div id="modalConfirm" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Notification</h4>
+          </div>
+          <div class="modal-body">
+            <p>ADD place success!</p>
+            <input type="hidden" id="hiddenVal">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+          </div>
+        </div>
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Notification</h4>
-        </div>
-        <div class="modal-body">
-          <p>ADD place fail!</p>
-          <input type="hidden" id="hiddenVal">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
-        </div>
       </div>
-
     </div>
-  </div>
 
-  <script src="../public/vendor/jquery/jquery.min.js"></script>
-  <script src="../public/js/add-place.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
-    async defer></script>
-  <!-- Bootstrap Core JavaScript -->
-  <script src="../public/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- modal add place fail -->
+    <div id="modalError" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Notification</h4>
+          </div>
+          <div class="modal-body">
+            <p>ADD place fail!</p>
+            <input type="hidden" id="hiddenVal">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+          </div>
+        </div>
 
-  <!-- Metis Menu Plugin JavaScript -->
-  <script src="../public/vendor/metisMenu/metisMenu.min.js"></script>
+      </div>
+    </div>
+    <!-- end modal -->
+    <script src="../assets/js/jquery-3.2.1.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/a6499bd878.js"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
+      async defer></script>
+    <script type="text/javascript">
 
-  <!-- Custom Theme JavaScript -->
-  <script src="../public/dist/js/sb-admin-2.js"></script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {
+            lat: 15.913888,
+            lng: 107.730302
+          },
+          zoom: 6,
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        });
+        var card = document.getElementById('pac-card');
+        var input = document.getElementById('pac-input');
+        var types = document.getElementById('type-selector');
+        var strictBounds = document.getElementById('strict-bounds-selector');
 
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+          map: map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function () {
+          infowindow.close();
+          marker.setVisible(false);
+          var place = autocomplete.getPlace();
+          if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert("No details available for input: '" + place.name + "'");
+            return;
+          }
+
+          // If the place has a geometry, then present it on a map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(14); // Why 17? Because it looks good.
+          }
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+
+          var address = '';
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+          }
+
+          infowindowContent.children['place-icon'].src = place.icon;
+          infowindowContent.children['place-name'].textContent = place.name;
+          infowindowContent.children['place-address'].textContent = address;
+          infowindow.open(map, marker);
+        });
+      }
+      $(document).ready(function () {
+
+        // 
+        $("#sidebar").mCustomScrollbar({
+          theme: "minimal"
+        });
+
+        $('#dismiss, .overlay').on('click', function () {
+          $('#sidebar').removeClass('active');
+          $('.overlay').fadeOut();
+        });
+
+        $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').addClass('active');
+          $('.overlay').fadeIn();
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+
+        // 
+        //select province
+        $.get('http://tlsg.tk/api/province/list', function (data, status) {
+          var i = 0;
+          $.each(data, function (key, value) {
+            $('#province')
+              .append($("<option></option>")
+                .attr("value", data[i]._id)
+                .text(data[i].province_name));
+            i++;
+          });
+
+        });
+
+        //select category
+        $.get('http://tlsg.tk/api/category/list', function (data, status) {
+          data.forEach(element => {
+            $('#category')
+              .append($('<option></option>')
+                .attr('value', element._id)
+                .text(element.category_name));
+
+          });
+        });
+
+        $.get('http://tlsg.tk/api/category/sub-list/59e321f42a36f02f45b3fdcc', function (data, status) {
+          data.forEach(element => {
+            $('#sub_category')
+              .append($('<option></option>')
+                .attr('value', element._id)
+                .text(element.sub_category_name));
+
+          });
+        });
+
+        $('#category').change(function () {
+          let a = $('#category').val();
+          $('#sub_category option').remove();
+          $.get('http://tlsg.tk/api/category/sub-list/' + a, function (data, status) {
+            data.forEach(element => {
+              $('#sub_category')
+                .append($('<option></option>')
+                  .attr('value', element._id)
+                  .text(element.sub_category_name));
+
+            });
+          });
+        });
+        $('#bt-submit').click(function () {
+          // add new place use method post with ajax
+          let a = $('#sub_category').val();
+          let b = $('#province').val();
+          let c = $('#thumbnail').val();
+          let d = $('#place_name').val();
+          let e = $('#phone').val();
+          let f = $('#pac-input').val();
+          let g = $('#tag').val();
+          let h = $('#detail').val();
+
+          $.post('http://tlsg.tk/api/place/add', {
+            'token': '6ba2b9df31680dcda5a4a083',
+            'sub_category_id': a,
+            'province_id': b,
+            'thumbnail': c,
+            'place_name': d,
+            'phone': e,
+            'address': f,
+            'tag': g,
+            'detail': h
+          }, function (data, message) {
+            console.log(data.message);
+            if (data.status == 200) {
+              $('#modalConfirm').modal('show');
+              // console.log('A:' + a + 'B:' + b + 'C:' + c + 'D:' + d + 'E:' + e + 'F:' + f + 'G:' + g + 'H:' + h);
+              $('#modalConfirm').on('click', '#btnOk', function () {
+                window.location.replace('http://tlsg.tk/admin/add-place');
+              });
+
+            } else {
+              $('#modalError').modal('show');
+              $('#modalError').on('click', '#btOk', function () {
+                window.location.replace('http://tlsg.tk/admin/add-place');
+              });
+            }
+          });
+
+        });
+
+
+      });
+    </script>
 </body>
 
 </html>
