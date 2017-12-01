@@ -4,18 +4,18 @@ const Place = require('../../../../model/place');
 const Geo = require('./geo');
 const util = require('../../../../util');
 
-exports.from_latlng = function(latlng, province_id)
+exports.from_latlng = function(latlng, province_id, _distance = 20000)
 {
     return Geo(latlng).
     then((results) => {
         if(_.isNull(results))
             throw Error("not found");
         
-        return exports.from_address(results[0].formatted_address, province_id);
+        return exports.from_address(results[0].formatted_address, province_id, _distance);
     });
 };
 
-exports.from_address = function(address, province_id)
+exports.from_address = function(address, province_id, _distance = 20000)
 {
     let places;
 
@@ -36,13 +36,25 @@ exports.from_address = function(address, province_id)
         let rs_places = places.map((val, idx) => {
             val.distance = distances[idx];
 
-            return val;
+            if(!_.isUndefined(val.distance) &&
+                !_.isUndefined(val.distance.rows[0].elements[0].distance.value) &&
+                val.distance.rows[0].elements[0].distance.value < _distance
+            )
+            {
+                val.visible = true;
+
+                return val;
+            }
+
+            return {
+                visible: false
+            };
         });
-        
+
         // rs_places.sort((a, b) => {
         //     return a.distance.rows[0].elements[0].distance.value > b.distance.rows[0].elements[0].distance.value;
         // });
 
-        return rs_places;
+        return rs_places.filter((val) => val.visible);
     });
 };
