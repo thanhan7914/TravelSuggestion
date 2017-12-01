@@ -45,8 +45,7 @@ exports.get_review = function(req, res) {
 
 exports.add_review_with_get = function(req, res)
 {
-    util.inherit(req.query, req.body);
-
+    req.body = req.query;
     return exports.add_review(req, res);
 };
 
@@ -54,10 +53,10 @@ exports.add_review = function(req, res)
 {
     if(!_.isString(req.body.place_id) || !_.isString(req.body.username))
     //    || _.isNull(req.body.rating) || !_.isString(req.body.comment))
-        return res.json({error: 'missing params'});
+        return res.json({status: 400, error: 'missing params'});
     
     if(!req.isValidObjectId(req.body.place_id))
-        return res.json({error: 'objectId invalid'});
+        return res.json({status: 400, error: 'objectId invalid'});
 
     var params = {};
     if(!_.isNull(req.body.rating))
