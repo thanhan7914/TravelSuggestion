@@ -36,14 +36,18 @@ exports.from_address = function(address, province_id, _distance = 20000)
         let rs_places = places.map((val, idx) => {
             val.distance = distances[idx];
 
-            if(!_.isUndefined(val.distance) &&
-                !_.isUndefined(val.distance.rows[0].elements[0].distance.value) &&
-                val.distance.rows[0].elements[0].distance.value < _distance
-            )
-            {
-                val.visible = true;
+            try {
+                if(!_.isUndefined(val.distance) &&
+                    val.distance.rows.length > 0 &&
+                    val.distance.rows[0].elements[0].distance.value < _distance
+                )
+                {
+                    val.visible = true;
 
-                return val;
+                    return val;
+                }
+            }
+            catch(err){                
             }
 
             return {
