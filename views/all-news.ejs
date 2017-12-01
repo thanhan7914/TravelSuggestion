@@ -231,6 +231,91 @@
 
         });
 
+        // sort by category
+
+        $('#category').change(function () {
+          let category_id = $('#category').val();
+          // console.log(category_id);
+          $.get('http://tlsg.tk/api/news/filter?province_id=all&category_id=' + category_id, function (data, status) {
+            // console.log(data);
+            $('#tableLN tbody').empty();
+            data.news.forEach(function (el) {
+              $('#tableLN').find('tbody')
+                .append($('<tr>')
+                  .append($('<td>')
+                    .html(` <div class="post-title">
+                            ${el.title}
+                          </div>
+                          <div class="action">
+                            <a class="btnEdit" href="http://localhost:3000/admin/edit-news/news-id/${el._id}">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a class="btnDelete" id="${el._id}">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                          </div>`)
+
+                  )
+                  .append($('<td>')
+                    .text(el.province.province_name))
+                  .append($('<td>')
+                    .text(el.category.category_name))
+                  .append($('<td>')
+                    .text('Admin'))
+                  .append($('<td>')
+                    .text(el.tag))
+                  .append($('<td>')
+                    .text(el.date))
+
+                );
+            }, this);
+
+          });
+        });
+
+        // sort by province
+
+        $('#province').change(function () {
+          let province_id = $('#province').val();
+          console.log(province_id);
+          $.get('http://tlsg.tk/api/news/filter?province_id=' + province_id + '&category_id=all', function (data, status) {
+
+            $('#tableLN tbody').empty();
+            data.news.forEach(function (el) {
+              $('#tableLN').find('tbody')
+                .append($('<tr>')
+                  .append($('<td>')
+                    .html(` <div class="post-title">
+                            ${el.title}
+                          </div>
+                          <div class="action">
+                            <a class="btnEdit" href="http://localhost:3000/admin/edit-news/news-id/${el._id}">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a class="btnDelete" id="${el._id}">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                          </div>`)
+
+                  )
+                  .append($('<td>')
+                    .text(el.province.province_name))
+                  .append($('<td>')
+                    .text(el.category.category_name))
+                  .append($('<td>')
+                    .text('Admin'))
+                  .append($('<td>')
+                    .text(el.tag))
+                  .append($('<td>')
+                    .text(el.date))
+
+                );
+            }, this);
+
+          });
+        });
+
+
 
         $('body').on('click', '#tableLN tr td .action .btnDelete', function () {
           $('#hiddenVal').val($(this).attr('id'));
@@ -283,89 +368,7 @@
           $('#number_news').text(data.count);
         });
 
-        // sort by province
 
-        $('#province').change(function () {
-          let province_id = $('#province').val();
-          console.log(province_id);
-          $.get('http://tlsg.tk/api/news/filter?province_id=' + province_id + '&category_id=all', function (data, status) {
-
-            $('#tableLN tbody').empty();
-            data.news.forEach(function (el) {
-              $('#tableLN').find('tbody')
-                .append($('<tr>')
-                  .append($('<td>')
-                    .html(` <div class="post-title">
-                            ${el.title}
-                          </div>
-                          <div class="action">
-                            <a class="btnEdit" href="http://localhost:3000/admin/edit-news/news-id/${el._id}">
-                              <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                            <a class="btnDelete" id="${el._id}">
-                              <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
-                          </div>`)
-
-                  )
-                  .append($('<td>')
-                    .text(el.province.province_name))
-                  .append($('<td>')
-                    .text(el.category.category_name))
-                  .append($('<td>')
-                    .text('Admin'))
-                  .append($('<td>')
-                    .text(el.tag))
-                  .append($('<td>')
-                    .text(el.date))
-
-                );
-            }, this);
-
-          });
-        });
-
-        // sort by category
-
-        $('#category').change(function () {
-          let category_id = $('#category').val();
-          console.log(category_id);
-          $.get('http://tlsg.tk/api/news/filter?province_id=all&category_id='+category_id, function (data, status) {
-            console.log(data);
-            $('#tableLN tbody').empty();
-            data.news.forEach(function (el) {
-              $('#tableLN').find('tbody')
-                .append($('<tr>')
-                  .append($('<td>')
-                    .html(` <div class="post-title">
-                            ${el.title}
-                          </div>
-                          <div class="action">
-                            <a class="btnEdit" href="http://localhost:3000/admin/edit-news/news-id/${el._id}">
-                              <i class="fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                            <a class="btnDelete" id="${el._id}">
-                              <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
-                          </div>`)
-
-                  )
-                  .append($('<td>')
-                    .text(el.province.province_name))
-                  .append($('<td>')
-                    .text(el.category.category_name))
-                  .append($('<td>')
-                    .text('Admin'))
-                  .append($('<td>')
-                    .text(el.tag))
-                  .append($('<td>')
-                    .text(el.date))
-
-                );
-            }, this);
-
-          });
-        });
 
 
       });

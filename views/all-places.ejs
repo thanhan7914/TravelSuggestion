@@ -34,14 +34,19 @@
                                             <i class="input-group-addon glyphicon glyphicon-search"></i>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <select class="form-control" name="" id="province">
                                             <option value="all">All province</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <select class="form-control" name="" id="category">
                                             <option value="all">All Category</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select class="form-control" name="" id="sub_category">
+                                            <option value="all">All Sub Category</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
@@ -199,6 +204,38 @@
                     }, this);
                 });
 
+                //
+                $.get('http://tlsg.tk/api/category/sub-list/59e321f42a36f02f45b3fdcc', function (data, status) {
+                    data.forEach(element => {
+                        $('#sub_category')
+                            .append($('<option></option>')
+                                .attr('value', element._id)
+                                .text(element.sub_category_name));
+
+                    });
+                });
+
+                $('#category').change(function () {
+                    let a = $('#category').val();
+                    $('#sub_category option').remove();
+                    $('#sub_category')
+                        .append($('<option></option>')
+                            .attr('value', 'all')
+                            .text('All Sub Category'));
+
+                    $.get('http://tlsg.tk/api/category/sub-list/' + a, function (data, status) {
+                        data.forEach(element => {
+                            $('#sub_category')
+                                .append($('<option></option>')
+                                    .attr('value', element._id)
+                                    .text(element.sub_category_name));
+
+                        });
+                    });
+                });
+
+
+
                 let txt = '';
                 $('#txtSearch').keyup(function () {
                     txt = document.getElementById('txtSearch').value;
@@ -240,6 +277,87 @@
 
                     });
 
+                });
+
+                // sort by province
+                $('#province').change(function () {
+                    let province_id = $('#province').val();
+                    $.get('http://tlsg.tk/api/places/filter?province_id=' + province_id + '&category_id=all', function (data, status) {
+                        $('#tableLP tbody').empty();
+                        data.places.forEach(function (el) {
+                            console.log(el.ad);
+                            $('#tableLP').find('tbody')
+                                .append($('<tr>')
+
+                                    .append($('<td>')
+                                        .html(`<div class="place-name">
+                                                        ${el.place_name}
+                                                    </div>
+                                                    <div class="action">
+                                                        <a class="btnEdit" href="http://tlsg.tk/admin/edit-place/place-id/${el._id}">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a class="btnDelete" id="${el._id}">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>`)
+                                    )
+                                    .append($('<td>')
+                                        .text(el.address))
+                                    .append($('<td>')
+                                        .text('Admin'))
+                                    .append($('<td>')
+                                        .text(el.tag))
+                                    .append($('<td>')
+                                        .text('30/11/2017'))
+                                    .append($('<td>')
+                                        .text(el.rating))
+
+
+                                );
+
+                        }, this);
+                    });
+                });
+                // sort by subcategory
+                $('#category').change(function () {
+                    let category_id = $('#province').val();
+                    $.get('http://tlsg.tk/api/places/filter?province_id=all&category_id=' + category_id, function (data, status) {
+                        $('#tableLP tbody').empty();
+                        data.places.forEach(function (el) {
+                            // console.log(el.ad);
+                            $('#tableLP').find('tbody')
+                                .append($('<tr>')
+
+                                    .append($('<td>')
+                                        .html(`<div class="place-name">
+                                                        ${el.place_name}
+                                                    </div>
+                                                    <div class="action">
+                                                        <a class="btnEdit" href="http://tlsg.tk/admin/edit-place/place-id/${el._id}">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a class="btnDelete" id="${el._id}">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>`)
+                                    )
+                                    .append($('<td>')
+                                        .text(el.address))
+                                    .append($('<td>')
+                                        .text('Admin'))
+                                    .append($('<td>')
+                                        .text(el.tag))
+                                    .append($('<td>')
+                                        .text('30/11/2017'))
+                                    .append($('<td>')
+                                        .text(el.rating))
+
+
+                                );
+
+                        }, this);
+                    });
                 });
 
                 $('body').on('click', '#tableLP tr td .action .btnDelete', function () {
@@ -292,6 +410,8 @@
                     });
 
                 });
+
+
             });
         </script>
 </body>
