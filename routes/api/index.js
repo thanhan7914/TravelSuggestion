@@ -87,6 +87,7 @@ router.post('/news/add', news.add_news);
 router.post('/news/update', news.update);
 
 //review
+router.get('/review/add-get', review.add_review_with_get);
 router.get('/review/:place_id', review.get_review);
 
 /** parameter
