@@ -90,6 +90,10 @@ exports.get_places_with_category = function(req, res) {
      * l: number record / page
      * category_id
      */
+    if(_.isUndefined(req.params.province_id))
+        req.params.province_id = 'all';
+    if(_.isUndefined(req.params.sub_category_id))
+        req.params.sub_category_id = 'all';
 
     var l = _.toNumber(req.params.l);
     var s = _.toNumber(req.params.p);
@@ -101,6 +105,10 @@ exports.get_places_with_category = function(req, res) {
 
     var filter = {$or: []};
     var places;
+    if(!_.isEqual(req.params.province_id, 'all'))
+        filter.province = req.params.province_id;
+    if(!_.isEqual(req.params.sub_category_id, 'all'))
+        filter.subcategory = req.params.sub_category_id;
 
     SubCategory.find({category: req.params.category_id})
     .then((subcats) => {
