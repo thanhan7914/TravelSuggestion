@@ -129,10 +129,10 @@ exports.get_places_with_category = function(req, res) {
             .limit(l)
             .skip(s)
             .select(field_res)
-            .sort({place_name: 'asc'});
-        })
-        .populate('subcategory')
-        .populate('province');
+            .sort({place_name: 'asc'})
+            .populate('subcategory')
+            .populate('province');
+        });
     })
     .then((_places) => {
         places = _places.map((place) => {place.c_reviews = 2; return place;});
