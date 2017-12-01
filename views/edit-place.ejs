@@ -164,6 +164,7 @@
           </div>
           <div class="modal-body">
             <p>Update fail!</p>
+            <p id="message"></p>
             <input type="hidden" id="hiddenVal">
           </div>
           <div class="modal-footer">
@@ -368,6 +369,7 @@
                 window.location.replace('http://tlsg.tk/admin/all-places');
               });
             } else {
+              $('#message').text(data.error);
               $('#modalError').modal('show');
               $('#modalError').on('click', '#btOk', function () {
               });

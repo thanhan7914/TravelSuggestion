@@ -161,6 +161,7 @@
           </div>
           <div class="modal-body">
             <p>ADD place fail!</p>
+            <p id="message"></p>
             <input type="hidden" id="hiddenVal">
           </div>
           <div class="modal-footer">
@@ -346,6 +347,7 @@
               });
 
             } else {
+              $('#message').text(data.error);
               $('#modalError').modal('show');
               $('#modalError').on('click', '#btOk', function () {
               });
