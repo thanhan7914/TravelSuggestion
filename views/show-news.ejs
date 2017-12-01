@@ -21,15 +21,15 @@
 
         <div class="page-content">
             <div class="container">
-               <div class="row">
-                   <div class="col-md-8" id="news-content">
+                <div class="row">
+                    <div class="col-md-8" id="news-content">
                         <input class="form-control" type="hidden" name="" id="news_id" value="<%=news_id%>">
-                      
-                   </div>
-                   <div class="col-md-4">
 
-                   </div>
-               </div>
+                    </div>
+                    <div class="col-md-4 sidebar-news">
+
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -66,12 +66,39 @@
                         $(` <div class="news-title">
                                 <h3 class="title">${el.title}</h3>
                                 <p class="author">Admin</p>
-                                <p class="date">${el.date.substring(0,11)}</p>
+                                <p class="date">${el.date.substring(0, 11)}</p>
                             </div>
                             <div class="news-content">${el.content}</div>`)
                             .appendTo($("#news-content"));
                     }, this);
                 });
+
+                $.get('http://tlsg.tk/api/news/list?p=0&l=8', function (data, status) {
+                    // console.log(data);
+                    data.news.forEach(function (el) {
+                        $(`<div class="row">
+
+                <div class="news-item">
+                    <div class="news-thumbnail">
+                        <a href="http://tlsg.tk/admin/show-news/${el._id}">
+                            <img class="img-responsive" src="${el.thumbnail}" alt="">
+                        </a>
+                    </div>
+                    <div class="news-title">
+                        <div class="title">
+                            <a href="http://tlsg.tk/admin/show-news/${el._id}">${el.title}</a>
+                        </div>
+                    </div>
+                    <div class="news-info">
+                        <p class="author"> Admin</p>
+                        <p class="date">${el.date.substring(0, 10)}</p>
+                        <p class="hour">${el.date.substring(11, 19)}</p>
+                    </div>
+                </div>
+            </div>` ).appendTo($(".col-md-4"));
+                    }, this);
+                });
+
 
             });
 
