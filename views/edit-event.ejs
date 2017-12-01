@@ -9,8 +9,8 @@
     <title>Travel Suggestion</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
@@ -27,6 +27,7 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-12">
+                                    <input class="form-control" type="hidden" id="even_id" value="<%=event_id%>" disabled>
                                     <p>Event Name</p>
                                     <input class="form-control" type="text" name="" id="event_name" placeholder="Event name...">
                                 </div>
@@ -45,7 +46,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4 pull-right">
-                                    <input class="btn btn-warning btn-block" type="button" name="" id="bt-submit" value="Add Event">
+                                    <input class="btn btn-warning btn-block" type="button" name="" id="bt-submit" value="Save">
                                 </div>
                             </div>
                         </div>
@@ -157,8 +158,8 @@
         </div>
         <!-- end modal -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js" charset="utf-8"></script>
-        <script src="../assets/js/jquery-3.2.1.min.js"></script>
-        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../../../assets/js/jquery-3.2.1.min.js"></script>
+        <script src="../../../assets/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
         <script src="https://use.fontawesome.com/a6499bd878.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
@@ -267,6 +268,8 @@
 
                 });
 
+             
+
                 $('#bt-submit').click(function () {
                     let a = $('#event_name').val();
                     let b = $('#detail').val();
@@ -299,7 +302,8 @@
                             $('#modalConfirm').modal('show');
                             $('#modalConfirm').on('click', '#btnOk', function () {
                                 window.location.replace('http://tlsg.tk/admin/add-event');
-                                
+                                // window.location.replace('http://localhost:3000/admin/add-event');
+
                             });
 
                         } else {

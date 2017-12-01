@@ -73,7 +73,8 @@
                                             <tr>
                                                 <th>Place Name</th>
                                                 <th>Address</th>
-                                                <!-- <th>Sub Category</th> -->
+                                                <th>Province</th>
+                                                <th>Sub Category</th>
                                                 <th>Author</th>
                                                 <th>Tag</th>
                                                 <th>Date</th>
@@ -190,6 +191,10 @@
                                 .append($('<td>')
                                     .text(el.address))
                                 .append($('<td>')
+                                    .text(el.province.province_name))
+                                .append($('<td>')
+                                    .text(el.subcategory.sub_category_name))
+                                .append($('<td>')
                                     .text('Admin'))
                                 .append($('<td>')
                                     .text(el.tag))
@@ -262,6 +267,10 @@
                                     .append($('<td>')
                                         .text(el.address))
                                     .append($('<td>')
+                                        .text(el.province.province_name))
+                                    .append($('<td>')
+                                        .text(el.subcategory.sub_category_name))
+                                    .append($('<td>')
                                         .text('Admin'))
                                     .append($('<td>')
                                         .text(el.tag))
@@ -285,46 +294,6 @@
                     $.get('http://tlsg.tk/api/places/filter?province_id=' + province_id + '&category_id=all', function (data, status) {
                         $('#tableLP tbody').empty();
                         data.places.forEach(function (el) {
-                            console.log(el.ad);
-                            $('#tableLP').find('tbody')
-                                .append($('<tr>')
-
-                                    .append($('<td>')
-                                        .html(`<div class="place-name">
-                                                        ${el.place_name}
-                                                    </div>
-                                                    <div class="action">
-                                                        <a class="btnEdit" href="http://tlsg.tk/admin/edit-place/place-id/${el._id}">
-                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                                                        </a>
-                                                        <a class="btnDelete" id="${el._id}">
-                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                        </a>
-                                                    </div>`)
-                                    )
-                                    .append($('<td>')
-                                        .text(el.address))
-                                    .append($('<td>')
-                                        .text('Admin'))
-                                    .append($('<td>')
-                                        .text(el.tag))
-                                    .append($('<td>')
-                                        .text('30/11/2017'))
-                                    .append($('<td>')
-                                        .text(el.rating))
-
-
-                                );
-
-                        }, this);
-                    });
-                });
-                // sort by subcategory
-                $('#category').change(function () {
-                    let category_id = $('#province').val();
-                    $.get('http://tlsg.tk/api/places/filter?province_id=all&category_id=' + category_id, function (data, status) {
-                        $('#tableLP tbody').empty();
-                        data.places.forEach(function (el) {
                             // console.log(el.ad);
                             $('#tableLP').find('tbody')
                                 .append($('<tr>')
@@ -342,8 +311,98 @@
                                                         </a>
                                                     </div>`)
                                     )
-                                    .append($('<td>')
+                                  .append($('<td>')
                                         .text(el.address))
+                                    .append($('<td>')
+                                        .text(el.province.province_name))
+                                    .append($('<td>')
+                                        .text(el.subcategory.sub_category_name))
+                                    .append($('<td>')
+                                        .text('Admin'))
+                                    .append($('<td>')
+                                        .text(el.tag))
+                                    .append($('<td>')
+                                        .text('30/11/2017'))
+                                    .append($('<td>')
+                                        .text(el.rating))
+
+
+                                );
+
+                        }, this);
+                    });
+                });
+                // sort by subcategory
+                $('#category').change(function () {
+                    let category_id = $('#category').val();
+                    $.get('http://tlsg.tk/api/places/category?category_id=' + category_id, function (data, status) {
+                        $('#tableLP tbody').empty();
+                        data.places.forEach(function (el) {
+                            $('#tableLP').find('tbody')
+                                .append($('<tr>')
+
+                                    .append($('<td>')
+                                        .html(`<div class="place-name">
+                                                        ${el.place_name}
+                                                    </div>
+                                                    <div class="action">
+                                                        <a class="btnEdit" href="http://tlsg.tk/admin/edit-place/place-id/${el._id}">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a class="btnDelete" id="${el._id}">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>`)
+                                    )
+                                  .append($('<td>')
+                                        .text(el.address))
+                                    .append($('<td>')
+                                        .text(el.province.province_name))
+                                    .append($('<td>')
+                                        .text(el.subcategory.sub_category_name))
+                                    .append($('<td>')
+                                        .text('Admin'))
+                                    .append($('<td>')
+                                        .text(el.tag))
+                                    .append($('<td>')
+                                        .text('30/11/2017'))
+                                    .append($('<td>')
+                                        .text(el.rating))
+
+
+                                );
+
+                        }, this);
+                    });
+                });
+
+                // sort by sub category
+                $('#sub_category').change(function () {
+                    let sub_category_id = $('#sub_category').val();
+                    $.get('http://tlsg.tk/api/places/filter?sub_category_id=' + sub_category_id, function (data, status) {
+                        $('#tableLP tbody').empty();
+                        data.places.forEach(function (el) {
+                            $('#tableLP').find('tbody')
+                                .append($('<tr>')
+                                    .append($('<td>')
+                                        .html(`<div class="place-name">
+                                                        ${el.place_name}
+                                                    </div>
+                                                    <div class="action">
+                                                        <a class="btnEdit" href="http://tlsg.tk/admin/edit-place/place-id/${el._id}">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a class="btnDelete" id="${el._id}">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>`)
+                                    )
+                                   .append($('<td>')
+                                        .text(el.address))
+                                    .append($('<td>')
+                                        .text(el.province.province_name))
+                                    .append($('<td>')
+                                        .text(el.subcategory.sub_category_name))
                                     .append($('<td>')
                                         .text('Admin'))
                                     .append($('<td>')
