@@ -106,4 +106,11 @@ router.get('/edit-event/event-id/:id', function (req, res) {
   }
 });
 
+router.get('/show-news/:news_id', function (req, res) {
+  if (req.session.email) {
+    res.render('show-news', { title: 'Admin | Show-news', news_id: req.params.news_id });
+  } else {
+    res.redirect('/admin/login');
+  }
+});
 module.exports = router;
