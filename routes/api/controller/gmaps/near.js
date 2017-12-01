@@ -38,9 +38,10 @@ exports.from_address = function(address, province_id)
 
             return val;
         });
-        rs_places.sort((a, b) => {
-            return a.distance.rows[0].elements[0].distance.value > b.distance.rows[0].elements[0].distance.value;
-        });
+        
+        // rs_places.sort((a, b) => {
+        //     return a.distance.rows[0].elements[0].distance.value > b.distance.rows[0].elements[0].distance.value;
+        // });
 
         return rs_places;
     });
