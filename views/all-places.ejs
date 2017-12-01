@@ -35,27 +35,28 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <select class="form-control" name="" id="category">
-                                            <option value="">All Category</option>
+                                        <select class="form-control" name="" id="province">
+                                            <option value="all">All province</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
-                                        <select class="form-control" name="" id="time">
-                                            <option value="">Nov-2017</option>
+                                        <select class="form-control" name="" id="category">
+                                            <option value="all">All Category</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="Statistics">
                                             <div id="number-place">
                                                 <p>
-                                                    <span>123</span> (Places) |
+                                                    <span id="number_places">123</span> (Places) |
                                                     <span>
-                                                        <a href="">Add new</a>
+                                                        <a href="http://tlsg.tk/admin/add-place">Add new</a>
                                                     </span>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
+
 
                                 </div>
                             </div>
@@ -76,7 +77,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                          
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -183,14 +184,10 @@
                                 )
                                 .append($('<td>')
                                     .text(el.address))
-                                // .append($('<td>')
-                                //     .text(el.sub_category))
                                 .append($('<td>')
                                     .text('Admin'))
                                 .append($('<td>')
                                     .text(el.tag))
-                                // .append($('<td>')
-                                //     .text(el.phone))
                                 .append($('<td>')
                                     .text('30/11/2017'))
                                 .append($('<td>')
@@ -207,29 +204,40 @@
                     txt = document.getElementById('txtSearch').value;
                     $.get('http://tlsg.tk/api/places/filter?name=' + txt, function (data, status) {
                         $('#tableLP tbody').empty();
-                        let i = 0;
                         data.places.forEach(function (el) {
-                            $('#tableLP').find('tbody').append($('<tr>')
-                                .append($('<td>')
-                                    .attr('id', el._id)
-                                    .text(i)
-                                )
-                                .append($('<td>')
-                                    .text(el.place_name)
-                                )
-                                .append($('<td>')
-                                    .text(el.address)
-                                )
-                                .append($('<td>')
-                                    .text(el.phone)
-                                )
-                                .append($('<td>')
-                                    .html('<a href="" id="' + el._id + '"><span class="glyphicon glyphicon-pencil "></span></a><a style="margin-left:10px;color:red;" class="btnDelete" data-toggle="modal" href="" id="' + el._id + '"><span class="glyphicon glyphicon-trash "></span></a>')
-                                )
+                            console.log(el.ad);
+                            $('#tableLP').find('tbody')
+                                .append($('<tr>')
 
-                            )
-                            i++;
-                        }, this)
+                                    .append($('<td>')
+                                        .html(`<div class="place-name">
+                                                        ${el.place_name}
+                                                    </div>
+                                                    <div class="action">
+                                                        <a class="btnEdit" href="http://tlsg.tk/admin/edit-place/place-id/${el._id}">
+                                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                        </a>
+                                                        <a class="btnDelete" id="${el._id}">
+                                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>`)
+                                    )
+                                    .append($('<td>')
+                                        .text(el.address))
+                                    .append($('<td>')
+                                        .text('Admin'))
+                                    .append($('<td>')
+                                        .text(el.tag))
+                                    .append($('<td>')
+                                        .text('30/11/2017'))
+                                    .append($('<td>')
+                                        .text(el.rating))
+
+
+                                );
+
+                        }, this);
+
                     });
 
                 });
@@ -256,6 +264,33 @@
                         }
 
                     });
+                });
+
+                $.get('http://tlsg.tk/api/category/list', function (data, status) {
+                    data.forEach(element => {
+                        $('#category')
+                            .append($('<option></option>')
+                                .attr('value', element._id)
+                                .text(element.category_name));
+
+                    });
+                });
+
+                $.get('http://tlsg.tk/api/places/list', function (data, status) {
+
+                    $('#number_places').text(data.count);
+                });
+
+                $.get('http://tlsg.tk/api/province/list', function (data, status) {
+                    var i = 0;
+                    $.each(data, function (key, value) {
+                        $('#province')
+                            .append($("<option></option>")
+                                .attr("value", data[i]._id)
+                                .text(data[i].province_name));
+                        i++;
+                    });
+
                 });
             });
         </script>
