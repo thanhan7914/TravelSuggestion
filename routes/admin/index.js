@@ -114,7 +114,7 @@ router.get('/show-news/:news_id', function (req, res) {
   }
 });
 
-router.get('/add-comment', function (req, res) {
-  res.render('add-comment');
-});
+// router.get('/add-comment', function (req, res) {
+//   res.render('add-comment');
+// });
 module.exports = router;
