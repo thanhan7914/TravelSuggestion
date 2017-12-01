@@ -29,11 +29,11 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
+                                        <i class="fa fa-calendar-o fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">26</div>
-                                        <div>New Comments!</div>
+                                        <div class="huge" id="number_event">26</div>
+                                        <div>Event!</div>
                                     </div>
                                 </div>
                             </div>
@@ -123,6 +123,29 @@
                 </div>
                 <!-- /.row -->
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="news-section">Hot News</h3>
+                        <hr class="line-news-section">
+                    </div>
+                </div>
+                <!-- start row -->
+                <div class="row" id="hot-news">
+                  
+                </div>
+                <!-- end row -->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="news-section">Hot Place</h3>
+                        <hr class="line-news-section">
+                    </div>
+                </div>
+                <!-- start row -->
+                <div class="row" id="hot-place">
+                
+                </div>
+                <!-- end row -->
             </div>
         </div>
 
@@ -159,6 +182,63 @@
                 $.get('http://tlsg.tk/api/news/list', function (data, status) {
 
                     $('#number_news').text(data.count);
+                });
+
+                $.get('http://tlsg.tk/api/event/filter?province_id=all',function(data,status){
+                    $('#number_event').text(data.count);
+                });
+
+                // hot news
+                $.get('http://tlsg.tk/api/news/list?p=0&l=8', function (data, status) {
+                    // console.log(data);
+                    data.news.forEach(function (el) {
+                        $(`<div class="col-md-3">
+
+                <div class="news-item">
+                    <div class="news-thumbnail">
+                        <a href="">
+                            <img class="img-responsive" src="${el.thumbnail}" alt="">
+                        </a>
+                    </div>
+                    <div class="news-title">
+                        <div class="title">
+                            <a href="">${el.title}</a>
+                        </div>
+                    </div>
+                    <div class="news-info">
+                        <p class="author"> Admin</p>
+                        <p class="date">${el.date.substring(0,10)}</p>
+                        <p class="hour">${el.date.substring(11,19)}</p>
+                    </div>
+                </div>
+            </div>` ).appendTo($("#hot-news"));
+                    }, this);
+                });
+
+                // hot place
+                 $.get('http://tlsg.tk/api/places/list?p=0&l=8', function (data, status) {
+                    // console.log(data);
+                    data.places.forEach(function (el) {
+                        $(`<div class="col-md-3">
+
+                <div class="place-item">
+                    <div class="news-thumbnail">
+                        <a href="">
+                            <img class="img-responsive" src="${el.thumbnail}" alt="">
+                        </a>
+                    </div>
+                    <div class="place-title">
+                        <div class="title">
+                            <a href="">${el.place_name}</a>
+                        </div>
+                    </div>
+                    <div class="place-info">
+                        <p class="address">${el.address}</p>
+                   
+                    </div>
+                </div>
+            </div>` ).appendTo($("#hot-place"));
+                    }, this);
                 });
             });
 
