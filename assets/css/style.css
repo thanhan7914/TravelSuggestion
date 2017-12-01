@@ -616,6 +616,10 @@ div#right-sidebar-title h4{
 }
 
 /* index */
+#index a{
+    text-decoration: none;
+    color: #ffffff;
+}
 #news-section{
     text-transform: uppercase;
     font-family: openSans;
@@ -664,4 +668,19 @@ div#right-sidebar-title h4{
 .place-info p{
     font-size: 12px;
 margin: 0px;
+}
+
+.col-md-8 .news-content{
+    overflow: hidden;
+}
+
+img{
+    margin: 0 auto !important;
+}
+.news-title{
+    margin-bottom: 20px;
+}
+
+.sidebar-news{
+    margin-top: 120px;
 }

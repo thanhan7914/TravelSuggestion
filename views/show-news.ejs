@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Travel Suggestion</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="../../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+</head>
+
+<body>
+
+    <% include ./layout/nav%>
+
+        <div class="page-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8" id="news-content">
+                        <input class="form-control" type="hidden" name="" id="news_id" value="<%=news_id%>">
+
+                    </div>
+                    <div class="col-md-4 sidebar-news">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../../../assets/js/jquery-3.2.1.min.js"></script>
+        <script src="../../../assets/js/bootstrap.min.js"></script>
+        <script src="https://use.fontawesome.com/a6499bd878.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#sidebar").mCustomScrollbar({
+                    theme: "minimal"
+                });
+
+                $('#dismiss, .overlay').on('click', function () {
+                    $('#sidebar').removeClass('active');
+                    $('.overlay').fadeOut();
+                });
+
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').addClass('active');
+                    $('.overlay').fadeIn();
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+
+                // 
+                let news_id = $('#news_id').val();
+                $.get('http://tlsg.tk/api/news/' + news_id, function (data, status) {
+                    console.log(data);
+                    data.news.forEach(function (el) {
+                        $(` <div class="news-title">
+                                <h3 class="title">${el.title}</h3>
+                                <p class="author">Admin</p>
+                                <p class="date">${el.date.substring(0, 11)}</p>
+                            </div>
+                            <div class="news-content">${el.content}</div>`)
+                            .appendTo($("#news-content"));
+                    }, this);
+                });
+
+                $.get('http://tlsg.tk/api/news/list?p=0&l=8', function (data, status) {
+                    // console.log(data);
+                    data.news.forEach(function (el) {
+                        $(`<div class="row">
+
+                <div class="news-item">
+                    <div class="news-thumbnail">
+                        <a href="http://tlsg.tk/admin/show-news/${el._id}">
+                            <img class="img-responsive" src="${el.thumbnail}" alt="">
+                        </a>
+                    </div>
+                    <div class="news-title">
+                        <div class="title">
+                            <a href="http://tlsg.tk/admin/show-news/${el._id}">${el.title}</a>
+                        </div>
+                    </div>
+                    <div class="news-info">
+                        <p class="author"> Admin</p>
+                        <p class="date">${el.date.substring(0, 10)}</p>
+                        <p class="hour">${el.date.substring(11, 19)}</p>
+                    </div>
+                </div>
+            </div>` ).appendTo($(".col-md-4"));
+                    }, this);
+                });
+
+
+            });
+
+        </script>
+</body>
+
+</html>
