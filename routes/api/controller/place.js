@@ -127,11 +127,11 @@ exports.get_places_with_category = function(req, res) {
 
             return Place.find(filter)
             .limit(l)
-            .skip(s);
+            .skip(s)
+            .select(field_res)
+            .sort({place_name: 'asc'});
         })
-        .select(['place_name', 'rating', 'tag', 'thumbnail', 'address'])
-        .sort({place_name: 'asc'})
-        .populate('subcategory') 
+        .populate('subcategory')
         .populate('province');
     })
     .then((_places) => {
