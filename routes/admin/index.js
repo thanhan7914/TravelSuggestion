@@ -41,9 +41,6 @@ router.get('/add-news',function(req,res){
   }
 });
 
-// router.post('/post-news',function(req,res){
-
-// });
 
 router.get('/add-place',function(req,res){
   if(req.session.email){

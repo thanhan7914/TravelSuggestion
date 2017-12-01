@@ -285,7 +285,7 @@
                     $.get('http://tlsg.tk/api/places/filter?province_id=' + province_id + '&category_id=all', function (data, status) {
                         $('#tableLP tbody').empty();
                         data.places.forEach(function (el) {
-                            console.log(el.ad);
+                            // console.log(el.ad);
                             $('#tableLP').find('tbody')
                                 .append($('<tr>')
 
@@ -321,11 +321,10 @@
                 });
                 // sort by subcategory
                 $('#category').change(function () {
-                    let category_id = $('#province').val();
-                    $.get('http://tlsg.tk/api/places/filter?province_id=all&category_id=' + category_id, function (data, status) {
+                    let category_id = $('#category').val();
+                    $.get('http://tlsg.tk/api/places/category?category_id=' + category_id, function (data, status) {
                         $('#tableLP tbody').empty();
                         data.places.forEach(function (el) {
-                            // console.log(el.ad);
                             $('#tableLP').find('tbody')
                                 .append($('<tr>')
 
