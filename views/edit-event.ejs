@@ -27,7 +27,7 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <input class="form-control" type="hidden" id="even_id" value="<%=event_id%>" disabled>
+                                    <input class="form-control" type="hidden" id="event_id" value="<%=event_id%>" disabled>
                                     <p>Event Name</p>
                                     <input class="form-control" type="text" name="" id="event_name" placeholder="Event name...">
                                 </div>
@@ -73,7 +73,7 @@
                                 <div class="row">
                                     <p>Date</p>
                                     <div class="form-group">
-                                        <div class="input-group date" id="datetimepicker1">
+                                        <div class="input-group date" id="datetimepicker">
                                             <input type="text" id="date" class="form-control input-sm">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -145,7 +145,7 @@
                         <h4 class="modal-title">Notification</h4>
                     </div>
                     <div class="modal-body">
-                        <p>ADD event fail!</p>
+                        <p class="message_err">ADD event fail !</p>
                         <p id="message"></p>
                         <input type="hidden" id="hiddenVal">
                     </div>
@@ -168,7 +168,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
         <script type="text/javascript">
             $(function () {
-                $('#datetimepicker1').datetimepicker();
+                $('#datetimepicker').datetimepicker();
             });
             function initMap() {
                 var map = new google.maps.Map(document.getElementById('map'), {
@@ -268,6 +268,20 @@
 
                 });
 
+                let event_id = $('#event_id').val();
+                // console.log(event_id);
+                $.get('http://tlsg.tk/api/event/' + event_id,function(data,status){
+                    console.log(data);
+                    $('#event_name').val(data.event.event_name);
+                    $('#detail').val(data.event.detail);
+                    $('#pac-input').val(data.event.address);
+                    $('#date').val(data.event.organization_day);
+                    $('#organization').val(data.event.organization);
+                    $('#phone').val(data.event.phone);
+                    $('#tag').val(data.event.tag);
+                    $('#thumbnail').val(data.event.thumbnail);
+                })
+
              
 
                 $('#bt-submit').click(function () {
@@ -282,7 +296,7 @@
                     let k = $('#province').val();
 
 
-                    console.log(a + ' ' + b + ' ' + c + ' ' + d + ' ' + e + ' ' + f + ' ' + g + ' ' + h);
+                    // console.log(a + ' ' + b + ' ' + c + ' ' + d + ' ' + e + ' ' + f + ' ' + g + ' ' + h);
 
                     $.post('http://tlsg.tk/api/event/add', {
                         event_name: a,

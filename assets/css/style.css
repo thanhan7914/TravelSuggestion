@@ -610,3 +610,7 @@ div#right-sidebar-title h4{
 #tableLE tbody tr:hover> td > .action > #edit{
     color: #ffffff;
 }
+
+.message_err{
+    color: #d31010;
+}
