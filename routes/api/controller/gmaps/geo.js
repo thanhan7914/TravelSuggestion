@@ -8,7 +8,7 @@ const publicConfig = {
 
 const  gmAPI = new GoogleMapsAPI(publicConfig);
 
-module.exports = function(latlng)
+exports.reverseGeocode = function(latlng)
 {
     if(latlng.startsWith('"')) latlng = latlng.substring(1);
     if(latlng.endsWith('"')) latlng = latlng.substring(0, latlng.length - 1);
@@ -27,6 +27,24 @@ module.exports = function(latlng)
                 return rj(new Error("not found"));
                 
             r(result.results);
+        });
+    });
+};
+
+exports.geoCode = function(address) {
+    return new Promise((r, rj) => {
+        // geocode API
+        const geocodeParams = {
+            "address":    address,
+            "components": "components=country:VN",
+            "language":   "en",
+            "region":     "vn"
+        };
+          
+        gmAPI.geocode(geocodeParams, function(err, result){
+             if(err) rj(err);
+
+             r(result.results[0]);
         });
     });
 };

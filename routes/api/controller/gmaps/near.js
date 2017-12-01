@@ -6,7 +6,7 @@ const util = require('../../../../util');
 
 exports.from_latlng = function(latlng, province_id, _distance = 20000)
 {
-    return Geo(latlng).
+    return Geo.reverseGeocode(latlng).
     then((results) => {
         if(_.isNull(results))
             throw Error("not found");

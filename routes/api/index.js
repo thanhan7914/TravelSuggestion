@@ -189,5 +189,6 @@ router.post('/event/remove', event_controller.remove);
 //
 const gmaps_near = require('./controller/gmaps');
 router.get('/around', gmaps_near.around);
+router.get('/latlng-around', gmaps_near.latlng_around);
 
 module.exports = router;
