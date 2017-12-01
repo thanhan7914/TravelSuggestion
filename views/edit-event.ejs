@@ -294,11 +294,13 @@
                     let g = $('#pac-input').val();
                     let h = $('#thumbnail').val();
                     let k = $('#province').val();
+                    let l = $('#event_id').val();
 
 
                     // console.log(a + ' ' + b + ' ' + c + ' ' + d + ' ' + e + ' ' + f + ' ' + g + ' ' + h);
 
                     $.post('http://tlsg.tk/api/event/update', {
+                        event_id: l,
                         event_name: a,
                         address: g,
                         detail: b,
