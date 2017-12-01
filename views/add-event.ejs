@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 
 </head>
 
@@ -71,8 +72,8 @@
                                 <div class="row">
                                     <p>Date</p>
                                     <div class="form-group">
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' id="date" class="form-control input-sm">
+                                        <div class="input-group date" id="datetimepicker1">
+                                            <input type="text" id="date" class="form-control input-sm">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -113,15 +114,61 @@
             </div>
         </div>
 
+        <!-- modal -->
+        <!-- modal add place success -->
+        <div id="modalConfirm" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Notification</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>ADD event success!</p>
+                        <input type="hidden" id="hiddenVal">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+
+        <!-- modal add place fail -->
+        <div id="modalError" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Notification</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>ADD event fail!</p>
+                        <p id="message"></p>
+                        <input type="hidden" id="hiddenVal">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnOk" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- end modal -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js" charset="utf-8"></script>
         <script src="../assets/js/jquery-3.2.1.min.js"></script>
         <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
         <script src="https://use.fontawesome.com/a6499bd878.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_AZwWhIPQYTsAccJQe1yzvBM1qNNEVQ&libraries=places&callback=initMap"
             async defer></script>
         <!-- jQuery Custom Scroller CDN -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
         <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
             function initMap() {
                 var map = new google.maps.Map(document.getElementById('map'), {
                     center: {
@@ -231,6 +278,7 @@
                     let h = $('#thumbnail').val();
                     let k = $('#province').val();
 
+
                     console.log(a + ' ' + b + ' ' + c + ' ' + d + ' ' + e + ' ' + f + ' ' + g + ' ' + h);
 
                     $.post('http://tlsg.tk/api/event/add', {
@@ -247,6 +295,21 @@
 
                     }, function (data, status) {
                         console.log(data);
+                        if (data.status == 200) {
+                            $('#modalConfirm').modal('show');
+                            $('#modalConfirm').on('click', '#btnOk', function () {
+                                // window.location.replace('http://tlsg.tk/admin/add-event');
+                                window.location.replace('http://localhost:3000/admin/add-event');
+                                
+                            });
+
+                        } else {
+                            console.log(data);
+                            $('#message').text(data.error);
+                            $('#modalError').modal('show');
+                            $('#modalError').on('click', '#btOk', function () {
+                            });
+                        }
                     });
                 })
             });

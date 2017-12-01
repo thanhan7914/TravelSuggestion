@@ -161,6 +161,7 @@
           </div>
           <div class="modal-body">
             <p>ADD place fail!</p>
+            <p id="message"></p>
             <input type="hidden" id="hiddenVal">
           </div>
           <div class="modal-footer">
@@ -315,6 +316,7 @@
             });
           });
         });
+        
         $('#bt-submit').click(function () {
           // add new place use method post with ajax
           let a = $('#sub_category').val();
@@ -346,9 +348,9 @@
               });
 
             } else {
+              $('#message').text(data.error);
               $('#modalError').modal('show');
               $('#modalError').on('click', '#btOk', function () {
-                window.location.replace('http://tlsg.tk/admin/add-place');
               });
             }
           });

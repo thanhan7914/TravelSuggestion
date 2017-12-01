@@ -35,22 +35,22 @@
                     </div>
                   </div>
                   <div class="col-md-3">
-                    <select class="form-control" name="" id="category">
-                      <option value="">All Category</option>
+                    <select class="form-control" name="" id="province">
+                      <option value="all">All Province</option>
                     </select>
                   </div>
                   <div class="col-md-3">
-                    <select class="form-control" name="" id="time">
-                      <option value="">Nov-2017</option>
+                    <select class="form-control" name="" id="category">
+                      <option value="all">All Category</option>
                     </select>
                   </div>
                   <div class="col-md-3">
                     <div class="Statistics">
                       <div id="number-place">
                         <p>
-                          <span>123</span> (Places) |
+                          <span id="number_news">123</span> (News) |
                           <span>
-                            <a href="">Add new</a>
+                            <a href="http://tlsg.tk/admin/add-news">Add new</a>
                           </span>
                         </p>
                       </div>
@@ -118,7 +118,7 @@
             <h4 class="modal-title">Notification</h4>
           </div>
           <div class="modal-body">
-            <p>DeleteSuccess?</p>
+            <p>Delete Success?</p>
             <input type="hidden" id="hiddenVal">
           </div>
           <div class="modal-footer">
@@ -189,6 +189,133 @@
           }, this);
         });
 
+        // search news by title
+
+        let txt = '';
+        $('#txtSearch').keyup(function () {
+          txt = document.getElementById('txtSearch').value;
+          $.get('http://tlsg.tk/api/news/filter?province_id=all&category_id=all&title=' + txt, function (data, status) {
+            $('#tableLN tbody').empty();
+            data.news.forEach(function (el) {
+              $('#tableLN').find('tbody')
+                .append($('<tr>')
+                  .append($('<td>')
+                    .html(` <div class="post-title">
+                            ${el.title}
+                          </div>
+                          <div class="action">
+                            <a class="btnEdit" href="http://localhost:3000/admin/edit-news/news-id/${el._id}">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a class="btnDelete" id="${el._id}">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                          </div>`)
+
+                  )
+                  .append($('<td>')
+                    .text(el.province.province_name))
+                  .append($('<td>')
+                    .text(el.category.category_name))
+                  .append($('<td>')
+                    .text('Admin'))
+                  .append($('<td>')
+                    .text(el.tag))
+                  .append($('<td>')
+                    .text(el.date))
+
+                );
+            }, this);
+
+          });
+
+        });
+
+        // sort by category
+
+        $('#category').change(function () {
+          let category_id = $('#category').val();
+          // console.log(category_id);
+          $.get('http://tlsg.tk/api/news/filter?province_id=all&category_id=' + category_id, function (data, status) {
+            // console.log(data);
+            $('#tableLN tbody').empty();
+            data.news.forEach(function (el) {
+              $('#tableLN').find('tbody')
+                .append($('<tr>')
+                  .append($('<td>')
+                    .html(` <div class="post-title">
+                            ${el.title}
+                          </div>
+                          <div class="action">
+                            <a class="btnEdit" href="http://localhost:3000/admin/edit-news/news-id/${el._id}">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a class="btnDelete" id="${el._id}">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                          </div>`)
+
+                  )
+                  .append($('<td>')
+                    .text(el.province.province_name))
+                  .append($('<td>')
+                    .text(el.category.category_name))
+                  .append($('<td>')
+                    .text('Admin'))
+                  .append($('<td>')
+                    .text(el.tag))
+                  .append($('<td>')
+                    .text(el.date))
+
+                );
+            }, this);
+
+          });
+        });
+
+        // sort by province
+
+        $('#province').change(function () {
+          let province_id = $('#province').val();
+          console.log(province_id);
+          $.get('http://tlsg.tk/api/news/filter?province_id=' + province_id + '&category_id=all', function (data, status) {
+
+            $('#tableLN tbody').empty();
+            data.news.forEach(function (el) {
+              $('#tableLN').find('tbody')
+                .append($('<tr>')
+                  .append($('<td>')
+                    .html(` <div class="post-title">
+                            ${el.title}
+                          </div>
+                          <div class="action">
+                            <a class="btnEdit" href="http://localhost:3000/admin/edit-news/news-id/${el._id}">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a class="btnDelete" id="${el._id}">
+                              <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                          </div>`)
+
+                  )
+                  .append($('<td>')
+                    .text(el.province.province_name))
+                  .append($('<td>')
+                    .text(el.category.category_name))
+                  .append($('<td>')
+                    .text('Admin'))
+                  .append($('<td>')
+                    .text(el.tag))
+                  .append($('<td>')
+                    .text(el.date))
+
+                );
+            }, this);
+
+          });
+        });
+
+
 
         $('body').on('click', '#tableLN tr td .action .btnDelete', function () {
           $('#hiddenVal').val($(this).attr('id'));
@@ -198,9 +325,9 @@
 
         $('#modalConfirm').on('click', '#btnDeleteYes', function () {
           let id = $('#hiddenVal').val();
-          $.post('http://tlsg.tk/api/event/remove', {
+          $.post('http://tlsg.tk/api/news/remove', {
             token: '6ba2b9df31680dcda5a4a083',
-            event_id: id
+            news_id: id
           }, function (data, status) {
             if (data.status == 200) {
               $('#modalDeleteSuccess').modal('show');
@@ -212,6 +339,37 @@
             }
           });
         });
+
+
+        $.get('http://tlsg.tk/api/province/list', function (data, status) {
+          var i = 0;
+          $.each(data, function (key, value) {
+            $('#province')
+              .append($("<option></option>")
+                .attr("value", data[i]._id)
+                .text(data[i].province_name));
+            i++;
+          });
+
+        });
+
+        $.get('http://tlsg.tk/api/category/list', function (data, status) {
+          data.forEach(element => {
+            $('#category')
+              .append($('<option></option>')
+                .attr('value', element._id)
+                .text(element.category_name));
+
+          });
+        });
+
+        $.get('http://tlsg.tk/api/news/list', function (data, status) {
+
+          $('#number_news').text(data.count);
+        });
+
+
+
 
       });
     </script>
