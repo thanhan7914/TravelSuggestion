@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+                <div class="row">
+                    <p>Username</p>
+                    <select class="form-control" name="" id="username">
+                        <option value="Thanh An">Thanh an</option>
+                        <option value="Giap Nguyen">Giap Nguyen</option>
+                        <option value="Ti">Ti</option>
+                    </select>
+                </div>
+             
+                <div class="row">
+                    <p>Comment</p>
+                    <input class="form-control" type="text" name="" id="comment">
+                </div>
+                <div class="row">
+                    <p>Rating</p>
+                    <select class="form-control" name="" id="rating">
+                        <option value="1">1</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2">2</option>
+                        <option value="2.5">2.5</option>
+                        <option value="3">3</option>
+                        <option value="3.5">3.5</option>
+                        <option value="4">4</option>
+                        <option value="4.5">4.5</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <p>Place/p>
+                    <select class="form-control" name="" id="place_id">
+                    </select>
+                </div>
+                <div>
+                    <input class="btn btn-primary" type="button" name="" id="bt-submit" value="Add comment">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $.get('http://tlsg.tk/api/places/list?p=0&l=1000',function(data,status){
+             data.places.forEach(element => {
+                $('#place_id')
+                    .append($('<option></option>')
+                        .attr('value', element._id)
+                        .text(element.place_name));
+
+            });
+
+            $('#bt-submit').click(function(){
+                let a = $('#comment').val();
+                let b = $('#rating').val();
+                let c = $('#username').val();
+                let d = $('#place_id').val();
+
+                $.post('http://tlsg.tk/api/review/add',{
+                      place_id: d,
+                      username: c,
+                      rating: b,
+                      comment: a,
+                      token: '6ba2b9df31680dcda5a4a083'
+
+                },function(data,status){
+                    console.log(data);
+                    if(data.status==200){
+                        alert('Add success!');
+                    }
+                });
+            });
+        })
+    </script>
+</body>
+</html>

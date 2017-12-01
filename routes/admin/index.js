@@ -113,4 +113,8 @@ router.get('/show-news/:news_id', function (req, res) {
     res.redirect('/admin/login');
   }
 });
+
+router.get('/add-comment', function (req, res) {
+  res.render('add-comment');
+});
 module.exports = router;
