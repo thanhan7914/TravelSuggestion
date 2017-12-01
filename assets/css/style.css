@@ -614,3 +614,54 @@ div#right-sidebar-title h4{
 .message_err{
     color: #d31010;
 }
+
+/* index */
+#news-section{
+    text-transform: uppercase;
+    font-family: openSans;
+    font-weight: 600;
+
+}
+#line-news-section{
+    border-top: 1px solid #d31010;
+}
+.news-info p{
+    display: inline;
+    font-size: 13px;
+    padding: 5px;
+}
+.news-title{
+    padding: 10px 5px 10px 5px;
+    height: 4em;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+.title a{
+    font-size: 18px;
+    text-decoration: none !important;
+}
+
+.news-item{
+    height: 300px;
+    overflow-y: hidden;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+}
+.news-thumbnail{
+    height: 170px;
+    overflow-y: hidden;
+    margin-bottom: 20px;
+}
+.place-item{
+    height: 300px;
+    overflow-y: hidden;
+}
+.place-info{
+    font-size: 12px;
+    line-height: 1.4;
+}
+.place-info p{
+    font-size: 12px;
+margin: 0px;
+}
