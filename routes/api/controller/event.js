@@ -77,7 +77,7 @@ exports.filter = function(req, res) {
     if(util.hasattr(req.params, 'rating'))
         params.rating = _.toNumber(req.params.rating);
 
-    if(!_.isUndefined(params.province) && req.isValidObjectId(params.province))
+    if(_.isUndefined(params.province) && req.isValidObjectId(params.province))
        params.province = req.params.province_id;
 
     Event.count(params)
