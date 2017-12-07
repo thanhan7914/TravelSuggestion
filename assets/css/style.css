@@ -382,6 +382,7 @@ a.article, a.article:hover {
     font-weight: 600;
     color: #ffffff;
     text-align: center;
+    opacity: 0.7;
 }
 #username{
     margin-top: 30px;
@@ -405,17 +406,20 @@ a.article, a.article:hover {
     margin-top: 30px;
 }
 #login-content input{
-    border-radius: 0px !important;
-    border: none;
-    background: seagreen;
+    border-radius: 5px !important;
+    /* border: none; */
+    background: transparent;
     box-shadow: none;
     color: #ffffff;
 }
 #btn-signin input{
     background-color: #ffffff;
-    color: #6c6c6c;
+    color: #222222;
     font-weight: 500;
+    opacity: 0.6;
     text-transform: uppercase;
+    border-radius: 5px !important;
+    border: none;
 }
 
 
@@ -684,3 +688,4 @@ img{
 .sidebar-news{
     margin-top: 120px;
 }
+
