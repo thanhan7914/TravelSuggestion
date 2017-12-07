@@ -87,7 +87,7 @@
               <!-- start row -->
               <div class="row" id="right-item-4">
                 <div class="col-md-12">
-                  <input class="btn btn-primary btn-block" type="button" id="bt-submit" value="POST">
+                  <input class="btn btn-primary btn-block" type="button" id="bt-submit" value="SAVE">
                 </div>
               </div>
               <!-- end rơ -->
@@ -216,12 +216,14 @@
         let news_id = $('#news_id').val();
         // console.log(news_id);
         $.get('http://tlsg.tk/api/news/' + news_id, function (data, status) {
-          // console.log(data.news);
+          console.log(data.news);
           $('#title').val(data.news[0].title);
-          $("div #category option[value=" + data.news[0]._id + "]")
-            .prop("selected", true);
-          $("div #province option[value=" + data.news[0].province._id + "]")
-            .prop("selected", true);
+          $('#category').val(data.news[0].category._id);
+          // $("div #category option[value=" + data.news[0]._id + "]")
+          //   .prop("selected", true);
+          $('#province').val(data.news[0].province._id)
+          // $("div #province option[value=" + data.news[0].province._id + "]")
+          //   .prop("selected", true);
           $('#summernote').summernote('code', data.news[0].content);
           $('#tag').val(data.news[0].tag);
           $('#thumbnail').val(data.news[0].thumbnail);

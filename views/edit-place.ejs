@@ -303,7 +303,6 @@
                 .text(i.sub_category_name));
           });
 
-
         });
 
 
@@ -325,9 +324,20 @@
         let id = $('#place_id').val();
         $.get('http://tlsg.tk/api/place/' + id, function (data, status) {
           // console.log(data.place);
+          $.get('http://tlsg.tk/api/category/sub-list/' + data.place.subcategory.category, function (data, status) {
+            $('#sub_category option').remove();
+            data.forEach((i) => {
+              $('#sub_category')
+                .append($("<option></option>")
+                  .attr("value", i._id)
+                  .text(i.sub_category_name));
+            });
+
+          });
           $('#place_name').val(data.place.place_name);
           $('#pac-input').val(data.place.address);
-          $('#sub_category').val(data.place.subcategory.category);
+          $('#category').val(data.place.subcategory.category);
+          $('#sub_category').val(data.place.subcategory._id);
           $('#province').val(data.place.province._id);
           $('#phone').val(data.place.phone);
           $('#tag').val(data.place.tag);
